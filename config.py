@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import os
 
 base_dir = os.path.abspath(os.path.dirname(__file__))
@@ -12,7 +13,6 @@ class Config:
     # 启用记录查询统计数字的功能。
     SQLALCHEMY_RECORD_QUERIES = True
 
-    # 邮件相关
     MAIL_SERVER = "smtp.googlemail.com"
     MAIL_PORT = 587
     # 启用传输层安全（Transport Layer Security，TLS）协议
@@ -20,15 +20,15 @@ class Config:
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 
-    FLASKY_MAIL_SUBJECT_PREFIX = "[Web_WDT]"
-    FLASKY_MAIL_SENDER = "Web WDT Admin <web_wdt@example.com>"
-    FLASKY_ADMIN = os.environ.get("WEBWDT_ADMIN") or "Marco.Zhang"
+    WEBWDT_MAIL_SUBJECT_PREFIX = "[Web_WDT]"
+    WEBWDT_MAIL_SENDER = "Web WDT Admin <web_wdt@example.com>"
+    WEBWDT_ADMIN = os.environ.get("WEBWDT_ADMIN") or "Marco.Zhang"
 
-    FLASKY_POSTS_PER_PAGE = 20
-    FLASKY_FOLLOWERS_PER_PAGE = 50
-    FLASKY_COMMENTS_PER_PAGE = 30
+    WEBWDT_POSTS_PER_PAGE = 20
+    WEBWDT_FOLLOWERS_PER_PAGE = 50
+    WEBWDT_COMMENTS_PER_PAGE = 30
     # 缓慢查询的阈值设为 0.5 秒。
-    FLASKY_DB_QUERY_TIMEOUT = 0.5
+    WEBWDT_DB_QUERY_TIMEOUT = 0.5
 
     @classmethod
     def init_app(cls, app):
@@ -37,26 +37,58 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    # SQLALCHEMY_DATABASE_URI = os.environ.get("WEBWDT_DEV_DATABASE_URL") or \
-    #     "sqlite:///" + os.path.join(base_dir, "data-dev.sqlite")
     SQLALCHEMY_DATABASE_URI = os.environ.get("WEBWDT_DEV_DATABASE_URL") or \
-        "postgresql://username:password@hostname/database"
+        "postgresql://devuser:engine@192.168.7.150/webwdt_dev"
+    # SQLALCHEMY_BINDS = {
+    #     "candidate": os.environ.get("WEBWDT_DEV_DATABASE_URL") or \
+    #                  "sqlite:///" + os.path.join(base_dir, "data-dev.sqlite")
+    # }
+    MONGODB_SETTINGS = {
+        "db": "wdt",
+        "host": "192.168.7.150",
+        "port": 27017
+    }
+    # CACHE_TYPE = "simple"
+    CACHE_TYPE = "null"
 
 
 class TestingConfig(Config):
     TESTING = True
-    # SQLALCHEMY_DATABASE_URI = os.environ.get("WEBWDT_TEST_DATABASE_URL") or \
-    #     "sqlite:///" + os.path.join(base_dir, "data-test.sqlite")
     SQLALCHEMY_DATABASE_URI = os.environ.get("WEBWDT_TEST_DATABASE_URL") or \
-        "postgresql://username:password@hostname/database"
+        "postgresql://devuser:engine@192.168.7.150/webwdt_test"
+    # SQLALCHEMY_BINDS = {
+    #     "candidate": os.environ.get("WEBWDT_TEST_DATABASE_URL") or \
+    #                  "sqlite:///" + os.path.join(base_dir, "data-test.sqlite")
+    # }
+    MONGODB_SETTINGS = {
+        "db": "local",
+        "host": "192.168.7.150",
+        "port": 27017
+    }
     WTF_CSRF_ENABLED = False
+    # 禁用缓存。
+    CACHE_TYPE = "null"
 
 
 class ProductionConfig(Config):
-    # SQLALCHEMY_DATABASE_URI = os.environ.get("WEBWDT_DATABASE_URL") or \
-    #     "sqlite:///" + os.path.join(base_dir, "data.sqlite")
     SQLALCHEMY_DATABASE_URI = os.environ.get("WEBWDT_DATABASE_URL") or \
-        "postgresql://username:password@hostname/database"
+        "postgresql://devuser:engine@192.168.7.150/webwdt"
+    # SQLALCHEMY_BINDS = {
+    #     "candidate": os.environ.get("WEBWDT_DATABASE_URL") or \
+    #                  "sqlite:///" + os.path.join(base_dir, "data.sqlite")
+    # }
+    MONGODB_SETTINGS = {
+        "db": "local",
+        "host": "192.168.7.150",
+        "port": 27017
+    }
+
+    CACHE_TYPE = "redis"
+    CACHE_REDIS_HOST = "192.168.7.150"
+    CACHE_REDIS_PORT = "6379"
+    CACHE_REDIS_PASSWORD = ""
+    # Redis 的 db 库 (基于零号索引)。默认是 0。仅用于 RedisCache。
+    CACHE_REDIS_DB = "0"
 
     @classmethod
     def init_app(cls, app):
@@ -73,9 +105,9 @@ class ProductionConfig(Config):
                 secure = ()
         mail_handler = SMTPHandler(
             mailhost=(cls.MAIL_SERVER, cls.MAIL_PORT),
-            fromaddr=cls.FLASKY_MAIL_SENDER,
-            toaddrs=[cls.FLASKY_ADMIN],
-            subject=cls.FLASKY_MAIL_SUBJECT_PREFIX + " Application Error",
+            fromaddr=cls.WEBWDT_MAIL_SENDER,
+            toaddrs=[cls.WEBWDT_ADMIN],
+            subject=cls.WEBWDT_MAIL_SUBJECT_PREFIX + " Application Error",
             credentials = credentials,
             secure = secure)
         mail_handler.setLevel(logging.ERROR)
