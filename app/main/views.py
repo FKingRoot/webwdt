@@ -35,5 +35,4 @@ def server_shutdown():
 
 @main.route("/")
 def index():
-    return url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')
-    # return "HELLO, WDT!"
+    return render_template("index.html")

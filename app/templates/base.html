@@ -4,7 +4,7 @@
 <html {% block html_attribs %}lang="en"{% endblock html_attribs %}>
 <head>
     {%- block head %}
-    <title>{% block title %}{{ title|default }}{% endblock title %}</title>
+    <title>{% block title %}Home{% endblock title %}</title>
     {%- block metas %}
     <!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,chrome=1" /><![endif]-->
     <meta charset="utf-8" />
@@ -37,13 +37,13 @@
 </head>
 <body {% block body_attribs %}{% endblock body_attribs %}>
     {% block body -%}
-    {% block sidebar %}
-    {%- endblock sidebar %}
+    <!--{% block sidebar %}-->
+    <!--{%- endblock sidebar %}-->
     {% block content -%}
     {%- endblock content %}
 
-    {% block scripts %}
-    {% block main_scripts %}
+    <!--{% block scripts %}-->
+    {% block main_scripts -%}
     <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='vendor/modernizr/modernizr.js') }}"></script>
@@ -51,10 +51,10 @@
     <script src="{{ url_for('static', filename='vendor/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ url_for('static', filename='vendor/switchery/switchery.min.js') }}"></script>
     {%- endblock main_scripts %}
-    {% block page_only_scripts %}
+    {% block page_only_scripts -%}
     <!-- JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
     {%- endblock page_only_scripts %}
-    {% block clip2_scripts %}
+    {% block clip2_scripts -%}
     <!-- start: CLIP-TWO JAVASCRIPTS -->
     <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
     {% block page_event_handle_scripts %}
@@ -62,7 +62,7 @@
     {%- endblock page_event_handle_scripts %}
     <!-- end: CLIP-TWO JAVASCRIPTS -->
     {%- endblock clip2_scripts %}
-    {%- endblock scripts %}
+    <!--{%- endblock scripts %}-->
     {%- endblock body %}
 </body>
 </html>
