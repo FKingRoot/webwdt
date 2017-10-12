@@ -34,8 +34,7 @@
 		<link rel="stylesheet" href="assets/css/themes/theme-1.css" id="skin_color" />
 		<!-- end: CLIP-TWO CSS -->
 		<!-- start: CSS REQUIRED FOR THIS PAGE ONLY -->
-		<link href="vendor/select2/select2.min.css" rel="stylesheet" media="screen">
-		<link href="vendor/DataTables/css/DT_bootstrap.css" rel="stylesheet" media="screen">
+		<link href="vendor/ladda-bootstrap/ladda-themeless.min.css" rel="stylesheet" media="screen">
 		<!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
 	</head>
 	<!-- end: HEAD -->
@@ -80,7 +79,7 @@
 									</div>
 								</a>
 							</li>
-							<li>
+							<li class="active open">
 								<a href="javascript:void(0)">
 									<div class="item-content">
 										<div class="item-media">
@@ -97,7 +96,7 @@
 											<span class="title"> Elements </span>
 										</a>
 									</li>
-									<li>
+									<li class="active">
 										<a href="ui_buttons.html">
 											<span class="title"> Buttons </span>
 										</a>
@@ -164,7 +163,7 @@
 									</li>
 								</ul>
 							</li>
-							<li class="active open">
+							<li>
 								<a href="javascript:void(0)">
 									<div class="item-content">
 										<div class="item-media">
@@ -186,7 +185,7 @@
 											<span class="title">Responsive Tables</span>
 										</a>
 									</li>
-									<li class="active">
+									<li>
 										<a href="table_data.html">
 											<span class="title">Advanced Data Tables</span>
 										</a>
@@ -740,7 +739,7 @@
 							<i class="ti-align-justify"></i>
 						</a>
 						<a class="navbar-brand" href="#">
-							<img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="Clip-Two"/>
+							<img src="assets/images/logo.png" alt="Clip-Two"/>
 						</a>
 						<a href="#" class="sidebar-toggler pull-right visible-md visible-lg" data-toggle-class="app-sidebar-closed" data-toggle-target="#app">
 							<i class="ti-align-justify"></i>
@@ -927,473 +926,1131 @@
 						<section id="page-title">
 							<div class="row">
 								<div class="col-sm-8">
-									<h1 class="mainTitle">Advanced Data Tables</h1>
-									<span class="mainDescription">Refers to data arranged in rows and columns. A spreadsheet, for example, is a table. In relational database management systems, all information is stored in the form of tables. <small class="block">Webopedia - Online Tech Dictionary for IT Professionals</small></span>
+									<h1 class="mainTitle">Buttons</h1>
+									<span class="mainDescription">Button design is usually a subtle element to a web design, but it can have a significant impact on the overall look and usability of the site. </span>
 								</div>
 								<ol class="breadcrumb">
 									<li>
-										<span>Tables</span>
+										<span>UI Elements</span>
 									</li>
 									<li class="active">
-										<span>Data Tables</span>
+										<span>Buttons</span>
 									</li>
 								</ol>
 							</div>
 						</section>
 						<!-- end: PAGE TITLE -->
-						<!-- start: DYNAMIC TABLE -->
+						<!-- start: DEFAULT BUTOONS -->
 						<div class="container-fluid container-fullw bg-white">
-							<div class="row">
-								<div class="col-md-12">
-									<h5 class="over-title margin-bottom-15">Basic <span class="text-bold">Data Table</span></h5>
+							<div class="row buttons-widget">
+								<div class="col-md-12 margin-bottom-30">
+									<h5 class="over-title">Default <span class="text-bold">Buttons</span></h5>
 									<p>
-										DataTables is a plug-in for the jQuery Javascript library. It is a highly flexible tool, based upon the foundations of progressive enhancement, and will add advanced interaction controls to any HTML table.
+										Use the button classes on an <code>&lt;a&gt;</code>, <code>&lt;button&gt;</code>, or <code>&lt;input&gt;</code> element.
 									</p>
-									<table class="table table-striped table-bordered table-hover table-full-width" id="sample_1">
-										<thead>
-											<tr>
-												<th>Browser</th>
-												<th class="hidden-xs">Creator</th>
-												<th>Cost (
-												USD)</th>
-												<th class="hidden-xs"> Software license</th>
-												<th>Current
-												layout engine</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>Amaya</td>
-												<td class="hidden-xs">W3C,
-												INRIA</td>
-												<td>Free</td>
-												<td class="hidden-xs">W3C</td>
-												<td>Amaya</td>
-											</tr>
-											<tr>
-												<td>AOL Explorer</td>
-												<td class="hidden-xs">America Online, Inc</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>Trident</td>
-											</tr>
-											<tr>
-												<td>Arora</td>
-												<td class="hidden-xs">Benjamin C. Meyer</td>
-												<td>Free</td>
-												<td class="hidden-xs">GPL</td>
-												<td>WebKit</td>
-											</tr>
-											<tr>
-												<td>Avant</td>
-												<td class="hidden-xs">Avant Force</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>Tri-engine</td>
-											</tr>
-											<tr>
-												<td>Camino</td>
-												<td class="hidden-xs">The Camino Project</td>
-												<td>Free</td>
-												<td class="hidden-xs">tri-license</td>
-												<td>Gecko</td>
-											</tr>
-											<tr>
-												<td>Chromium</td>
-												<td class="hidden-xs">Google</td>
-												<td>Free</td>
-												<td class="hidden-xs">BSD</td>
-												<td>WebKit</td>
-											</tr>
-											<tr>
-												<td>Dillo</td>
-												<td class="hidden-xs">The Dillo team</td>
-												<td>Free</td>
-												<td class="hidden-xs">GPL</td>
-												<td>Dillo</td>
-											</tr>
-											<tr>
-												<td>Dooble</td>
-												<td class="hidden-xs">Dooble Team</td>
-												<td>Free</td>
-												<td class="hidden-xs">GPL</td>
-												<td>WebKit</td>
-											</tr>
-											<tr>
-												<td>ELinks</td>
-												<td class="hidden-xs">Baudis, Fonseca, <i>et al.</i></td>
-												<td>Free</td>
-												<td class="hidden-xs">GPL</td>
-												<td>built-in</td>
-											</tr>
-											<tr>
-												<td>Web</td>
-												<td class="hidden-xs">Marco Pesenti Gritti</td>
-												<td>Free</td>
-												<td class="hidden-xs">GPL</td>
-												<td>WebKit</td>
-											</tr>
-											<tr>
-												<td>Flock</td>
-												<td class="hidden-xs">Flock Inc</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>WebKit</td>
-											</tr>
-											<tr>
-												<td>Galeon</td>
-												<td class="hidden-xs">Marco Pesenti Gritti</td>
-												<td>Free</td>
-												<td class="hidden-xs">GPL</td>
-												<td>Gecko</td>
-											</tr>
-											<tr>
-												<td>Google Chrome</td>
-												<td class="hidden-xs">Google</td>
-												<td>Free</td>
-												<td class="hidden-xs">Google Chrome Terms of Service</td>
-												<td>Blink</td>
-											</tr>
-											<tr>
-												<td>GNU IceCat</td>
-												<td class="hidden-xs">GNU</td>
-												<td>Free</td>
-												<td class="hidden-xs">MPL</td>
-												<td>Gecko</td>
-											</tr>
-											<tr>
-												<td>iCab</td>
-												<td class="hidden-xs">Alexander Clauss</td>
-												<td>$20 (Pro)</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>WebKit</td>
-											</tr>
-											<tr>
-												<td>Internet Explorer</td>
-												<td class="hidden-xs">Microsoft,
-												<br>
-												Spyglass</td>
-												<td>comes with Windows</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>Trident</td>
-											</tr>
-											<tr>
-												<td>Internet Explorer for Mac (terminated)</td>
-												<td class="hidden-xs">Microsoft</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>Tasman</td>
-											</tr>
-											<tr>
-												<td>K-Meleon</td>
-												<td class="hidden-xs">Dorian, KKO, <i>et al.</i></td>
-												<td>Free</td>
-												<td class="hidden-xs">GPL</td>
-												<td>Gecko</td>
-											</tr>
-											<tr>
-												<td>Konqueror</td>
-												<td class="hidden-xs">KDE</td>
-												<td>Free</td>
-												<td class="hidden-xs">GPL</td>
-												<td>KHTML</td>
-											</tr>
-											<tr>
-												<td>Links</td>
-												<td class="hidden-xs">Patocka, <i>et al.</i></td>
-												<td>Free</td>
-												<td class="hidden-xs">GPL</td>
-												<td>built-in</td>
-											</tr>
-											<tr>
-												<td>Lunascape</td>
-												<td class="hidden-xs">Lunascape Corporation</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>Tri-engine</td>
-											</tr>
-											<tr>
-												<td>Lynx</td>
-												<td class="hidden-xs">Montulli, Grobe, Rezac, <i>et al.</i></td>
-												<td>Free</td>
-												<td class="hidden-xs">GPL</td>
-												<td>built-in</td>
-											</tr>
-											<tr>
-												<td>Maxthon</td>
-												<td class="hidden-xs">Maxthon International Limited</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>Trident</td>
-											</tr>
-											<tr>
-												<td>Midori</td>
-												<td class="hidden-xs">Christian Dywan, et al.</td>
-												<td>Free</td>
-												<td class="hidden-xs">LGPL</td>
-												<td>WebKit</td>
-											</tr>
-											<tr>
-												<td>Mosaic</td>
-												<td class="hidden-xs">Marc Andreessen and
-												Eric Bina,
-												NCSA</td>
-												<td>non-commercial use</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>built-in</td>
-											</tr>
-											<tr>
-												<td>Mozilla Application Suite</td>
-												<td class="hidden-xs">Mozilla Foundation</td>
-												<td>Free</td>
-												<td class="hidden-xs">tri-license</td>
-												<td>Gecko</td>
-											</tr>
-											<tr>
-												<td>Mozilla Firefox</td>
-												<td class="hidden-xs">Mozilla Foundation</td>
-												<td>Free</td>
-												<td class="hidden-xs">MPL</td>
-												<td>Gecko</td>
-											</tr>
-											<tr>
-												<td>Netscape (v.6-7) </td>
-												<td class="hidden-xs">Netscape Communications Corporation,
-												AOL</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>Gecko</td>
-											</tr>
-											<tr>
-												<td>Netscape Browser (v.8)[note 2]</td>
-												<td class="hidden-xs">Mercurial Communications for
-												AOL</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>Gecko, Trident</td>
-											</tr>
-											<tr>
-												<td>Netscape Communicator (v.4)[note 2]</td>
-												<td class="hidden-xs">Netscape Communications</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>Mosaic</td>
-											</tr>
-											<tr>
-												<td>Netscape Navigator (v.1-4)[note 2]</td>
-												<td class="hidden-xs">Netscape Communications</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>Mosaic</td>
-											</tr>
-											<tr>
-												<td>Netscape Navigator 9[note 2]</td>
-												<td class="hidden-xs">Netscape Communications
-												<br>
-												(division of AOL)</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>Gecko</td>
-											</tr>
-											<tr>
-												<td>NetSurf</td>
-												<td class="hidden-xs">The NetSurf Developers</td>
-												<td>Free</td>
-												<td class="hidden-xs">GPL</td>
-												<td>NetSurf built-in</td>
-											</tr>
-											<tr>
-												<td>OmniWeb</td>
-												<td class="hidden-xs">The Omni Group</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>WebKit</td>
-											</tr>
-											<tr>
-												<td>Opera</td>
-												<td class="hidden-xs">Opera Software</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>Presto</td>
-											</tr>
-											<tr>
-												<td>Opera Mobile</td>
-												<td class="hidden-xs">Opera Software</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>Presto</td>
-											</tr>
-											<tr>
-												<td>Origyn Web Browser</td>
-												<td class="hidden-xs">Sand-labs</td>
-												<td>Free</td>
-												<td class="hidden-xs">BSD</td>
-												<td>WebKit</td>
-											</tr>
-											<tr>
-												<td>QupZilla</td>
-												<td class="hidden-xs">David Rosca</td>
-												<td>Free</td>
-												<td class="hidden-xs">GNU GPLv3</td>
-												<td>WebKit</td>
-											</tr>
-											<tr>
-												<td>Safari</td>
-												<td class="hidden-xs">Apple Inc.</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>WebKit</td>
-											</tr>
-											<tr>
-												<td>SeaMonkey</td>
-												<td class="hidden-xs">SeaMonkey Council</td>
-												<td>Free</td>
-												<td class="hidden-xs">tri-license</td>
-												<td>Gecko</td>
-											</tr>
-											<tr>
-												<td>Shiira</td>
-												<td class="hidden-xs">Happy Macintosh Developing Team</td>
-												<td>Free</td>
-												<td class="hidden-xs">BSD</td>
-												<td>WebKit</td>
-											</tr>
-											<tr>
-												<td>Sleipnir</td>
-												<td class="hidden-xs">Fenrir Inc.</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>Trident</td>
-											</tr>
-											<tr>
-												<td>Torch Browser</td>
-												<td class="hidden-xs">Torch Media</td>
-												<td>Free</td>
-												<td class="hidden-xs">Proprietary</td>
-												<td>Webkit</td>
-											</tr>
-											<tr>
-												<td>Uzbl</td>
-												<td class="hidden-xs">Dieter Plaetinck</td>
-												<td>Free</td>
-												<td class="hidden-xs">GNU GPLv3</td>
-												<td>Webkit</td>
-											</tr>
-											<tr>
-												<td>WorldWideWeb (Later renamed Nexus)</td>
-												<td class="hidden-xs">Tim Berners-Lee</td>
-												<td>Free</td>
-												<td class="hidden-xs">Public domain</td>
-												<td>NeXTSTEP built-in</td>
-											</tr>
-											<tr>
-												<td>w3m</td>
-												<td class="hidden-xs">Akinori Ito</td>
-												<td>Free</td>
-												<td class="hidden-xs">MIT</td>
-												<td>-</td>
-											</tr>
-										</tbody>
-									</table>
+									<!-- Standard grey button with gradient -->
+									<button type="button" class="btn btn-wide btn-default">
+										Default
+									</button>
+									<!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+									<button type="button" class="btn btn-wide btn-primary">
+										Primary
+									</button>
+									<!-- Indicates a successful or positive action -->
+									<button type="button" class="btn btn-wide btn-success">
+										Success
+									</button>
+									<!-- Contextual button for informational alert messages -->
+									<button type="button" class="btn btn-wide btn-info">
+										Info
+									</button>
+									<!-- Indicates caution should be taken with this action -->
+									<button type="button" class="btn btn-wide btn-warning">
+										Warning
+									</button>
+									<!-- Indicates a dangerous or potentially negative action -->
+									<button type="button" class="btn btn-wide btn-danger">
+										Danger
+									</button>
+								</div>
+								<div class="col-md-12">
+									<h5 class="over-title">Outlined <span class="text-bold">Buttons</span></h5>
+									<p>
+										Use the <code>.btn-o</code> class for outlined buttons.
+									</p>
+									<button type="button" class="btn btn-o btn-wide btn-default">
+										Default
+									</button>
+									<button type="button" class="btn btn-wide btn-o btn-primary">
+										Primary
+									</button>
+									<button type="button" class="btn btn-wide btn-o btn-success">
+										Success
+									</button>
+									<button type="button" class="btn btn-wide btn-o btn-info">
+										Info
+									</button>
+									<button type="button" class="btn btn-wide btn-o btn-warning">
+										Warning
+									</button>
+									<button type="button" class="btn btn-wide  btn-o btn-danger">
+										Danger
+									</button>
 								</div>
 							</div>
 						</div>
-						<!-- end: DYNAMIC TABLE -->
-						<!-- start: DYNAMIC TABLE -->
+						<!-- end: DEFAULT BUTOONS -->
+						<!-- start: COLORFUL BUTOONS -->
 						<div class="container-fluid container-fullw">
-							<div class="row">
+							<div class="row buttons-widget">
 								<div class="col-md-12">
-									<h5 class="over-title margin-bottom-15">Edit <span class="text-bold">Rows</span></h5>
+									<h5 class="over-title">Colorful <span class="text-bold">Buttons</span></h5>
+									<p>
+										Use any of the available button classes to quickly create a styled button.
+									</p>
+									<p class="text-small">
+										Using color to add meaning to a button only provides a visual indication, which will not be conveyed to users of assistive technologies &ndash; such as screen readers. Ensure that information denoted by the color is either obvious from the content itself (the visible text of the button), or is included through alternative means, such as additional text hidden with the <code>.sr-only</code> class.
+									</p>
 									<div class="row">
-										<div class="col-md-12 space20">
-											<button class="btn btn-green add-row">
-												Add New <i class="fa fa-plus"></i>
+										<div class="col-sm-4">
+											<h5 class="margin-top-30">Azure Button</h5>
+											<p class="text-small">
+												Add class <code>.btn-azure</code>, <code>.btn-light-azure</code> or <code>.btn-dark-azure</code> to your button.
+											</p>
+											<button type="button" class="btn btn-wide btn-azure">
+												Azure
+											</button>
+											<button type="button" class="btn btn-wide btn-light-azure">
+												Light Azure
+											</button>
+											<button type="button" class="btn btn-wide btn-dark-azure">
+												Dark Azure
+											</button>
+										</div>
+										<div class="col-sm-4">
+											<h5 class="margin-top-30">Blue Button</h5>
+											<p class="text-small">
+												Add class <code>.btn-blue</code>, <code>.btn-light-blue</code> or <code>.btn-dark-blue</code> to your button.
+											</p>
+											<button type="button" class="btn btn-wide btn-blue">
+												Blue
+											</button>
+											<button type="button" class="btn btn-wide btn-light-blue">
+												Light Blue
+											</button>
+											<button type="button" class="btn btn-wide btn-dark-blue">
+												Dark Blue
+											</button>
+										</div>
+										<div class="col-sm-4">
+											<h5 class="margin-top-30">Purple Button</h5>
+											<p class="text-small">
+												Add class <code>.btn-purple</code>, <code>.btn-light-purple</code> or <code>.btn-dark-purple</code> to your button.
+											</p>
+											<button type="button" class="btn btn-wide btn-purple">
+												Purple
+											</button>
+											<button type="button" class="btn btn-wide btn-light-purple">
+												Light Purple
+											</button>
+											<button type="button" class="btn btn-wide btn-dark-purple">
+												Dark Purple
+											</button>
+										</div>
+										<div class="col-sm-4">
+											<h5 class="margin-top-30">Red Button</h5>
+											<p class="text-small">
+												Add class <code>.btn-red</code>, <code>.btn-light-red</code> or <code>.btn-dark-red</code> to your button.
+											</p>
+											<button type="button" class="btn btn-wide btn-red">
+												Red
+											</button>
+											<button type="button" class="btn btn-wide btn-light-red">
+												Light Red
+											</button>
+											<button type="button" class="btn btn-wide btn-dark-red">
+												Dark Red
+											</button>
+										</div>
+										<div class="col-sm-4">
+											<h5 class="margin-top-30">Orange Button</h5>
+											<p class="text-small">
+												Add class <code>.btn-orange</code>, <code>.btn-light-orange</code> or <code>.btn-dark-orange</code> to your button.
+											</p>
+											<button type="button" class="btn btn-wide btn-orange">
+												Orange
+											</button>
+											<button type="button" class="btn btn-wide btn-light-orange">
+												Light Orange
+											</button>
+											<button type="button" class="btn btn-wide btn-dark-orange">
+												Dark Orange
+											</button>
+										</div>
+										<div class="col-sm-4">
+											<h5 class="margin-top-30">Yellow Button</h5>
+											<p class="text-small">
+												Add class <code>.btn-yellow</code>, <code>.btn-light-yellow</code> or <code>.btn-dark-yellow</code> to your button.
+											</p>
+											<button type="button" class="btn btn-wide btn-yellow">
+												Yellow
+											</button>
+											<button type="button" class="btn btn-wide btn-light-yellow">
+												Light Yellow
+											</button>
+											<button type="button" class="btn btn-wide btn-dark-yellow">
+												Dark Yellow
+											</button>
+										</div>
+										<div class="col-sm-4">
+											<h5 class="margin-top-30">Green Button</h5>
+											<p class="text-small">
+												Add class <code>.btn-green</code>, <code>.btn-light-green</code> or <code>.btn-dark-green</code> to your button.
+											</p>
+											<button type="button" class="btn btn-wide btn-green">
+												Green
+											</button>
+											<button type="button" class="btn btn-wide btn-light-green">
+												Light Green
+											</button>
+											<button type="button" class="btn btn-wide btn-dark-green">
+												Dark Green
+											</button>
+										</div>
+										<div class="col-sm-4">
+											<h5 class="margin-top-30">Beige Button</h5>
+											<p class="text-small">
+												Add class <code>.btn-beige</code>, <code>.btn-light-beige</code> or <code>.btn-dark-beige</code> to your button.
+											</p>
+											<button type="button" class="btn btn-wide btn-beige">
+												Beige
+											</button>
+											<button type="button" class="btn btn-wide btn-light-beige">
+												Light Beige
+											</button>
+											<button type="button" class="btn btn-wide btn-dark-beige">
+												Dark Beige
+											</button>
+										</div>
+										<div class="col-sm-4">
+											<h5 class="margin-top-30">Grey Button</h5>
+											<p class="text-small">
+												Add class <code>.btn-grey</code>, <code>.btn-light-grey</code> or <code>.btn-dark-grey</code> to your button.
+											</p>
+											<button type="button" class="btn btn-wide btn-grey">
+												Grey
+											</button>
+											<button type="button" class="btn btn-wide btn-light-grey">
+												Light Grey
+											</button>
+											<button type="button" class="btn btn-wide btn-dark-grey">
+												Dark Grey
 											</button>
 										</div>
 									</div>
-									<div class="table-responsive">
-										<table class="table table-striped table-hover" id="sample_2">
-											<thead>
-												<tr>
-													<th>Full Name</th>
-													<th>Role</th>
-													<th>Phone</th>
-													<th>Edit</th>
-													<th>Delete</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Peter Clark</td>
-													<td>UI Designer</td>
-													<td>(641)-734-4763</td>
-													<td>
-													<a href="#" class="edit-row">
-														Edit
-													</a></td>
-													<td>
-													<a href="#" class="delete-row">
-														Delete
-													</a></td>
-												</tr>
-												<tr>
-													<td>Nicole Bell</td>
-													<td>Content Designer</td>
-													<td>(741)-034-4573</td>
-													<td>
-													<a href="#" class="edit-row">
-														Edit
-													</a></td>
-													<td>
-													<a href="#" class="delete-row">
-														Delete
-													</a></td>
-												</tr>
-												<tr>
-													<td>Steven Thompson</td>
-													<td>Visual Designer</td>
-													<td>(471)-543-4073</td>
-													<td>
-													<a href="#" class="edit-row">
-														Edit
-													</a></td>
-													<td>
-													<a href="#" class="delete-row">
-														Delete
-													</a></td>
-												</tr>
-												<tr>
-													<td>Ella Patterson</td>
-													<td>Web Editor</td>
-													<td>(799)-994-9999</td>
-													<td>
-													<a href="#" class="edit-row">
-														Edit
-													</a></td>
-													<td>
-													<a href="#" class="delete-row">
-														Delete
-													</a></td>
-												</tr>
-												<tr>
-													<td>Kenneth Ross</td>
-													<td>Senior Designer</td>
-													<td>(111)-114-1173</td>
-													<td>
-													<a href="#" class="edit-row">
-														Edit
-													</a></td>
-													<td>
-													<a href="#" class="delete-row">
-														Delete
-													</a></td>
-												</tr>
-											</tbody>
-										</table>
+								</div>
+							</div>
+						</div>
+						<!-- end: COLORFUL BUTOONS -->
+						<!-- start: BUTTON OPTIONS -->
+						<div class="container-fluid container-fullw bg-white">
+							<div class="row">
+								<div class="col-md-12">
+									<h5 class="over-title margin-bottom-15"><span class="text-bold">Options</span></h5>
+									<p>
+										You can change the style and the state of the buttons using minimal markup.
+									</p>
+									<div class="row buttons-widget">
+										<div class="col-sm-6">
+											<div class="panel panel-transparent">
+												<div class="panel-heading">
+													<div class="panel-title">
+														Square Buttons
+													</div>
+												</div>
+												<div class="panel-body">
+													<p>
+														Do you like the square buttons? Add <code> .btn-squared </code>
+														to change its shape.
+													</p>
+													<button type="button" class="btn btn-wide btn-default btn-squared">
+														Squared
+													</button>
+													<button type="button" class="btn btn-wide btn-primary btn-squared btn-o">
+														Squared
+													</button>
+													<button type="button" class="btn btn-wide btn-info btn-squared">
+														Squared
+													</button>
+													<button type="button" class="btn btn-wide btn-success btn-squared">
+														Squared <i class="fa fa-angle-right"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="panel panel-transparent">
+												<div class="panel-heading">
+													<div class="panel-title">
+														Sizes
+													</div>
+												</div>
+												<div class="panel-body">
+													<p>
+														Fancy larger or smaller buttons? Add <code> .btn-lg </code>
+														, <code> .btn-sm </code>
+														, or <code> .btn-xs </code>
+														for additional sizes.
+													</p>
+													<p>
+														<button type="button" class="btn btn-primary btn-lg">
+															Large button
+														</button>
+													</p>
+													<p>
+														<button type="button" class="btn btn-primary">
+															Default button
+														</button>
+													</p>
+													<p>
+														<button type="button" class="btn btn-primary btn-sm">
+															Small button
+														</button>
+													</p>
+													<p>
+														<button type="button" class="btn btn-primary btn-xs">
+															Extra small
+														</button>
+													</p>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="panel panel-transparent">
+												<div class="panel-heading">
+													<div class="panel-title">
+														Disabled State
+													</div>
+												</div>
+												<div class="panel-body">
+													<p>
+														Add the <code> disabled </code>
+														attribute to <code> &lt;button&gt; </code>
+														buttons.
+													</p>
+													<button type="button" class="btn btn-wide btn-primary" disabled="disabled">
+														Disabled
+													</button>
+													<button type="button" class="btn btn-wide btn-azure" disabled="disabled">
+														Disabled
+													</button>
+													<button type="button" class="btn btn-wide btn-red" disabled="disabled">
+														Disabled
+													</button>
+													<button type="button" class="btn btn-wide btn-green" disabled="disabled">
+														Disabled
+													</button>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="panel panel-transparent">
+												<div class="panel-heading">
+													<div class="panel-title">
+														Active State
+													</div>
+												</div>
+												<div class="panel-body">
+													<p>
+														if you need to force the <code>:active</code> appearance, add <code>.active</code>.
+													</p>
+													<button type="button" class="btn btn-wide btn-primary active">
+														Active
+													</button>
+													<button type="button" class="btn btn-wide btn-azure active">
+														Active
+													</button>
+													<button type="button" class="btn btn-wide btn-red active">
+														Active
+													</button>
+													<button type="button" class="btn btn-wide btn-green active">
+														Active
+													</button>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="panel panel-transparent">
+												<div class="panel-heading">
+													<div class="panel-title">
+														Block level buttons
+													</div>
+												</div>
+												<div class="panel-body">
+													<p>
+														Create block level buttons&mdash;those that span the full width of a parent&mdash; by adding <code> .btn-block </code>
+														.
+													</p>
+													<p>
+														<button class="btn btn-primary btn-block">
+															Block level button
+														</button>
+													</p>
+													<p>
+														<div class="btn-group btn-group-justified">
+															<a class="btn btn-dark-red" href="javascript:;">
+																Tools
+															</a>
+															<a class="btn btn-dark-green" href="javascript:;">
+																Help
+															</a>
+															<a class="btn btn-dark-blue" href="javascript:;">
+																Contact
+															</a>
+														</div>
+													</p>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+						<!-- end: BUTTON OPTIONS -->
+						<!-- start: BUTTON GROUPS -->
+						<div class="container-fluid container-fullw">
+							<div class="row">
+								<div class="col-md-12">
+									<h5 class="over-title margin-bottom-15">Button <span class="text-bold">Groups</span></h5>
+									<p>
+										Group a series of buttons together on a single line with the button group.
+									</p>
+									<div class="row">
+										<div class="col-sm-6 col-lg-4">
+											<div class="panel panel-transparent">
+												<div class="panel-heading">
+													<div class="panel-title">
+														Basic example
+													</div>
+												</div>
+												<div class="panel-body">
+													<p class="text-small">
+														Wrap a series of buttons with <code> .btn </code>
+														in <code> .btn-group </code>
+														.
+													</p>
+													<div class="space12">
+														<div class="btn-group">
+															<a class="btn btn-primary btn-o active" href="javascript:;">
+																Tools
+															</a>
+															<a class="btn btn-primary btn-o hidden-xs" href="javascript:;">
+																Settings
+															</a>
+															<a class="btn btn-primary btn-o" href="javascript:;">
+																Help
+															</a>
+															<a class="btn btn-primary btn-o" href="javascript:;">
+																Contact
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-lg-4">
+											<div class="panel panel-transparent">
+												<div class="panel-heading">
+													<div class="panel-title">
+														Button toolbar
+													</div>
+												</div>
+												<div class="panel-body">
+													<p class="text-small">
+														Combine sets of <code>&lt;div class="btn-group"&gt;</code> into a <code>&lt;div class="btn-toolbar"&gt;</code> for more complex components.
+													</p>
+													<div class="space12">
+														<div class="btn-toolbar">
+															<div aria-label="First group" role="group" class="btn-group">
+																<button class="btn btn-primary" type="button">
+																	1
+																</button>
+																<button class="btn btn-primary" type="button">
+																	2
+																</button>
+																<button class="btn btn-primary" type="button">
+																	3
+																</button>
+																<button class="btn btn-primary" type="button">
+																	4
+																</button>
+															</div>
+															<div class="btn-group">
+																<button class="btn btn-primary" type="button">
+																	5
+																</button>
+																<button class="btn btn-primary" type="button">
+																	6
+																</button>
+																<button class="btn btn-primary" type="button">
+																	7
+																</button>
+															</div>
+															<div class="btn-group">
+																<button class="btn btn-primary" type="button">
+																	8
+																</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-lg-4">
+											<div class="panel panel-transparent">
+												<div class="panel-heading">
+													<div class="panel-title">
+														Vertical variation
+													</div>
+												</div>
+												<div class="panel-body">
+													<p class="text-small">
+														Make a set of buttons appear vertically stacked rather than horizontally
+													</p>
+													<div class="space12">
+														<div class="btn-group-vertical">
+															<a class="btn btn-wide btn-orange" href="javascript:;">
+																Tools
+															</a>
+															<a class="btn btn-wide btn-orange active" href="javascript:;">
+																Settings
+															</a>
+															<a class="btn btn-wide btn-orange" href="javascript:;">
+																Help
+															</a>
+															<a class="btn btn-wide btn-orange" href="javascript:;">
+																Contact
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- end: BUTTON GROUPS -->
+						<!-- start: DROPDOWN BUTTONS -->
+						<div class="container-fluid container-fullw bg-white">
+							<div class="row">
+								<div class="col-md-12">
+									<h5 class="over-title margin-bottom-15">Dropdown <span class="text-bold">Buttons</span></h5>
+									<p>
+										Add dropdown menus to nearly anything with this simple plugin, including the navbar, tabs, and pills.
+									</p>
+									<!-- Single button -->
+									<div class="btn-group">
+										<a href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+											Button dropdown <span class="caret"></span>
+										</a>
+										<ul class="dropdown-menu" role="menu">
+											<li role="presentation" class="dropdown-header">
+												Dropdown header
+											</li>
+											<li>
+												<a href="#">
+													Action
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													Another action
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													Something else here
+												</a>
+											</li>
+											<li class="divider"></li>
+											<li role="presentation" class="dropdown-header">
+												Dropdown header
+											</li>
+											<li>
+												<a href="#">
+													Separated link
+												</a>
+											</li>
+										</ul>
+									</div>
+									<!-- Split button -->
+									<div class="btn-group">
+										<button type="button" class="btn btn-danger">
+											Action
+										</button>
+										<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li role="presentation" class="dropdown-header">
+												Dropdown header
+											</li>
+											<li>
+												<a href="#">
+													Action
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													Another action
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													Something else here
+												</a>
+											</li>
+											<li class="divider"></li>
+											<li role="presentation" class="dropdown-header">
+												Dropdown header
+											</li>
+											<li>
+												<a href="#">
+													Separated link
+												</a>
+											</li>
+										</ul>
+									</div>
+									<hr />
+									<p>
+									<p>
+										Dropdown <span class="text-bold"> Different Styles</span>
+									</p>
+									<div class="btn-group">
+										<a class="btn btn-primary btn-o dropdown-toggle" data-toggle="dropdown" href="#">
+											Dark Left <span class="caret"></span>
+										</a>
+										<ul role="menu" class="dropdown-menu dropdown-dark">
+											<li>
+												<a href="#">
+													Action
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													Another action
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													Something else here
+												</a>
+											</li>
+										</ul>
+									</div>
+									<div class="btn-group">
+										<a class="btn btn-primary btn-o dropdown-toggle" data-toggle="dropdown" href="#">
+											Dark Right <span class="caret"></span>
+										</a>
+										<ul role="menu" class="dropdown-menu dropdown-dark pull-right">
+											<li>
+												<a href="#">
+													Action
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													Another action
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													Something else here
+												</a>
+											</li>
+										</ul>
+									</div>
+									<div class="btn-group">
+										<a class="btn btn-primary btn-o dropdown-toggle" data-toggle="dropdown" href="#">
+											Light Left <span class="caret"></span>
+										</a>
+										<ul role="menu" class="dropdown-menu dropdown-light">
+											<li>
+												<a href="#">
+													Action
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													Another action
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													Something else here
+												</a>
+											</li>
+										</ul>
+									</div>
+									<div class="btn-group">
+										<a class="btn btn-primary btn-o dropdown-toggle" data-toggle="dropdown" href="#">
+											Light Right <span class="caret"></span>
+										</a>
+										<ul role="menu" class="dropdown-menu dropdown-light pull-right">
+											<li>
+												<a href="#">
+													Action
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													Another action
+												</a>
+											</li>
+											<li>
+												<a href="#">
+													Something else here
+												</a>
+											</li>
+										</ul>
+									</div>
+									</p>
+								</div>
+							</div>
+						</div>
+						<!-- end: DROPDOWN BUTTONS -->
+						<!-- start: LOADING INDICATOR -->
+						<div class="container-fluid container-fullw">
+							<div class="row buttons-widget">
+								<div class="col-md-12">
+									<h5 class="over-title margin-bottom-15">Buttons with <span class="text-bold">loading indicator</span></h5>
+									<p>
+										Buttons with built-in loading indicators, effectively bridging the gap between action and feedback. <span class="text-bold">Click the buttons to see the effect.</span>
+									</p>
+									<div class="row">
+										<div class="col-sm-6">
+											<h5> Expand </h5>
+											<p>
+												<button data-style="expand-left" class="btn btn-wide btn-primary ladda-button">
+													<span class="ladda-label">expand-left</span><span class="ladda-spinner"></span>
+												</button>
+												<button class="btn btn-wide btn-primary ladda-button" data-style="expand-right">
+													<span class="ladda-label">expand-right</span>
+												</button>
+												<button class="btn btn-wide btn-primary ladda-button" data-style="expand-up">
+													<span class="ladda-label">expand-up</span>
+												</button>
+												<button class="btn btn-wide btn-primary ladda-button" data-style="expand-down">
+													<span class="ladda-label">expand-down</span>
+												</button>
+											</p>
+											<h5> Zoom </h5>
+											<p>
+												<button class="btn btn-wide btn-warning ladda-button" data-style="contract">
+													<span class="ladda-label">contract</span>
+												</button>
+												<button class="btn btn-wide btn-warning ladda-button" data-style="zoom-in">
+													<span class="ladda-label">zoom-in</span>
+												</button>
+												<button class="btn btn-wide btn-warning ladda-button" data-style="zoom-out">
+													<span class="ladda-label">zoom-out</span>
+												</button>
+											</p>
+											<h5> Slide </h5>
+											<p>
+												<button class="btn btn-wide btn-danger ladda-button" data-style="slide-left">
+													<span class="ladda-label">slide-left</span>
+												</button>
+												<button class="btn btn-wide btn-danger ladda-button" data-style="slide-right">
+													<span class="ladda-label">slide-right</span>
+												</button>
+												<button class="btn btn-wide btn-danger ladda-button" data-style="slide-up">
+													<span class="ladda-label">slide-up</span>
+												</button>
+												<button class="btn btn-wide btn-danger ladda-button" data-style="slide-down">
+													<span class="ladda-label">slide-down</span>
+												</button>
+											</p>
+										</div>
+										<div class="col-sm-6">
+											<h5> Built-in progress bar </h5>
+											<p class="progress-demo">
+												<button class="btn btn-wide btn-primary ladda-button" data-style="expand-right">
+													<span class="ladda-label">expand-right</span>
+												</button>
+												<button class="btn btn-wide btn-primary ladda-button" data-style="expand-left">
+													<span class="ladda-label">expand-left</span>
+												</button>
+												<button class="btn btn-wide btn-primary ladda-button" data-style="contract">
+													<span class="ladda-label">contract</span>
+												</button>
+											</p>
+											<h5> Sizes </h5>
+											<p class="progress-demo">
+												<button class="btn btn-wide btn-info btn-xs ladda-button" data-style="expand-right" data-size="xs">
+													<span class="ladda-label">extra small</span>
+												</button>
+												<button class="btn btn-wide btn-info btn-sm ladda-button" data-style="expand-right" data-size="s">
+													<span class="ladda-label">small</span>
+												</button>
+												<button class="btn btn-wide btn-info btn-lg ladda-button" data-style="expand-right" data-size="l">
+													<span class="ladda-label">large</span>
+												</button>
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- end: LOADING INDICATOR -->
+						<!-- start: BUTTONS WITH ICONS -->
+						<div class="container-fluid container-fullw bg-white">
+							<div class="row buttons-widget">
+								<div class="col-md-12">
+									<h5 class="over-title margin-bottom-15">Buttons with <span class="text-bold">icons</span></h5>
+									<p>
+										Add icons to your buttons.
+									</p>
+									<div class="row">
+										<div class="col-sm-4">
+											<div class="panel panel-transparent">
+												<div class="panel-heading">
+													<div class="panel-title">
+														Font Awesome
+													</div>
+												</div>
+												<div class="panel-body">
+													<p class="text-small">
+														Examples to use buttons with font awesome icons.
+													</p>
+													<p>
+														<a class="btn btn-wide btn-primary" href="#"><i class="fa fa-share"></i></a>
+														<a class="btn btn-wide btn-red" href="#"><i class="fa fa-times fa fa-white"></i></a>
+														<a class="btn btn-wide btn-blue" href="#"><i class="fa fa-arrow-circle-right"></i></a>
+														<a class="btn btn-wide btn-green" href="#"><i class="fa fa-user fa fa-white"></i></a>
+													</p>
+													<p class="text-small">
+														Buttons with both text and font awesome icon.
+													</p>
+													<p>
+														<a class="btn btn-wide btn-red" href="#"><i class="fa fa-trash-o"></i> Delete Item</a>
+														<a class="btn btn-wide btn-primary" href="#"><i class="fa fa-plus"></i> Add Item</a>
+														<a class="btn btn-wide btn-purple">
+															Listen <i class="fa fa-headphones"></i>
+														</a>
+														<a class="btn btn-wide btn-blue" href="#"><i class="fa fa-plus"></i> Submit Entry</a>
+													</p>
+													<p>
+														Toolbar made with font awesome icons.
+													</p>
+													<div class="space12">
+														<div class="btn-group">
+															<button class="btn btn-primary">
+																<i class="fa fa-step-backward"></i>
+															</button>
+															<button class="btn btn-primary">
+																<i class="fa fa-backward"></i>
+															</button>
+															<button class="btn btn-primary">
+																<i class="fa fa-play"></i>
+															</button>
+															<button class="btn btn-primary">
+																<i class="fa fa-stop"></i>
+															</button>
+															<button class="btn btn-primary">
+																<i class="fa fa-forward"></i>
+															</button>
+															<button class="btn btn-primary">
+																<i class="fa fa-step-forward"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="panel panel-transparent">
+												<div class="panel-heading">
+													<div class="panel-title">
+														Glyphicons
+													</div>
+												</div>
+												<div class="panel-body">
+													<p>
+														Examples to use buttons with glyphicon icons.
+													</p>
+													<p>
+														<a class="btn btn-wide btn-primary" href="#"><i class="glyphicon glyphicon-share"></i></a>
+														<a class="btn btn-wide btn-red" href="#"><i class="glyphicon glyphicon-remove-circle"></i></a>
+														<a class="btn btn-wide btn-blue" href="#"><i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+														<a class="btn btn-wide btn-green" href="#"><i class="glyphicon glyphicon-user"></i></a>
+													</p>
+													<p class="text-small">
+														Buttons with both text and glyphicon icon.
+													</p>
+													<p>
+														<a class="btn btn-wide btn-red" href="#"><i class="glyphicon glyphicon-trash"></i> Delete Item</a>
+														<a class="btn btn-wide btn-primary" href="#"><i class="glyphicon glyphicon-plus"></i> Add Item</a>
+														<a class="btn btn-wide btn-purple">
+															Listen <i class="glyphicon glyphicon-headphones"></i>
+														</a>
+														<a class="btn btn-wide btn-blue" href="#"><i class="glyphicon glyphicon-plus"></i> Submit Entry</a>
+													</p>
+													<p>
+														Toolbar made with glyphicon icons.
+													</p>
+													<div class="space12">
+														<div class="btn-group">
+															<button class="btn btn-primary">
+																<i class="glyphicon glyphicon-step-backward"></i>
+															</button>
+															<button class="btn btn-primary">
+																<i class="glyphicon glyphicon-backward"></i>
+															</button>
+															<button class="btn btn-primary">
+																<i class="glyphicon glyphicon-play"></i>
+															</button>
+															<button class="btn btn-primary">
+																<i class="glyphicon glyphicon-stop"></i>
+															</button>
+															<button class="btn btn-primary">
+																<i class="glyphicon glyphicon-forward"></i>
+															</button>
+															<button class="btn btn-primary">
+																<i class="glyphicon glyphicon-step-forward"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="panel panel-transparent">
+												<div class="panel-heading">
+													<div class="panel-title">
+														Themify Icons
+													</div>
+												</div>
+												<div class="panel-body">
+													<p>
+														Examples to use buttons with themify icons.
+													</p>
+													<p>
+														<a class="btn btn-wide btn-primary" href="#"><i class="ti-share"></i></a>
+														<a class="btn btn-wide btn-red" href="#"><i class="ti-close"></i></a>
+														<a class="btn btn-wide btn-blue" href="#"><i class="ti-arrow-circle-right"></i></a>
+														<a class="btn btn-wide btn-green" href="#"><i class="ti-user"></i></a>
+													</p>
+													<p class="text-small">
+														Buttons with both text and themify icon.
+													</p>
+													<p>
+														<a class="btn btn-wide btn-red" href="#"><i class="ti-trash"></i> Delete Item</a>
+														<a class="btn btn-wide btn-primary" href="#"><i class="ti-plus"></i> Add Item</a>
+														<a class="btn btn-wide btn-purple">
+															Listen <i class="ti-headphone"></i>
+														</a>
+														<a class="btn btn-wide btn-blue" href="#"><i class="ti-plus"></i> Submit Entry</a>
+													</p>
+													<p>
+														Toolbar made with themify icons.
+													</p>
+													<div class="space12">
+														<div class="btn-group">
+															<button class="btn btn-primary">
+																<i class="ti-control-skip-backward"></i>
+															</button>
+															<button class="btn btn-primary">
+																<i class="ti-control-backward"></i>
+															</button>
+															<button class="btn btn-primary">
+																<i class="ti-control-play"></i>
+															</button>
+															<button class="btn btn-primary">
+																<i class="ti-control-stop"></i>
+															</button>
+															<button class="btn btn-primary">
+																<i class="ti-control-forward"></i>
+															</button>
+															<button class="btn btn-primary">
+																<i class="ti-control-skip-forward"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="panel panel-transparent">
+												<div class="panel-heading">
+													<div class="panel-title">
+														Animated Buttons
+													</div>
+												</div>
+												<div class="panel-body">
+													<p>
+														Modern and subtle styles &amp; effects for buttons
+													</p>
+													<button type="button" class="btn btn-primary btn-wide btn-scroll btn-scroll-top ti-shopping-cart">
+														<span>Add to cart</span>
+													</button>
+													<button type="button" class="btn btn-success btn-wide btn-scroll btn-scroll-left ti-settings">
+														<span>Settings</span>
+													</button>
+													<button type="button" class="btn btn-info btn-wide btn-scroll btn-scroll-top fa fa-heart">
+														<span>Love</span>
+													</button>
+													<button type="button" class="btn btn-danger btn-wide btn-scroll btn-scroll-left fa fa-truck">
+														<span>Truck</span>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="panel panel-transparent">
+												<div class="panel-heading">
+													<div class="panel-title">
+														Social List
+													</div>
+												</div>
+												<div class="panel-body">
+													<div class="social-icons">
+														<ul>
+															<li class="social-twitter" tooltip="Twitter" tooltip-placement="top">
+																<a target="_blank" href="#">
+																	Twitter
+																</a>
+															</li>
+															<li class="social-dribbble" tooltip="Dribbble" tooltip-placement="top">
+																<a target="_blank" href="#">
+																	Dribbble
+																</a>
+															</li>
+															<li class="social-facebook" tooltip="Facebook" tooltip-placement="top">
+																<a target="_blank" href="#">
+																	Facebook
+																</a>
+															</li>
+															<li class="social-google" tooltip="Google" tooltip-placement="top">
+																<a target="_blank" href="#">
+																	Google+
+																</a>
+															</li>
+															<li class="social-linkedin" tooltip="LinkedIn" tooltip-placement="top">
+																<a target="_blank" href="#">
+																	LinkedIn
+																</a>
+															</li>
+															<li class="social-youtube" tooltip="YouTube" tooltip-placement="top">
+																<a target="_blank" href="#">
+																	YouTube
+																</a>
+															</li>
+															<li class="social-rss" tooltip="RSS" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	RSS
+																</a>
+															</li>
+															<li class="social-behance" tooltip="Behance" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Behance
+																</a>
+															</li>
+															<li class="social-dropbox" tooltip="Dropbox" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Dropbox
+																</a>
+															</li>
+															<li class="social-github" tooltip="Github" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Github
+																</a>
+															</li>
+															<li class="social-spotify" tooltip="Spotify" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Spotify
+																</a>
+															</li>
+															<li class="social-stumbleupon" tooltip="Stumbleupon" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Stumbleupon
+																</a>
+															</li>
+															<li class="social-skype" tooltip="Skype" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Skype
+																</a>
+															</li>
+															<li class="social-tumblr" tooltip="Tumblr" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Tumblr
+																</a>
+															</li>
+															<li class="social-spotify" tooltip="Spotify" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Spotify
+																</a>
+															</li>
+															<li class="social-vimeo" tooltip="Vimeo" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Vimeo
+																</a>
+															</li>
+															<li class="social-wordpress" tooltip="Wordpress" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Wordpress
+																</a>
+															</li>
+															<li class="social-xing" tooltip="Xing" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Xing
+																</a>
+															</li>
+															<li class="social-yahoo" tooltip="Yahoo" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Yahoo
+																</a>
+															</li>
+															<li class="social-vk" tooltip="VK" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	VK
+																</a>
+															</li>
+															<li class="social-instagram" tooltip="Instagram" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Instagram
+																</a>
+															</li>
+															<li class="social-reddit" tooltip="Reddit" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Reddit
+																</a>
+															</li>
+															<li class="social-flickr" tooltip="Flickr" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Flickr
+																</a>
+															</li>
+															<li class="social-foursquare" tooltip="Foursquare" tooltip-placement="top">
+																<a target="_blank" href="#" >
+																	Foursquare
+																</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- end: BUTTONS WITH ICONS -->
 					</div>
 				</div>
 			</div>
@@ -2018,17 +2675,17 @@
 		<script src="vendor/switchery/switchery.min.js"></script>
 		<!-- end: MAIN JAVASCRIPTS -->
 		<!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
-		<script src="vendor/select2/select2.min.js"></script>
-		<script src="vendor/DataTables/jquery.dataTables.min.js"></script>
+		<script src="vendor/ladda-bootstrap/spin.min.js"></script>
+		<script src="vendor/ladda-bootstrap/ladda.min.js"></script>
 		<!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
 		<!-- start: CLIP-TWO JAVASCRIPTS -->
 		<script src="assets/js/main.js"></script>
 		<!-- start: JavaScript Event Handlers for this page -->
-		<script src="assets/js/table-data.js"></script>
+		<script src="assets/js/ui-buttons.js"></script>
 		<script>
 			jQuery(document).ready(function() {
 				Main.init();
-				TableData.init();
+				UIButtons.init();
 			});
 		</script>
 		<!-- end: JavaScript Event Handlers for this page -->

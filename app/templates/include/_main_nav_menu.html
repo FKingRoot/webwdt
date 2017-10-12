@@ -1,0 +1,131 @@
+<div class="navbar-title">
+    <span>Main Navigation</span>
+</div>
+<ul class="main-navigation-menu">
+    <li>
+        <a href="{{ url_for('main.index') }}">
+            <div class="item-content">
+                <div class="item-media">
+                    <i class="ti-calendar"></i>
+                </div>
+                <div class="item-inner">
+                    <span class="title"> Execution Plan </span>
+                </div>
+            </div>
+        </a>
+    </li>
+    <li>
+        <a href="{{ url_for('main.index') }}">
+            <div class="item-content">
+                <div class="item-media">
+                    <i class="ti-receipt"></i>
+                </div>
+                <div class="item-inner">
+                    <span class="title"> System Log </span>
+                </div>
+            </div>
+        </a>
+    </li>
+    <li>
+        <a href="javascript:void(0)">
+            <div class="item-content">
+                <div class="item-media">
+                    <i class="ti-settings"></i>
+                </div>
+                <div class="item-inner">
+                    <span class="title"> Settings </span><i class="icon-arrow"></i>
+                </div>
+            </div>
+        </a>
+        <ul class="sub-menu">
+            <li>
+                <a href="#">
+                    <span class="title"> Roles </span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="title"> Users </span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="active open">
+        <a href="javascript:void(0)">
+            <div class="item-content">
+                <div class="item-media">
+                    <i class="ti-cloud-down"></i>
+                </div>
+                <div class="item-inner">
+                    <span class="title"> Interface Data </span><i class="icon-arrow"></i>
+                </div>
+            </div>
+        </a>
+        <ul class="sub-menu">
+            <li>
+                <a href="javascript:;">
+                    <span> Processed </span> <i class="icon-arrow"></i>
+                </a>
+                <ul class="sub-menu">
+                    <li class="active">
+                        <a href="#">
+                            Purchase Order
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Purchase Return
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Refund
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Inventory
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Shifting
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Stock In
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Stock Out
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Trade
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <span> Finished </span> <i class="icon-arrow"></i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="#">
+                            Refund
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Trade
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}WDT Interface Data Query analyzer{% endblock %}
+
+{% block body_content %}
+    <!-- sidebar -->
+    <div class="sidebar app-aside" id="sidebar">
+        <div class="sidebar-container perfect-scrollbar">
+            <nav>
+                {% include "include/_search_form.html" %}
+                {% include "include/_main_nav_menu.html" %}
+                {# {% include "include/_other_functions.html" %} #}
+                {% include "include/_documentation.html" %}
+            </nav>
+        </div>
+    </div>
+    <!-- / sidebar -->
+    <div class="app-content">
+        {% include "include/_top_navbar.html" %}
+        <div class="main-content" >
+            <div class="wrap-content container" id="container">
+                <!-- start: PAGE TITLE -->
+                <section id="page-title">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h1 class="mainTitle">{% block page_main_title %}{% endblock %}</h1>
+                            <span class="mainDescription">{% block page_main_desc %}{% endblock page_main_desc %}</span>
+                        </div>
+                        <ol class="breadcrumb">
+                            {% block breadcrumb %}{% endblock breadcrumb %}
+                        </ol>
+                    </div>
+                </section>
+                <!-- end: PAGE TITLE -->
+                <!-- start: DYNAMIC TABLE -->
+                {% block page_content %}
+                {% endblock page_content %}
+                <!-- end: DYNAMIC TABLE -->
+            </div>
+        </div>
+    </div>
+    <!-- start: FOOTER -->
+    {% include "include/_footer.html" %}
+    <!-- end: FOOTER -->
+    <!-- start: SETTINGS -->
+    {% include "include/_settings.html" %}
+    <!-- end: SETTINGS -->
+{% endblock %}
