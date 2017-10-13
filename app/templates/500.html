@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}WDT Interface Data Query analyzer{% endblock %}
+
+{% block body_div_attribs %}class="error-full-page"{% endblock body_div_attribs %}
+
+{% block body_content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 page-error">
+            <div class="error-number text-red">
+                500
+            </div>
+            <div class="error-details col-sm-6 col-sm-offset-3">
+                <h3>Oops! You are stuck at 500</h3>
+                <p>
+                    Something's wrong!
+                    <br>
+                    It looks as though we've broken something on our system.
+                    <br>
+                    Don't panic, we are fixing it! Please come back in a while.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_event_handle_scripts %}
+<script>
+    jQuery(document).ready(function() {
+        Main.init();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}WDT Interface Data Query analyzer{% endblock %}
+
+{% block body_attribs %}class="login"{% endblock body_attribs %}
+
+{% block body_div_attribs %}class="row"{% endblock body_div_attribs %}
+
+{% block body_content %}
+<div class="lock-screen">
+    <div class="box-ls">
+        <img alt="" src="{{ url_for('static', filename='assets/images/avatar-1-xl.jpg') }}" class="img-rounded"/>
+        <div class="user-info">
+            <h4>Peter Clark</h4>
+            <span>peter@example.com</span>
+            <form>
+                <div class="input-group">
+                    <input type="text" placeholder="Password to unlock" class="form-control">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-chevron-right"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_only_scripts -%}
+<script src="{{ url_for('static', filename='vendor/jquery-validation/jquery.validate.min.js') }}"></script>
+{%- endblock page_only_scripts %}
+
+{% block page_event_handle_scripts %}
+<script src="{{ url_for('static', filename='assets/js/login.js') }}"></script>
+<script>
+    jQuery(document).ready(function() {
+        Main.init();
+        Login.init();
+    });
+</script>
+{% endblock %}

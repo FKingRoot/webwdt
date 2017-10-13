@@ -1,0 +1,38 @@
+{% with messages=get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        <div class="col-md-8 col-md-offset-2" id="panel-notification">
+            {% for category, message in messages %}
+                <div class="alert alert-block alert-{{ category }} fade in">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="alert-heading margin-bottom-10">
+                        {% if category == "success" %}
+                        <i class="ti-check"></i>
+                        {% elif category == "warning" %}
+                        <i class="ti-alert"></i>
+                        {% elif category == "danger" %}
+                        <i class="ti-close"></i>
+                        {% elif category == "info" %}
+                        <i class="ti-info"></i>
+                        {% else %}
+                        <i class="ti-info"></i>
+                        {% endif %}
+                        {{ category|capitalize }}!
+                    </h4>
+                    <p class="margin-bottom-10">
+                        {{ message }}
+                    </p>
+{#                    <p>#}
+{#                        <a href="#" class="btn btn-{{ category }}">#}
+{#                            Take this action#}
+{#                        </a>#}
+{#                        <a href="#" class="btn btn-o btn-{{ category }}">#}
+{#                            Or do this#}
+{#                        </a>#}
+{#                    </p>#}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}

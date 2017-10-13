@@ -1,12 +1,5 @@
 {% extends "skeleton.html" %}
 
-{% block page_only_styles %}
-<link href="{{ url_for('static', filename='vendor/select2/select2.min.css') }}" rel="stylesheet" media="screen">
-<link href="{{ url_for('static', filename='vendor/DataTables/css/DT_bootstrap.css') }}" rel="stylesheet" media="screen">
-{% endblock %}
-
-{#{% block title %}WDT Interface Data Query analyzer{% endblock %}#}
-
 {% block page_main_title %}Advanced Data Tables{% endblock %}
 
 {% block page_main_desc %}Refers to data arranged in rows and columns. A spreadsheet, for example, is a table. In relational database management systems, all information is stored in the form of tables. <small class="block">Webopedia - Online Tech Dictionary for IT Professionals</small>{% endblock page_main_desc %}
@@ -21,375 +14,108 @@
 {% endblock breadcrumb %}
 
 {% block page_content %}
+<!-- start: Execution Plan -->
 <div class="container-fluid container-fullw bg-white">
     <div class="row">
         <div class="col-md-12">
-            <h5 class="over-title margin-bottom-15">Basic <span class="text-bold">Data Table</span></h5>
+            <h3 class="over-title margin-bottom-15"><span class="text-bold">Execution Plan</span></h3>
             <p>
-                DataTables is a plug-in for the jQuery Javascript library. It is a highly flexible tool, based upon the foundations of progressive enhancement, and will add advanced interaction controls to any HTML table.
+                Execution plan for all interface data fetching.
             </p>
-            <table class="table table-striped table-bordered table-hover table-full-width" id="sample_1">
-                <thead>
-                    <tr>
-                        <th>Browser</th>
-                        <th class="hidden-xs">Creator</th>
-                        <th>Cost (
-                        USD)</th>
-                        <th class="hidden-xs"> Software license</th>
-                        <th>Current
-                        layout engine</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Amaya</td>
-                        <td class="hidden-xs">W3C,
-                        INRIA</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">W3C</td>
-                        <td>Amaya</td>
-                    </tr>
-                    <tr>
-                        <td>AOL Explorer</td>
-                        <td class="hidden-xs">America Online, Inc</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>Trident</td>
-                    </tr>
-                    <tr>
-                        <td>Arora</td>
-                        <td class="hidden-xs">Benjamin C. Meyer</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">GPL</td>
-                        <td>WebKit</td>
-                    </tr>
-                    <tr>
-                        <td>Avant</td>
-                        <td class="hidden-xs">Avant Force</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>Tri-engine</td>
-                    </tr>
-                    <tr>
-                        <td>Camino</td>
-                        <td class="hidden-xs">The Camino Project</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">tri-license</td>
-                        <td>Gecko</td>
-                    </tr>
-                    <tr>
-                        <td>Chromium</td>
-                        <td class="hidden-xs">Google</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">BSD</td>
-                        <td>WebKit</td>
-                    </tr>
-                    <tr>
-                        <td>Dillo</td>
-                        <td class="hidden-xs">The Dillo team</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">GPL</td>
-                        <td>Dillo</td>
-                    </tr>
-                    <tr>
-                        <td>Dooble</td>
-                        <td class="hidden-xs">Dooble Team</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">GPL</td>
-                        <td>WebKit</td>
-                    </tr>
-                    <tr>
-                        <td>ELinks</td>
-                        <td class="hidden-xs">Baudis, Fonseca, <i>et al.</i></td>
-                        <td>Free</td>
-                        <td class="hidden-xs">GPL</td>
-                        <td>built-in</td>
-                    </tr>
-                    <tr>
-                        <td>Web</td>
-                        <td class="hidden-xs">Marco Pesenti Gritti</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">GPL</td>
-                        <td>WebKit</td>
-                    </tr>
-                    <tr>
-                        <td>Flock</td>
-                        <td class="hidden-xs">Flock Inc</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>WebKit</td>
-                    </tr>
-                    <tr>
-                        <td>Galeon</td>
-                        <td class="hidden-xs">Marco Pesenti Gritti</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">GPL</td>
-                        <td>Gecko</td>
-                    </tr>
-                    <tr>
-                        <td>Google Chrome</td>
-                        <td class="hidden-xs">Google</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Google Chrome Terms of Service</td>
-                        <td>Blink</td>
-                    </tr>
-                    <tr>
-                        <td>GNU IceCat</td>
-                        <td class="hidden-xs">GNU</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">MPL</td>
-                        <td>Gecko</td>
-                    </tr>
-                    <tr>
-                        <td>iCab</td>
-                        <td class="hidden-xs">Alexander Clauss</td>
-                        <td>$20 (Pro)</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>WebKit</td>
-                    </tr>
-                    <tr>
-                        <td>Internet Explorer</td>
-                        <td class="hidden-xs">Microsoft,
-                        <br>
-                        Spyglass</td>
-                        <td>comes with Windows</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>Trident</td>
-                    </tr>
-                    <tr>
-                        <td>Internet Explorer for Mac (terminated)</td>
-                        <td class="hidden-xs">Microsoft</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>Tasman</td>
-                    </tr>
-                    <tr>
-                        <td>K-Meleon</td>
-                        <td class="hidden-xs">Dorian, KKO, <i>et al.</i></td>
-                        <td>Free</td>
-                        <td class="hidden-xs">GPL</td>
-                        <td>Gecko</td>
-                    </tr>
-                    <tr>
-                        <td>Konqueror</td>
-                        <td class="hidden-xs">KDE</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">GPL</td>
-                        <td>KHTML</td>
-                    </tr>
-                    <tr>
-                        <td>Links</td>
-                        <td class="hidden-xs">Patocka, <i>et al.</i></td>
-                        <td>Free</td>
-                        <td class="hidden-xs">GPL</td>
-                        <td>built-in</td>
-                    </tr>
-                    <tr>
-                        <td>Lunascape</td>
-                        <td class="hidden-xs">Lunascape Corporation</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>Tri-engine</td>
-                    </tr>
-                    <tr>
-                        <td>Lynx</td>
-                        <td class="hidden-xs">Montulli, Grobe, Rezac, <i>et al.</i></td>
-                        <td>Free</td>
-                        <td class="hidden-xs">GPL</td>
-                        <td>built-in</td>
-                    </tr>
-                    <tr>
-                        <td>Maxthon</td>
-                        <td class="hidden-xs">Maxthon International Limited</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>Trident</td>
-                    </tr>
-                    <tr>
-                        <td>Midori</td>
-                        <td class="hidden-xs">Christian Dywan, et al.</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">LGPL</td>
-                        <td>WebKit</td>
-                    </tr>
-                    <tr>
-                        <td>Mosaic</td>
-                        <td class="hidden-xs">Marc Andreessen and
-                        Eric Bina,
-                        NCSA</td>
-                        <td>non-commercial use</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>built-in</td>
-                    </tr>
-                    <tr>
-                        <td>Mozilla Application Suite</td>
-                        <td class="hidden-xs">Mozilla Foundation</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">tri-license</td>
-                        <td>Gecko</td>
-                    </tr>
-                    <tr>
-                        <td>Mozilla Firefox</td>
-                        <td class="hidden-xs">Mozilla Foundation</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">MPL</td>
-                        <td>Gecko</td>
-                    </tr>
-                    <tr>
-                        <td>Netscape (v.6-7) </td>
-                        <td class="hidden-xs">Netscape Communications Corporation,
-                        AOL</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>Gecko</td>
-                    </tr>
-                    <tr>
-                        <td>Netscape Browser (v.8)[note 2]</td>
-                        <td class="hidden-xs">Mercurial Communications for
-                        AOL</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>Gecko, Trident</td>
-                    </tr>
-                    <tr>
-                        <td>Netscape Communicator (v.4)[note 2]</td>
-                        <td class="hidden-xs">Netscape Communications</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>Mosaic</td>
-                    </tr>
-                    <tr>
-                        <td>Netscape Navigator (v.1-4)[note 2]</td>
-                        <td class="hidden-xs">Netscape Communications</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>Mosaic</td>
-                    </tr>
-                    <tr>
-                        <td>Netscape Navigator 9[note 2]</td>
-                        <td class="hidden-xs">Netscape Communications
-                        <br>
-                        (division of AOL)</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>Gecko</td>
-                    </tr>
-                    <tr>
-                        <td>NetSurf</td>
-                        <td class="hidden-xs">The NetSurf Developers</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">GPL</td>
-                        <td>NetSurf built-in</td>
-                    </tr>
-                    <tr>
-                        <td>OmniWeb</td>
-                        <td class="hidden-xs">The Omni Group</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>WebKit</td>
-                    </tr>
-                    <tr>
-                        <td>Opera</td>
-                        <td class="hidden-xs">Opera Software</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>Presto</td>
-                    </tr>
-                    <tr>
-                        <td>Opera Mobile</td>
-                        <td class="hidden-xs">Opera Software</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>Presto</td>
-                    </tr>
-                    <tr>
-                        <td>Origyn Web Browser</td>
-                        <td class="hidden-xs">Sand-labs</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">BSD</td>
-                        <td>WebKit</td>
-                    </tr>
-                    <tr>
-                        <td>QupZilla</td>
-                        <td class="hidden-xs">David Rosca</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">GNU GPLv3</td>
-                        <td>WebKit</td>
-                    </tr>
-                    <tr>
-                        <td>Safari</td>
-                        <td class="hidden-xs">Apple Inc.</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>WebKit</td>
-                    </tr>
-                    <tr>
-                        <td>SeaMonkey</td>
-                        <td class="hidden-xs">SeaMonkey Council</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">tri-license</td>
-                        <td>Gecko</td>
-                    </tr>
-                    <tr>
-                        <td>Shiira</td>
-                        <td class="hidden-xs">Happy Macintosh Developing Team</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">BSD</td>
-                        <td>WebKit</td>
-                    </tr>
-                    <tr>
-                        <td>Sleipnir</td>
-                        <td class="hidden-xs">Fenrir Inc.</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>Trident</td>
-                    </tr>
-                    <tr>
-                        <td>Torch Browser</td>
-                        <td class="hidden-xs">Torch Media</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Proprietary</td>
-                        <td>Webkit</td>
-                    </tr>
-                    <tr>
-                        <td>Uzbl</td>
-                        <td class="hidden-xs">Dieter Plaetinck</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">GNU GPLv3</td>
-                        <td>Webkit</td>
-                    </tr>
-                    <tr>
-                        <td>WorldWideWeb (Later renamed Nexus)</td>
-                        <td class="hidden-xs">Tim Berners-Lee</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">Public domain</td>
-                        <td>NeXTSTEP built-in</td>
-                    </tr>
-                    <tr>
-                        <td>w3m</td>
-                        <td class="hidden-xs">Akinori Ito</td>
-                        <td>Free</td>
-                        <td class="hidden-xs">MIT</td>
-                        <td>-</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="margin-top-30 margin-bottom-30">
+                <nav id="cl-effect-10" class="links cl-effect-10">
+                    <a data-hover="Execution Plan" href><span>Execution Plan</span></a>
+                </nav>
+            </div>
         </div>
     </div>
 </div>
+<!-- end: Execution Plan -->
+<!-- start: System Log -->
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="over-title margin-bottom-15"><span class="text-bold">System Log</span></h3>
+            <p>
+                <!-- 系统日志是记录系统中硬件、软件和系统问题的信息，同时还可以监视系统中发生的事件。用户可以通过它来检查错误发生的原因。 -->
+                System logs are information about hardware, software, and system problems in the system and can also monitor events in the system. The user can check the cause of the error.
+            </p>
+            <div class="margin-top-30 margin-bottom-30">
+                <nav id="cl-effect-10" class="links cl-effect-10">
+                    <a data-hover="System Log" href><span>System Log</span></a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end: System Log -->
+<!-- start: Settings -->
+<div class="container-fluid container-fullw bg-white">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="over-title margin-bottom-15"><span class="text-bold">Settings</span></h3>
+            <p>
+                <!-- 设置系统中的基础数据信息。 -->
+                Set the basic data information in the system.
+            </p>
+            <div class="margin-top-30 margin-bottom-30">
+                <nav id="cl-effect-10" class="links cl-effect-10">
+                    <a data-hover="Roles" href><span>Roles</span></a>
+                    <a data-hover="Users" href><span>Users</span></a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end: Settings -->
+<!-- start: Interface Data -->
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="over-title margin-bottom-15"><span class="text-bold">Interface Data</span></h3>
+            <p>
+                <!-- 根据执行计划从WDT抓取的接口数据。 -->
+                The interface data fetching from WDT according to the execution plan.
+            </p>
+            <div class="panel panel-white load1">
+                <div class="panel-heading border-light">
+                    <h4 class="panel-title">Processed</h4>
+                </div>
+                <div class="panel-body">
+                    <nav id="cl-effect-10" class="links cl-effect-10">
+                        <a data-hover="Purchase Order" href><span>Purchase Order</span></a>
+                        <a data-hover="Purchase Return" href><span>Purchase Return</span></a>
+                        <a data-hover="Refund" href><span>Refund</span></a>
+                        <a data-hover="Inventory" href><span>Inventory</span></a>
+                        <a data-hover="Shifting" href><span>Shifting</span></a>
+                        <a data-hover="Stock In" href><span>Stock In</span></a>
+                        <a data-hover="Stock Out" href><span>Stock Out</span></a>
+                        <a data-hover="Trade" href><span>Trade</span></a>
+                    </nav>
+                </div>
+            </div>
+            <div class="panel panel-white load1">
+                <div class="panel-heading border-light">
+                    <h4 class="panel-title">Finished</h4>
+                </div>
+                <div class="panel-body">
+                    <nav id="cl-effect-10" class="links cl-effect-10">
+                        <a data-hover="Refund" href><span>Refund</span></a>
+                        <a data-hover="Trade" href><span>Trade</span></a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end: Interface Data -->
 {% endblock page_content %}
-
-{% block page_only_scripts %}
-<script src="{{ url_for('static', filename='vendor/select2/select2.min.js') }}"></script>
-<script src="{{ url_for('static', filename='vendor/DataTables/jquery.dataTables.min.js') }}"></script>
-{% endblock %}
 
 {% block page_event_handle_scripts %}
 <script src="{{ url_for('static', filename='assets/js/table-data.js') }}"></script>
 <script>
     jQuery(document).ready(function() {
         Main.init();
-        TableData.init();
     });
 </script>
 {% endblock %}

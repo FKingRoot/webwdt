@@ -2,6 +2,8 @@
 
 {% block title %}WDT Interface Data Query analyzer{% endblock %}
 
+{% block body_div_attribs %}id="app"{% endblock body_div_attribs %}
+
 {% block body_content %}
     <!-- sidebar -->
     <div class="sidebar app-aside" id="sidebar">
@@ -32,10 +34,10 @@
                     </div>
                 </section>
                 <!-- end: PAGE TITLE -->
-                <!-- start: DYNAMIC TABLE -->
+                <!-- start: PAGE CONTENT -->
                 {% block page_content %}
                 {% endblock page_content %}
-                <!-- end: DYNAMIC TABLE -->
+                <!-- end: PAGE CONTENT -->
             </div>
         </div>
     </div>

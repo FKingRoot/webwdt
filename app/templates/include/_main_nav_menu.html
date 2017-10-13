@@ -2,7 +2,7 @@
     <span>Main Navigation</span>
 </div>
 <ul class="main-navigation-menu">
-    <li>
+    <li{% if top_activate == "Execution Plan" %} class="active open"{% endif %}>
         <a href="{{ url_for('main.index') }}">
             <div class="item-content">
                 <div class="item-media">
@@ -14,7 +14,7 @@
             </div>
         </a>
     </li>
-    <li>
+    <li{% if top_activate == "System Log" %} class="active open"{% endif %}>
         <a href="{{ url_for('main.index') }}">
             <div class="item-content">
                 <div class="item-media">
@@ -26,7 +26,7 @@
             </div>
         </a>
     </li>
-    <li>
+    <li{% if top_activate == "Settings" %} class="active open"{% endif %}>
         <a href="javascript:void(0)">
             <div class="item-content">
                 <div class="item-media">
@@ -38,19 +38,19 @@
             </div>
         </a>
         <ul class="sub-menu">
-            <li>
+            <li{% if item_activate == "Roles" %} class="active"{% endif %}>
                 <a href="#">
                     <span class="title"> Roles </span>
                 </a>
             </li>
-            <li>
+            <li{% if item_activate == "Users" %} class="active"{% endif %}>
                 <a href="#">
                     <span class="title"> Users </span>
                 </a>
             </li>
         </ul>
     </li>
-    <li class="active open">
+    <li {% if top_activate == "Interface Data" %} class="active open"{% endif %}>
         <a href="javascript:void(0)">
             <div class="item-content">
                 <div class="item-media">
@@ -67,42 +67,42 @@
                     <span> Processed </span> <i class="icon-arrow"></i>
                 </a>
                 <ul class="sub-menu">
-                    <li class="active">
+                    <li{% if item_activate == "Purchase Order" %} class="active"{% endif %}>
                         <a href="#">
                             Purchase Order
                         </a>
                     </li>
-                    <li>
+                    <li{% if item_activate == "Purchase Return" %} class="active"{% endif %}>
                         <a href="#">
                             Purchase Return
                         </a>
                     </li>
-                    <li>
+                    <li{% if item_activate == "Refund" %} class="active"{% endif %}>
                         <a href="#">
                             Refund
                         </a>
                     </li>
-                    <li>
+                    <li{% if item_activate == "Inventory" %} class="active"{% endif %}>
                         <a href="#">
                             Inventory
                         </a>
                     </li>
-                    <li>
+                    <li{% if item_activate == "Shifting" %} class="active"{% endif %}>
                         <a href="#">
                             Shifting
                         </a>
                     </li>
-                    <li>
+                    <li{% if item_activate == "Stock In" %} class="active"{% endif %}>
                         <a href="#">
                             Stock In
                         </a>
                     </li>
-                    <li>
+                    <li{% if item_activate == "Stock Out" %} class="active"{% endif %}>
                         <a href="#">
                             Stock Out
                         </a>
                     </li>
-                    <li>
+                    <li{% if item_activate == "Trade" %} class="active"{% endif %}>
                         <a href="#">
                             Trade
                         </a>
@@ -114,12 +114,12 @@
                     <span> Finished </span> <i class="icon-arrow"></i>
                 </a>
                 <ul class="sub-menu">
-                    <li>
+                    <li{% if item_activate == "Refund" %} class="active"{% endif %}>
                         <a href="#">
                             Refund
                         </a>
                     </li>
-                    <li>
+                    <li{% if item_activate == "Trade" %} class="active"{% endif %}>
                         <a href="#">
                             Trade
                         </a>

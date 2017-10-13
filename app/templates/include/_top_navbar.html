@@ -5,7 +5,7 @@
             <i class="ti-align-justify"></i>
         </a>
         <a class="navbar-brand" href="{{ url_for('main.index') }}">
-            <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="Clip-Two"/>
+            <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="Web-WDT"/>
         </a>
         <a href="#" class="sidebar-toggler pull-right visible-md visible-lg" data-toggle-class="app-sidebar-closed" data-toggle-target="#app">
             <i class="ti-align-justify"></i>
@@ -165,7 +165,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="../login_signin.html">
+                        <a href="{{ url_for('auth.logout') }}">
                             Log Out
                         </a>
                     </li>
