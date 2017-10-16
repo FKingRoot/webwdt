@@ -1,17 +1,13 @@
 {% extends "skeleton.html" %}
 
-{% block page_main_title %}Advanced Data Tables{% endblock %}
+{% block page_main_title %}Home{% endblock %}
 
-{% block page_main_desc %}Refers to data arranged in rows and columns. A spreadsheet, for example, is a table. In relational database management systems, all information is stored in the form of tables. <small class="block">Webopedia - Online Tech Dictionary for IT Professionals</small>{% endblock page_main_desc %}
-
-{% block breadcrumb %}
-<li>
-    <span>Tables</span>
-</li>
-<li class="active">
-    <span>Data Tables</span>
-</li>
-{% endblock breadcrumb %}
+{% block page_main_desc %}
+The main modules and functions of this system.
+<small class="block">
+    You can see all the modules and functions, but if you're not authorized, you are not be able to access them.
+</small>
+{% endblock page_main_desc %}
 
 {% block page_content %}
 <!-- start: Execution Plan -->
@@ -83,8 +79,6 @@
                 </div>
                 <div class="panel-body">
                     <nav id="cl-effect-10" class="links cl-effect-10">
-                        <a data-hover="Purchase Order" href><span>Purchase Order</span></a>
-                        <a data-hover="Purchase Return" href><span>Purchase Return</span></a>
                         <a data-hover="Refund" href><span>Refund</span></a>
                         <a data-hover="Inventory" href><span>Inventory</span></a>
                         <a data-hover="Shifting" href><span>Shifting</span></a>

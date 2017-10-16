@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}WDT Interface Data Query analyzer{% endblock %}
+{#{% block title %}Main Page{% endblock %}#}
 
 {% block body_div_attribs %}id="app"{% endblock body_div_attribs %}
 
@@ -29,7 +29,14 @@
                             <span class="mainDescription">{% block page_main_desc %}{% endblock page_main_desc %}</span>
                         </div>
                         <ol class="breadcrumb">
-                            {% block breadcrumb %}{% endblock breadcrumb %}
+                            {% block breadcrumb %}
+                                {% if breadcrumb %}
+                                    {% for i in breadcrumb %}
+                                    <li{% if loop.index == breadcrumb|length %} class="active"{% endif %}><span>{{ i }}</span></li>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endblock breadcrumb %}
+
                         </ol>
                     </div>
                 </section>

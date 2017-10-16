@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_mongoengine import MongoEngine
 
 
 from config import config
@@ -9,6 +10,7 @@ from extensions import (
 )
 
 db = SQLAlchemy()
+mongo_db = MongoEngine()
 
 
 def create_app(config_name):
@@ -17,6 +19,7 @@ def create_app(config_name):
 
     config[config_name].init_app(app)
     db.init_app(app)
+    mongo_db.init_app(app)
     lm.init_app(app)
     bcrypt.init_app(app)
     moment.init_app(app)

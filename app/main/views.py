@@ -6,6 +6,7 @@ from flask_sqlalchemy import get_debug_queries
 from . import main
 from app import db
 from app.models.user import Role, User
+from app.models.mongo_model import ExecutionPlan
 
 
 @main.after_app_request
@@ -37,4 +38,14 @@ def server_shutdown():
 # @login_required
 def index():
     return render_template("index.html",
-                           top_active=None,)
+                           top_active=None,
+                           breadcrumb=["home"])
+
+@main.route("/execplan")
+def execplan():
+    page = request.args.get("page", 1, type=int)
+    pagination = ExecutionPlan.objects.paginate(page=page, per_page=100)
+    exec_plans = pagination.items
+    return render_template("exec_plan.html",
+                           breadcrumb=["home", "execplan"],
+                           exec_plans=exec_plans)
