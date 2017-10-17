@@ -4,10 +4,10 @@ from flask_login import login_required, current_user
 from flask_sqlalchemy import get_debug_queries
 
 from . import main
+from .forms import ExecPlanQueryForm
 from app import db
 from app.models.user import Role, User
 from app.models.mongo_model import ExecutionPlan
-
 
 @main.after_app_request
 def after_request(response):
@@ -41,11 +41,25 @@ def index():
                            top_active=None,
                            breadcrumb=["home"])
 
-@main.route("/execplan")
+
+@main.route("/execplan", methods=["GET", "POST"])
 def execplan():
+    form = ExecPlanQueryForm()
+    if form.validate_on_submit():
+        return redirect(url_for("main.execplan", page=-1))
     page = request.args.get("page", 1, type=int)
-    pagination = ExecutionPlan.objects.paginate(page=page, per_page=100)
+    # pagination = ExecutionPlan.objects(type="pull_stock_transfers")\
+    #     .order_by("-exec_time", "type")\
+    #     .paginate(page=page,
+    #               per_page=current_app.config["WEBWDT_DATA_PER_PAGE"]
+    #               )
+    pagination = ExecutionPlan.objects(type="pull_stock_transfers")\
+        .paginate(page=page,
+                  per_page=current_app.config["WEBWDT_DATA_PER_PAGE"]
+                  )
     exec_plans = pagination.items
     return render_template("exec_plan.html",
+                           pagination=pagination,
+                           form=form,
                            breadcrumb=["home", "execplan"],
                            exec_plans=exec_plans)

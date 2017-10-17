@@ -18,7 +18,7 @@ app = create_app(os.getenv("FLASK_CONFIG") or "default")
 manager = Manager(app)
 migrate = Migrate(app, db)
 
-manager.add_command("server", Server(port=8080))
+manager.add_command("server", Server(host="0.0.0.0", port=8080))
 manager.add_command("show-urls", ShowUrls())
 manager.add_command("clean", Clean())
 manager.add_command("db", MigrateCommand)

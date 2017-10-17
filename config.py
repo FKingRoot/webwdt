@@ -24,7 +24,7 @@ class Config:
     WEBWDT_MAIL_SENDER = "Web WDT Admin <web_wdt@example.com>"
     WEBWDT_ADMIN = os.environ.get("WEBWDT_ADMIN") or "Marco.Zhang"
 
-    WEBWDT_POSTS_PER_PAGE = 20
+    WEBWDT_DATA_PER_PAGE = 20
     WEBWDT_FOLLOWERS_PER_PAGE = 50
     WEBWDT_COMMENTS_PER_PAGE = 30
     # 缓慢查询的阈值设为 0.5 秒。
@@ -46,7 +46,9 @@ class DevelopmentConfig(Config):
     MONGODB_SETTINGS = {
         "db": "wdt",
         "host": "192.168.7.150",
-        "port": 27017
+        "port": 27017,
+        # 'username': 'webapp',
+        # 'password': 'pwd123'
     }
     # CACHE_TYPE = "simple"
     CACHE_TYPE = "null"
@@ -61,9 +63,11 @@ class TestingConfig(Config):
     #                  "sqlite:///" + os.path.join(base_dir, "data-test.sqlite")
     # }
     MONGODB_SETTINGS = {
-        "db": "local",
+        "db": "wdt",
         "host": "192.168.7.150",
-        "port": 27017
+        "port": 27017,
+        # 'username': 'webapp',
+        # 'password': 'pwd123'
     }
     WTF_CSRF_ENABLED = False
     # 禁用缓存。
@@ -78,9 +82,11 @@ class ProductionConfig(Config):
     #                  "sqlite:///" + os.path.join(base_dir, "data.sqlite")
     # }
     MONGODB_SETTINGS = {
-        "db": "local",
+        "db": "wdt",
         "host": "192.168.7.150",
-        "port": 27017
+        "port": 27017,
+        # 'username': 'webapp',
+        # 'password': 'pwd123'
     }
 
     CACHE_TYPE = "redis"
