@@ -46,7 +46,7 @@ def index():
 def execplan():
     form = ExecPlanQueryForm()
     if form.validate_on_submit():
-        return redirect(url_for("main.execplan", page=-1))
+        return redirect(url_for("main.execplan", page=1))
     page = request.args.get("page", 1, type=int)
     # pagination = ExecutionPlan.objects(type="pull_stock_transfers")\
     #     .order_by("-exec_time", "type")\
