@@ -6,7 +6,7 @@ from flask_mongoengine import MongoEngine
 
 from config import config
 from extensions import (
-    lm, bcrypt, moment, mail, cache
+    lm, bcrypt, moment, mail, debug_toolbar, cache
 )
 
 db = SQLAlchemy()
@@ -24,6 +24,7 @@ def create_app(config_name):
     bcrypt.init_app(app)
     moment.init_app(app)
     mail.init_app(app)
+    debug_toolbar.init_app(app)
     cache.init_app(app)
 
     # 注册蓝图

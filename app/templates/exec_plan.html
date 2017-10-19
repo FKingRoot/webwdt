@@ -65,12 +65,12 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-sm-5">
+                            <div class="col-sm-6">
                                 {{ macros.errors_widget(form.qcd_exectime_start) }}
                                 <div class="form-group">
                                     <div class="checkbox clip-check check-primary">
                                         <!--<input type="checkbox" id="qcc-exectime" value="1" checked="">-->
-                                        {{ form.qcc_exectime() }}
+                                        {{ form.qcc_exectime(disabled="true") }}
                                         <label for="{{ form.qcc_exectime.id }}">
                                             Execution Time
                                         </label>
@@ -84,7 +84,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 {{ macros.errors_widget(form.qcd_biztypes) }}
                                 <div class="form-group">
                                     <div class="checkbox clip-check check-primary">
@@ -111,19 +111,49 @@
                                     <!--</select>-->
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
                                 <div class="form-group">
-                                    <div class="checkbox clip-check check-primary">
-                                        <!--<input type="checkbox" id="qcc-handled" value="1" />-->
-                                        {{ form.qcc_handled() }}
-                                        <label for="{{ form.qcc_handled.id }}">
-                                            Handled
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <!--<input type="checkbox" class="js-switch" id="handled" checked />-->
-                                        {{ form.qcd_handled(class_="js-switch") }}
-                                    </div>
+                                    {{ form.qcd_handled() }}
+                                    <!--<div class="radio clip-radio radio-primary radio-inline">-->
+                                        <!--<input type="radio" id="radio1" name="inline" value="radio1">-->
+                                        <!--<label for="radio1">-->
+                                            <!--Radio 1-->
+                                        <!--</label>-->
+                                    <!--</div>-->
+                                    <!--<div class="radio clip-radio radio-primary radio-inline">-->
+                                        <!--<input type="radio" id="radio2" name="inline" value="radio2" checked="checked">-->
+                                        <!--<label for="radio2">-->
+                                            <!--Radio 2-->
+                                        <!--</label>-->
+                                    <!--</div>-->
+                                    <!--<div class="checkbox clip-check check-primary">-->
+                                        <!--&lt;!&ndash;<input type="checkbox" id="qcc-handled" value="1" />&ndash;&gt;-->
+                                        <!--{#{{ form.qcc_handled() }}#}-->
+                                        <!--{#<label for="{{ form.qcc_handled.id }}">#}-->
+                                            <!--Handled-->
+                                        <!--</label>-->
+                                    <!--</div>-->
+                                    <!--<div class="checkbox">-->
+                                        <!--<input type="checkbox" id="qcd-handled" checked />-->
+                                        <!--{#{{ form.qcd_handled(class_="js-switch") }}#}-->
+                                    <!--</div>-->
+                                    <!--<div class="btn-group" data-toggle="buttons">-->
+                                        <!--{#{{ form.qcd_all() }}#}-->
+                                        <!--<label class="btn btn-primary active">-->
+                                            <!--<input type="radio" name="options" id="option1" autocomplete="off" checked>-->
+                                            <!--Left-->
+                                        <!--</label>-->
+                                        <!--<label class="btn btn-primary">-->
+                                            <!--<input type="radio" name="options" id="option2" autocomplete="off">-->
+                                            <!--Middle-->
+                                        <!--</label>-->
+                                        <!--<label class="btn btn-primary">-->
+                                            <!--<input type="radio" name="options" id="option3" autocomplete="off">-->
+                                            <!--Right-->
+                                        <!--</label>-->
+                                    <!--</div>-->
                                 </div>
                             </div>
                         </div>
@@ -190,33 +220,37 @@
 {% block page_event_handle_scripts %}
 <script src="{{ url_for('static', filename='assets/js/form-elements.js') }}"></script>
 <script>
-    $("#qcc-exectime").change(function() {
-        if ($("#qcc-exectime").prop('checked')) {
-            $("#qcd-exectime-start").removeAttr("disabled");
-            $("#qcd-exectime-end").removeAttr("disabled");
-        }
-        else {
-            $("#qcd-exectime-start").attr("disabled","disabled");
-            $("#qcd-exectime-end").attr("disabled","disabled");
-        }
-    });
+    $(function() {
+        $("#qcc-exectime").change(function() {
+            if ($("#qcc-exectime").prop('checked')) {
+                $("#qcd-exectime-start").removeAttr("disabled");
+                $("#qcd-exectime-end").removeAttr("disabled");
+            }
+            else {
+                $("#qcd-exectime-start").attr("disabled","disabled");
+                $("#qcd-exectime-end").attr("disabled","disabled");
+            }
+        });
 
-    $("#qcc-biztypes").change(function() {
-        if ($("#qcc-biztypes").prop('checked')) {
-            $("#qcd-biztypes").removeAttr("disabled");
-        }
-        else {
-            $("#qcd-biztypes").attr("disabled","disabled");
-        }
-    });
+        $("#qcc-biztypes").change(function() {
+            if ($("#qcc-biztypes").prop('checked')) {
+                $("#qcd-biztypes").removeAttr("disabled");
+            }
+            else {
+                $("#qcd-biztypes").attr("disabled","disabled");
+            }
+        });
 
-    $("#qcc-handled").change(function() {
-        if ($("#qcc-handled").prop('checked')) {
-            $("#qcd-handled").removeAttr("disabled");
-        }
-        else {
-            $("#qcd-handled").attr("disabled","disabled");
-        }
+        $("#qcc-handled").change(function() {
+            if ($("#qcc-handled").prop('checked')) {
+    //            $("#qcd-handled").removeAttr("disabled");
+                $("#qcd-handled").attr('disabled',false);//按钮可用
+            }
+            else {
+    //            $("#qcd-handled").attr("disabled","disabled");
+                $("#qcd-handled").attr('disabled',true);//按钮不可用
+            }
+        });
     });
 
     jQuery(document).ready(function() {

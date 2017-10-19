@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # http://richard.to/programming/project-wonderchicken-part-2.html
 from html import escape
+from wtforms import widgets
 from wtforms.compat import text_type
 from wtforms.widgets import html_params, Select, HTMLString
-from wtforms.fields import Field
+from wtforms.fields import Field, SelectField
 
 
 class SelectOptGroup(object):
@@ -73,3 +74,32 @@ class SelectOptGroupField(Field):
             for d in self.data:
                 if d not in values:
                     raise ValueError(self.gettext("'%(value)s' is not a valid choice for this field") % dict(value=d))
+
+
+class DivListWidget(object):
+    def __init__(self, html_tag='div', prefix_label=True):
+        assert html_tag in ('div', 'ol', 'ul')
+        self.html_tag = html_tag
+        self.prefix_label = prefix_label
+
+    def __call__(self, field, **kwargs):
+        kwargs.setdefault('id', field.id)
+        html = ['<%s %s>' % (self.html_tag, html_params(**kwargs))]
+        for subfield in field:
+            if self.prefix_label:
+                html.append('<div class="radio clip-radio radio-primary radio-inline">%s %s</div>' % (subfield.label, subfield()))
+            else:
+                html.append('<div class="radio clip-radio radio-primary radio-inline">%s %s</div>' % (subfield(), subfield.label))
+        html.append('</%s>' % self.html_tag)
+        return HTMLString(''.join(html))
+
+
+class InlineRadioField(SelectField):
+    """
+    Like a SelectField, except displays a list of radio buttons.
+
+    Iterating the field will produce subfields (each containing a label as
+    well) in order to allow custom rendering of the individual radio fields.
+    """
+    widget = DivListWidget(prefix_label=False)
+    option_widget = widgets.RadioInput()

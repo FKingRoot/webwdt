@@ -37,6 +37,8 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    DEBUG_TB_ENABLED = False
+    # DEBUG_TB_PANELS = ["flask_mongoengine.panels.MongoDebugPanel"]
     SQLALCHEMY_DATABASE_URI = os.environ.get("WEBWDT_DEV_DATABASE_URL") or \
         "postgresql://devuser:engine@192.168.7.150/webwdt_dev"
     # SQLALCHEMY_BINDS = {
