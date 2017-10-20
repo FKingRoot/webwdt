@@ -31,7 +31,7 @@ class ExecPlanQueryForm(FlaskForm):
     #                            render_kw={
     #                                "disabled": ""
     #                            })
-    qcd_handled = InlineRadioField(id="qcd-handled")
+    qcd_handled = InlineRadioField(id="qcd-handled", default=2)
 
     def __init__(self, *args, **kwargs):
         super(ExecPlanQueryForm, self).__init__(*args, **kwargs)

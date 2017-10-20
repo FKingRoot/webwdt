@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from datetime import datetime
-from flask import (current_app, url_for, request, render_template, redirect, make_response, abort)
+from flask import (current_app, url_for, request, session, render_template, redirect, make_response, abort, g)
 from flask_login import login_required, current_user
 from flask_sqlalchemy import get_debug_queries
 
@@ -46,44 +46,52 @@ def index():
 @main.route("/execplan", methods=["GET", "POST"])
 def execplan():
     form = ExecPlanQueryForm()
-    page = request.args.get("page", 1, type=int)
-    # start_time = request.form.get("qcd_exectime_start", datetime.utcnow().strftime("%m/%d/%Y"))
-    start_time = request.form.get("qcd_exectime_start", "10/01/2017")
-    end_time = request.form.get("qcd_exectime_end", datetime.utcnow().strftime("%m/%d/%Y"))
-    biz_types = request.form.getlist("qcd_biztypes") or ["pull_stock_transfers"]
-    handled = request.form.get("qcd_handled", 1)
-    # start_time = form.qcd_exectime_start.data
-    # end_time = form.qcd_exectime_end.data
-    # biz_types = form.qcd_biztypes.data
-    # handled = form.qcd_handled.data
     if form.validate_on_submit():
-        # start_time = form.qcd_exectime_start.data
-        # end_time = form.qcd_exectime_end.data
-        # biz_types = form.qcd_biztypes.data
-        # handled = form.qcd_handled.data
-        # return redirect(url_for("main.execplan", page=1))
+        # session["start_time"] = form.qcd_exectime_start.data
+        # session["end_time"] = form.qcd_exectime_end.data
+        # session["biz_types"] = form.qcd_biztypes.data
+        # session["handled"] = form.qcd_handled.data
+        g.start_time = form.qcd_exectime_start.data
+        g.end_time = form.qcd_exectime_end.data
+        g.biz_types = form.qcd_biztypes.data
+        g.handled = form.qcd_handled.data
+        return redirect(url_for("main.execplan",
+                                page=1))
+    start_time = g.start_time if hasattr(g, "start_time") else "10/01/2017"
+    # start_time = g.get("start_time", "10/01/2017")
+    end_time = g.end_time if hasattr(g, "end_time") else datetime.utcnow().strftime("%m/%d/%Y")
+    biz_types = g.biz_types if hasattr(g, "biz_types") else ["pull_trades"]
+    handled = g.handled if hasattr(g, "handled") else 1
+    # start_time = request.form.get("qcd_exectime_start", datetime.utcnow().strftime("%m/%d/%Y"))
+    # start_time = request.form.get("qcd_exectime_start", "10/01/2017")
+    # end_time = request.form.get("qcd_exectime_end", datetime.utcnow().strftime("%m/%d/%Y"))
+    # biz_types = request.form.getlist("qcd_biztypes") or ["pull_trades"]
+    # handled = request.form.get("qcd_handled", 1)
 
-        # pagination = ExecutionPlan.objects(type="pull_stock_transfers")\
-        #     .order_by("-exec_time", "type")\
-        #     .paginate(page=page,
-        #               per_page=current_app.config["WEBWDT_DATA_PER_PAGE"]
-        #               )
-        # sql = str(ExecutionPlan.objects(
-        #     exec_time__gte=start_time,
-        #     exec_time__lte=end_time,
-        #     type__in=biz_types))
-        return redirect(url_for("main.execplan", page=1))
+    page = request.args.get("page", 1, type=int)
+    # start_time = session.get("start_time", "10/01/2017")
+    # end_time = session.get("end_time", datetime.utcnow().strftime("%m/%d/%Y"))
+    # biz_types = session.get("biz_types", ["pull_trades"])
+    # handled = session.get("handled", 1)
+    pagination = ExecutionPlan.objects(type__in=biz_types) \
+        .order_by("-exec_time", "type") \
+        .paginate(page=page,
+                  per_page=current_app.config["WEBWDT_DATA_PER_PAGE"]
+                  )
+    exec_plans = pagination.items
+
+
     # form.qcd_exectime_start.data = start_time
     # form.qcd_exectime_end.data = end_time
     # form.qcd_biztypes.data = biz_types
     # form.qcd_handled.data = handled
     # page = request.args.get("page", 1, type=int)
-    # pagination = ExecutionPlan.objects(type="pull_stock_transfers")\
+    # pagination = ExecutionPlan.objects(type="pull_trades")\
     #     .order_by("-exec_time", "type")\
     #     .paginate(page=page,
     #               per_page=current_app.config["WEBWDT_DATA_PER_PAGE"]
     #               )
-    # pagination = ExecutionPlan.objects(type="pull_stock_transfers")\
+    # pagination = ExecutionPlan.objects(type="pull_trades")\
     #     .paginate(page=page,
     #               per_page=current_app.config["WEBWDT_DATA_PER_PAGE"]
     #               )
@@ -93,11 +101,6 @@ def execplan():
     #               )
     # import pdb
     # pdb.set_trace()
-    pagination = ExecutionPlan.objects(exec_time__gte=datetime.strptime(start_time, "%m/%d/%Y"), type__in=biz_types)\
-        .paginate(page=page,
-                  per_page=current_app.config["WEBWDT_DATA_PER_PAGE"]
-                  )
-    exec_plans = pagination.items
     return render_template("exec_plan.html",
                            pagination=pagination,
                            form=form,
