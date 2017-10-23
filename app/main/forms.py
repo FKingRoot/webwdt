@@ -9,32 +9,29 @@ from widgets import SelectOptGroupField, InlineRadioField
 
 
 class ExecPlanQueryForm(FlaskForm):
-    qcc_exectime = BooleanField(id="qcc-exectime",
-                                render_kw={"checked": ""})
+    qcc_exectime = BooleanField(id="qcc-exectime", default=True)
     qcd_exectime_start = StringField(id="qcd-exectime-start",
                                      validators=[DataRequired()],
-                                     render_kw={
-                                         "value": datetime.utcnow().strftime("%m/%d/%Y"),
-                                     })
+                                     default=datetime.utcnow().strftime("%m/%d/%Y"))
     qcd_exectime_end = StringField(id="qcd-exectime-end",
                                    validators=[DataRequired()],
-                                   render_kw={
-                                       "value": datetime.utcnow().strftime("%m/%d/%Y"),
-                                   })
-    qcc_biztypes = BooleanField(id="qcc-biztypes")
+                                   default=datetime.utcnow().strftime("%m/%d/%Y"))
+    qcc_biztypes = BooleanField(id="qcc-biztypes", default=False)
     qcd_biztypes = SelectOptGroupField(id="qcd-biztypes",
-                                       render_kw={
-                                           "disabled": ""
-                                       })
-    # qcc_handled = BooleanField(id="qcc-handled")
-    # qcd_handled = BooleanField(id="qcd-handled",
-    #                            render_kw={
-    #                                "disabled": ""
-    #                            })
-    qcd_handled = InlineRadioField(id="qcd-handled", default=2)
+                                       # render_kw={
+                                       #     "disabled": ""
+                                       # }
+                                       )
+    qcd_handled = InlineRadioField(id="qcd-handled")
 
     def __init__(self, *args, **kwargs):
         super(ExecPlanQueryForm, self).__init__(*args, **kwargs)
+
+        # 查询时间必选。
+        self.qcc_exectime.data = True
+        # 如果未选择业务类型，多选框禁用。
+        if not kwargs.get("qcc_biztypes", True):
+            self.qcd_biztypes.render_kw = {"disabled": "disabled"}
         self.qcd_biztypes.choices = [
                                         (
                                             (

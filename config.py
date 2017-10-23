@@ -47,11 +47,11 @@ class DevelopmentConfig(Config):
     # }
     MONGODB_SETTINGS = {
         "db": "wdt",
-        # "host": "192.168.7.150",
-        "host": "localhost",
+        "host": "192.168.7.150",
+        # "host": "localhost",
         "port": 27017,
-        'username': "devuser",
-        'password': "123"
+        # 'username': "devuser",
+        # 'password': "123"
     }
     # CACHE_TYPE = "simple"
     CACHE_TYPE = "null"

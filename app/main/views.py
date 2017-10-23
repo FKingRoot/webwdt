@@ -45,34 +45,32 @@ def index():
 
 @main.route("/execplan", methods=["GET", "POST"])
 def execplan():
-    form = ExecPlanQueryForm()
-    if form.validate_on_submit():
-        # session["start_time"] = form.qcd_exectime_start.data
-        # session["end_time"] = form.qcd_exectime_end.data
-        # session["biz_types"] = form.qcd_biztypes.data
-        # session["handled"] = form.qcd_handled.data
-        g.start_time = form.qcd_exectime_start.data
-        g.end_time = form.qcd_exectime_end.data
-        g.biz_types = form.qcd_biztypes.data
-        g.handled = form.qcd_handled.data
-        return redirect(url_for("main.execplan",
-                                page=1))
-    start_time = g.start_time if hasattr(g, "start_time") else "10/01/2017"
-    # start_time = g.get("start_time", "10/01/2017")
-    end_time = g.end_time if hasattr(g, "end_time") else datetime.utcnow().strftime("%m/%d/%Y")
-    biz_types = g.biz_types if hasattr(g, "biz_types") else ["pull_trades"]
-    handled = g.handled if hasattr(g, "handled") else 1
-    # start_time = request.form.get("qcd_exectime_start", datetime.utcnow().strftime("%m/%d/%Y"))
-    # start_time = request.form.get("qcd_exectime_start", "10/01/2017")
-    # end_time = request.form.get("qcd_exectime_end", datetime.utcnow().strftime("%m/%d/%Y"))
-    # biz_types = request.form.getlist("qcd_biztypes") or ["pull_trades"]
-    # handled = request.form.get("qcd_handled", 1)
-
+    # 字符串"True"不能直接通过 bool 强转。
+    qcc_exectime = (request.args.get("qcc_exectime", "True") == "True")
+    start_time = request.args.get("start_time", datetime.utcnow().strftime("%m/%d/%Y"))
+    end_time = request.args.get("end_time", datetime.utcnow().strftime("%m/%d/%Y"))
+    qcc_biztypes = (request.args.get("qcc_biztypes", "False") == "True")
+    biz_types = request.args.getlist("biz_types")# or ["pull_trades"]
+    handled = request.args.get("handled", "1")
     page = request.args.get("page", 1, type=int)
-    # start_time = session.get("start_time", "10/01/2017")
-    # end_time = session.get("end_time", datetime.utcnow().strftime("%m/%d/%Y"))
-    # biz_types = session.get("biz_types", ["pull_trades"])
-    # handled = session.get("handled", 1)
+
+    form = ExecPlanQueryForm(qcc_biztypes=qcc_biztypes)
+    if form.validate_on_submit():
+        qcc_exectime = form.qcc_exectime.data
+        start_time = form.qcd_exectime_start.data
+        end_time = form.qcd_exectime_end.data
+        qcc_biztypes = form.qcc_biztypes.data
+        biz_types = form.qcd_biztypes.data
+        handled = form.qcd_handled.data
+        return redirect(url_for("main.execplan",
+                                qcc_exectime=qcc_exectime,
+                                start_time=start_time,
+                                end_time=end_time,
+                                qcc_biztypes=qcc_biztypes,
+                                biz_types=biz_types,
+                                handled=handled,
+                                page=1))
+
     pagination = ExecutionPlan.objects(type__in=biz_types) \
         .order_by("-exec_time", "type") \
         .paginate(page=page,
@@ -80,28 +78,19 @@ def execplan():
                   )
     exec_plans = pagination.items
 
-
-    # form.qcd_exectime_start.data = start_time
-    # form.qcd_exectime_end.data = end_time
-    # form.qcd_biztypes.data = biz_types
-    # form.qcd_handled.data = handled
-    # page = request.args.get("page", 1, type=int)
-    # pagination = ExecutionPlan.objects(type="pull_trades")\
-    #     .order_by("-exec_time", "type")\
-    #     .paginate(page=page,
-    #               per_page=current_app.config["WEBWDT_DATA_PER_PAGE"]
-    #               )
-    # pagination = ExecutionPlan.objects(type="pull_trades")\
-    #     .paginate(page=page,
-    #               per_page=current_app.config["WEBWDT_DATA_PER_PAGE"]
-    #               )
-    # pagination = ExecutionPlan.objects(exec_time__gte=datetime.strptime(start_time, "%m/%d/%Y"), type__in=biz_types)\
-    #     .paginate(page=page,
-    #               per_page=current_app.config["WEBWDT_DATA_PER_PAGE"]
-    #               )
-    # import pdb
-    # pdb.set_trace()
+    form.qcc_exectime.data = qcc_exectime
+    form.qcd_exectime_start.data = start_time
+    form.qcd_exectime_end.data = end_time
+    form.qcc_biztypes.data = qcc_biztypes
+    form.qcd_biztypes.data = biz_types
+    form.qcd_handled.data = handled
     return render_template("exec_plan.html",
+                           qcc_exectime=qcc_exectime,
+                           start_time=start_time,
+                           end_time=end_time,
+                           qcc_biztypes=qcc_biztypes,
+                           biz_types=biz_types,
+                           handled=handled,
                            pagination=pagination,
                            form=form,
                            breadcrumb=["home", "execplan"],

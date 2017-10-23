@@ -69,17 +69,14 @@
                                 {{ macros.errors_widget(form.qcd_exectime_start) }}
                                 <div class="form-group">
                                     <div class="checkbox clip-check check-primary">
-                                        <!--<input type="checkbox" id="qcc-exectime" value="1" checked="">-->
-                                        {{ form.qcc_exectime(disabled="true") }}
+                                        {{ form.qcc_exectime(disabled="disabled") }}
                                         <label for="{{ form.qcc_exectime.id }}">
                                             Execution Time
                                         </label>
                                     </div>
                                     <div class="input-group input-daterange datepicker">
-                                        <!--<input type="text" class="form-control" value="10/19/2017" disabled />-->
                                         {{ form.qcd_exectime_start(class_="form-control") }}
                                         <span class="input-group-addon bg-primary">to</span>
-                                        <!--<input type="text" class="form-control" value="10/29/2017" />-->
                                         {{ form.qcd_exectime_end(class_="form-control") }}
                                     </div>
                                 </div>
@@ -91,7 +88,7 @@
                                         <!--<input type="checkbox" id="qcc-biztypes" value="1" />-->
                                         {{ form.qcc_biztypes() }}
                                         <label for="{{ form.qcc_biztypes.id }}">
-                                            Business Types
+                                            Business Types -- {{ qcc_biztypes }}
                                         </label>
                                     </div>
                                     {{ form.qcd_biztypes(class_="js-example-basic-multiple js-states form-control") }}
@@ -198,7 +195,15 @@
             <!-- end: DATA TABLE -->
             <!-- start: PAGINATION -->
             <div>
-                {{ macros.pagination_widget(pagination, "main.execplan", fragment="") }}
+                {{ macros.pagination_widget(
+                            pagination, "main.execplan", fragment="",
+                            qcc_exectime=qcc_exectime,
+                            start_time=start_time,
+                            end_time=end_time,
+                            qcc_biztypes=qcc_biztypes,
+                            biz_types=biz_types,
+                            handled=handled,
+                ) }}
             </div>
             <!-- end: PAGINATION -->
         </div>
