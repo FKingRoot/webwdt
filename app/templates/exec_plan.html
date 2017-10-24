@@ -52,6 +52,7 @@
                             <li>
                                 <div class="pull-right">
                                     <div class="form-actions">
+                                        <!--<button type="submit" title="" data-placement="top" data-toggle="tooltip" class="btn btn-azure" data-original-title="Tooltip on left">-->
                                         <button type="submit" class="btn btn-azure">
                                             Query
                                         </button>
@@ -194,17 +195,15 @@
             </table>
             <!-- end: DATA TABLE -->
             <!-- start: PAGINATION -->
-            <div>
-                {{ macros.pagination_widget(
-                            pagination, "main.execplan", fragment="",
-                            qcc_exectime=qcc_exectime,
-                            start_time=start_time,
-                            end_time=end_time,
-                            qcc_biztypes=qcc_biztypes,
-                            biz_types=biz_types,
-                            handled=handled,
-                ) }}
-            </div>
+            {{ macros.pagination_widget(
+                        pagination, "main.execplan", AppConfig["WEBWDT_DATA_PER_PAGE"], fragment="",
+                        qcc_exectime=qcc_exectime,
+                        start_time=start_time,
+                        end_time=end_time,
+                        qcc_biztypes=qcc_biztypes,
+                        biz_types=biz_types,
+                        handled=handled,
+            ) }}
             <!-- end: PAGINATION -->
         </div>
     </div>

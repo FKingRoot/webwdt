@@ -71,8 +71,31 @@ def execplan():
                                 handled=handled,
                                 page=1))
 
-    pagination = ExecutionPlan.objects(type__in=biz_types) \
-        .order_by("-exec_time", "type") \
+    # Build query parameters.
+    params = {
+        "exec_time__gte": datetime.strptime(start_time, "%m/%d/%Y").strftime("%Y-%m-%d 00:00:00"),
+        "exec_time__lte": datetime.strptime(end_time, "%m/%d/%Y").strftime("%Y-%m-%d 23:59:59"),
+    }
+    if qcc_biztypes:
+        params["type__in"] = biz_types
+    elif params.get("type"):
+        del params["type__in"]
+
+    if handled == "2":
+        params["handle_flag"] = 1
+    elif handled == "3":
+        params["handle_flag"] = 0
+    elif params.get("handle_flag"):
+        del params["handle_flag"]
+
+    queryset = ExecutionPlan.objects(**params)
+
+    # import pdb
+    # pdb.set_trace()
+    # print(queryset._query)
+    # queryset.explain()
+
+    pagination = queryset.order_by("-exec_time", "type") \
         .paginate(page=page,
                   per_page=current_app.config["WEBWDT_DATA_PER_PAGE"]
                   )
@@ -92,6 +115,6 @@ def execplan():
                            biz_types=biz_types,
                            handled=handled,
                            pagination=pagination,
+                           exec_plans=exec_plans,
                            form=form,
-                           breadcrumb=["home", "execplan"],
-                           exec_plans=exec_plans)
+                           breadcrumb=["home", "execplan"])

@@ -17,7 +17,8 @@ class ExecutionPlan(mongo_db.Document):
     }
 
     type = mongo_db.StringField(required=True)
-    exec_time = mongo_db.DateTimeField(required=True)
+    # exec_time = mongo_db.DateTimeField(required=True)
+    exec_time = mongo_db.StringField(required=True)
     handle_flag = mongo_db.BooleanField(required=True)
     params = mongo_db.EmbeddedDocumentField("ExecutionParam")
 
