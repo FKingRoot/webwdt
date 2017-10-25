@@ -25,10 +25,10 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                            <h4 class="modal-title" id="myModalLabel">Execution Plan Detail</h4>
                         </div>
-                        <div class="modal-body">
-                            Modal Content
+                        <div id="myModalContent" class="modal-body">
+                            <!--Modal ContentW-->
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary btn-o" data-dismiss="modal">
@@ -165,11 +165,10 @@
                     <tr>
                         <th class="center">#</th>
                         <th>Type</th>
-                        <th class="hidden-xs">Execute Time</th>
+                        <th>Execute Time</th>
                         <th>Handled</th>
                         <th class="hidden-xs">Start Time</th>
                         <th class="hidden-xs">End time</th>
-                        <th>Number of Entries</th>
                         <th class="hidden-xs">Detail</th>
                     </tr>
                 </thead>
@@ -178,14 +177,14 @@
                         <tr{% if not plan.handle_flag %} class="danger"{% endif %}>
                             <th class="center" scope="row">{{ (pagination.page - 1) * AppConfig["WEBWDT_DATA_PER_PAGE"] + loop.index }}</td>
                             <td>{{ plan.type }}</td>
-                            <td class="hidden-xs">{{ plan.exec_time }}</td>
-                            <td class="center">{{ plan.handle_flag }}</td>
+                            <td>{{ plan.exec_time }}</td>
+                            <td class="center"><span class="label label-sm {% if not plan.handle_flag %}label-danger{% else %}label-success{% endif %}">{{ plan.handle_flag }}</span></td>
                             <td class="hidden-xs">{{ plan.params.start_time }}</td>
                             <td class="hidden-xs">{{ plan.params.end_time }}</td>
-                            <td class="hidden-xs">{{ plan.params.page_size }}</td>
                             <td class="center">
                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                    <a href="#" class="btn btn-transparent btn-xs" tooltip-placement="top" \
+                                    <!--链接的 onclick 事件被先执行，其次是 href 属性下的动作（页面跳转，或 javascript 伪链接）。-->
+                                    <a id="mylink" onclick="mylink_click('{{ plan.params.to_json() }}');" href="#" class="btn btn-transparent btn-xs" tooltip-placement="top" \
                                        tooltip="More" data-toggle="modal" data-target=".bs-example-modal-lg"><i class="fa fa-ellipsis-h"></i></a>
                                 </div>
                             </td>
@@ -255,7 +254,57 @@
                 $("#qcd-handled").attr('disabled',true);//按钮不可用
             }
         });
+
+//        $("#mylink").click(function(){
+//        });
     });
+
+    mylink_click = function(data) {
+        var html_str =
+                "<table class='table table-striped'>" +
+                    "<thead>" +
+                        "<tr>" +
+                            "<th class='hidden-xs'>Name</th>" +
+                            "<th>Example</th>" +
+                            "<th>Class</th>" +
+                         "</tr>" +
+                    "</thead>" +
+                    "<tbody>" +
+                        "<tr>" +
+                            "<td class='hidden-xs'> Default!!! </td>" +
+                            "<td><span class='badge'> 1</span></td>" +
+                            "<td><code> badge badge-default </code></td>" +
+                        "</tr>" +
+                        "<tr>" +
+                            "<td class='hidden-xs'> Success!!! </td>" +
+                            "<td><span class='badge badge-success'> 2</span></td>" +
+                            "<td><code> badge badge-success </code></td>" +
+                        "</tr>" +
+                            "<tr>" +
+                                "<td class='hidden-xs'> Warning!!! </td>" +
+                                    "<td><span class='badge badge-warning'> 4</span></td>" +
+                                    "<td><code> badge badge-warning </code></td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                    "<td class='hidden-xs'> Danger!!! </td>" +
+                                    "<td><span class='badge badge-danger'> 6</span></td>" +
+                                    "<td><code> badge badge-danger </code></td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                    "<td class='hidden-xs'> Info!!! </td>" +
+                                    "<td><span class='badge badge-info'> 8</span></td>" +
+                                    "<td><code> badge badge-info </code></td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                    "<td class='hidden-xs'> Inverse!!! </td>" +
+                                    "<td><span class='badge badge-inverse'> 10</span></td>" +
+                                    "<td><code> badge badge-inverse </code></td>" +
+                                "</tr>" +
+                            "</tbody>" +
+                "</table>"
+//            $('#myModalContent').append(html_str);
+        $('#myModalContent').html(html_str);
+    }
 
     jQuery(document).ready(function() {
         Main.init();
