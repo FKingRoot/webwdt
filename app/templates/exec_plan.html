@@ -225,7 +225,7 @@
 <script>
     $(function() {
         $("#qcc-exectime").change(function() {
-            if ($("#qcc-exectime").prop('checked')) {
+            if ($(this).is(":checked")) {
                 $("#qcd-exectime-start").removeAttr("disabled");
                 $("#qcd-exectime-end").removeAttr("disabled");
             }
@@ -236,7 +236,7 @@
         });
 
         $("#qcc-biztypes").change(function() {
-            if ($("#qcc-biztypes").prop('checked')) {
+            if ($(this).is(":checked")) {
                 $("#qcd-biztypes").removeAttr("disabled");
             }
             else {
@@ -245,7 +245,7 @@
         });
 
         $("#qcc-handled").change(function() {
-            if ($("#qcc-handled").prop('checked')) {
+            if ($(this).is(":checked")) {
     //            $("#qcd-handled").removeAttr("disabled");
                 $("#qcd-handled").attr('disabled',false);//按钮可用
             }
