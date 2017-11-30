@@ -7,19 +7,18 @@ class ExecutionParam(mongo_db.DynamicDocument):
     end_time = mongo_db.DateTimeField(required=True)
     page_no = mongo_db.IntField(required=True)
     page_size = mongo_db.IntField(required=True)
-    status = mongo_db.IntField()                # trade, trade_finished, transfers
     img_url = mongo_db.IntField()               # trade, trade_finished,
+    status = mongo_db.IntField()                # trade, trade_finished, transfers, stockin_orders
     process_status = mongo_db.IntField()        # refund, refund_finished,
+    order_type = mongo_db.IntField()            # stockin_orders, stockout_orders
     refund_no = mongo_db.StringField()          # refund, refund_finished,
-    src_refund_no = mongo_db.StringField()      # refund, refund_finished,
     pd_no = mongo_db.StringField()              # pd
-    warehouse_no = mongo_db.StringField()       # pd, stockout_orders
     transfer_no = mongo_db.StringField()        # transfers
+    src_refund_no = mongo_db.StringField()      # refund, refund_finished,
+    src_order_no = mongo_db.StringField()       # stockout_orders
+    warehouse_no = mongo_db.StringField()       # pd, stockout_orders
     from_warehouse_no = mongo_db.StringField()  # transfers
     to_warehouse_no = mongo_db.StringField()    # transfers
-    order_type = mongo_db.IntField()            # stockin_orders, stockout_orders
-    status = mongo_db.IntField()                # stockin_orders
-    src_order_no = mongo_db.StringField()       # stockout_orders
 
 
 class ExecutionPlan(mongo_db.Document):
