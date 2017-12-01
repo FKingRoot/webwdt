@@ -43,7 +43,7 @@
             </div>
             <!-- end: LARGE MODAL -->
             <!-- start: QUERY CONDITION -->
-            <form method="POST" action="{{ url_for('main.execplan') }}">
+            <form id="qry-form" method="POST" action="{{ url_for('main.execplan') }}">
                 {{ form.hidden_tag() }}
                 <div class="panel panel-white" id="panel1">
                     <div class="panel-heading">
@@ -53,9 +53,9 @@
                                 <div class="pull-right">
                                     <div class="form-actions">
                                         <!--<button type="submit" title="" data-placement="top" data-toggle="tooltip" class="btn btn-azure" data-original-title="Tooltip on left">-->
-                                        <button type="submit" class="btn btn-azure">
-                                            Query
-                                        </button>
+                                        <!--<button type="submit" class="btn btn-azure">Query</button>-->
+                                        <!--{# {{ form.submit(class="btn btn-azure",onclick="ajaxForm()") }} #}--><!--这里如果用这个会造成表单提交两次，而且第二次是get会刷新页面-->
+                                        <button type="button" class="btn btn-azure" onclick="ajaxForm()">Query</button>
                                     </div>
                                 </div>
                             </li>
@@ -255,6 +255,41 @@
             }
         });
     });
+
+    function ajaxForm(){
+        //varifyinput();
+        var form= new FormData(document.getElementById("qry-form"));
+        //var data= {
+        //    data: JSON.stringify({
+        //        'username': "aaa",
+        //        'password': "bbb"
+        //    }),
+        //};
+        var data={
+            'name':'kikay',
+            'age':18
+        }
+        $.ajax({
+            url:"{{ url_for('main.execplan') }}",
+            type:"POST",
+            data:data,
+            dataType: "json",
+            //processData:false,  // 告诉jQuery不要去处理发送的数据
+            //contentType:false,  // 告诉jQuery不要去设置Content-Type请求头
+            success:function(response,status,xhr){
+                console.log(xhr);
+                var json=$.parseJSON(response);
+                //var result = '';
+                //result +="个人信息：<br/>name:"+json['name']+"<br/>gender:"+json['gender']+"<br/>number:"+json['number'];
+                //result += '<br/>头像：<img src="' + json['photo'] + '" height="100" style="border-radius: 50%;" />';
+                //$('#result').html(result);
+            },
+            error:function(e){
+                alert("没有取得数据");
+            }
+        });
+        return false;
+    }
 
     mylink_click = function(data) {
         var x = JSON.parse(data);

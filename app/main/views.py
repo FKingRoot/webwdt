@@ -45,6 +45,11 @@ def index():
 
 @main.route("/execplan", methods=["GET", "POST"])
 def execplan():
+    # import json
+    # data = json.loads(request.form.get('data'))
+    #获取Get数据
+    name=request.args.get('name')
+    age=int(request.args.get('age'))
     # 字符串"True"不能直接通过 bool 强转。
     qcc_exectime = (request.args.get("qcc_exectime", "True") == "True")
     start_time = request.args.get("start_time", datetime.utcnow().strftime("%m/%d/%Y"))
