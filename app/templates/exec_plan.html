@@ -53,9 +53,9 @@
                                 <div class="pull-right">
                                     <div class="form-actions">
                                         <!--<button type="submit" title="" data-placement="top" data-toggle="tooltip" class="btn btn-azure" data-original-title="Tooltip on left">-->
-                                        <!--<button type="submit" class="btn btn-azure">Query</button>-->
+                                        <button type="submit" class="btn btn-azure">Query</button>
                                         <!--{# {{ form.submit(class="btn btn-azure",onclick="ajaxForm()") }} #}--><!--这里如果用这个会造成表单提交两次，而且第二次是get会刷新页面-->
-                                        <button type="button" class="btn btn-azure" onclick="ajaxForm()">Query</button>
+                                        <!--<button type="button" class="btn btn-azure" onclick="ajaxForm()">Query</button>-->
                                     </div>
                                 </div>
                             </li>
@@ -159,6 +159,43 @@
                 </div>
             </form>
             <!-- end: QUERY CONDITION -->
+            <!-- start: EXPORT -->
+            <div class="btn-group pull-right">
+                <a class="btn btn-azure" href="javascript:;">
+                    <!--data-placement="top" data-toggle="tooltip" data-original-title="print the data.">-->
+                    <i class="fa fa-print"></i>
+                </a>
+                <button type="button" class="btn btn-azure">
+                    <!--data-placement="top" data-toggle="tooltip" data-original-title="export data in a specified format.">-->
+                    Export
+                </button>
+                <button type="button" class="btn btn-azure dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                    <li>
+                        <a href="javascript:;">
+                            <i class="fa fa-file-code-o"> .json</i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('main.exec_plan_export_xls')}}">
+                            <i class="fa fa-file-excel-o"> .xls</i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="fa fa-file-text-o"> .csv</i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="fa fa-file-pdf-o"> .pdf</i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- end: EXPORT -->
             <!-- start: DATA TABLE -->
             <table class="table table-striped table-bordered table-hover table-full-width" id="sample_1">
                 <thead>
@@ -265,27 +302,32 @@
         //        'password': "bbb"
         //    }),
         //};
-        var data={
-            'name':'kikay',
-            'age':18
-        }
+        //var data={
+        //    "name":"kikay",
+        //    "age":18
+        //}
+        // 如果页面有表单，那么可以利用jquery的serialize()方法获取表单的全部数据
+        data = $("#qry-form").serialize();
         $.ajax({
             url:"{{ url_for('main.execplan') }}",
             type:"POST",
-            data:data,
-            dataType: "json",
-            //processData:false,  // 告诉jQuery不要去处理发送的数据
+            //headers:{"X-CSRFToken":$.cookie('csrftoken')}, // 这是把csrf传入服务器.
+            data:JSON.stringify(form),// 转化为字符串
+            //data:data,
+            dataType: "json",   // 注意：这里是指希望服务端返回json格式的数据
+            processData:false,  // 告诉jQuery不要去处理发送的数据
             //contentType:false,  // 告诉jQuery不要去设置Content-Type请求头
+            contentType: "application/json; charset=UTF-8",
             success:function(response,status,xhr){
-                console.log(xhr);
-                var json=$.parseJSON(response);
+                //console.log(xhr);
+                //var json=$.parseJSON(response);
                 //var result = '';
                 //result +="个人信息：<br/>name:"+json['name']+"<br/>gender:"+json['gender']+"<br/>number:"+json['number'];
                 //result += '<br/>头像：<img src="' + json['photo'] + '" height="100" style="border-radius: 50%;" />';
                 //$('#result').html(result);
             },
             error:function(e){
-                alert("没有取得数据");
+                //alert("没有取得数据");
             }
         });
         return false;
@@ -293,8 +335,18 @@
 
     mylink_click = function(data) {
         var x = JSON.parse(data);
-        var x1 = x.from_warehouse_no;
-        var x2 = x.to_warehouse_no;
+        var s = "";
+        for ( p in x ) {
+            if (typeof(x[p]) == "undefined" || typeof(x[p]) == "object") {
+                continue;
+            }
+            s += ("<tr>" +
+                      "<td class='hidden-xs'> " + p + " </td>" +
+                      "<td><code>" + x[p] + "</code></td>" +
+                  "</tr>");
+        }
+//        var x1 = x.from_warehouse_no;
+//        var x2 = x.to_warehouse_no;
         var html_str =
                 "<table class='table table-striped'>" +
                     "<thead>" +
@@ -305,120 +357,133 @@
                          "</tr>" +
                     "</thead>" +
                     "<tbody>" +
-                        (typeof(x.page_no) == "undefined"
-                        ? ""
-                        : ("<tr>" +
-                               "<td class='hidden-xs'> Page No </td>" +
-//                               "<td><span class='badge'> 1</span></td>" +
-                               "<td><code>" + x.page_no + "</code></td>" +
-                           "</tr>")
-                        ) +
-                        (typeof(x.page_size) == "undefined"
-                        ? ""
-                        : ("<tr>" +
-                               "<td class='hidden-xs'> Page Size </td>" +
-//                               "<td><span class='badge badge-success'> 2</span></td>" +
-                               "<td><code>" + x.page_size + "</code></td>" +
-                           "</tr>")
-                        ) +
-                        (typeof(x.img_url) == "undefined"
-                        ? ""
-                        : ("<tr>" +
-                               "<td class='hidden-xs'> Image URL </td>" +
-//                               "<td><span class='badge badge-success'> 2</span></td>" +
-                               "<td><code>" + x.img_url + "</code></td>" +
-                           "</tr>")
-                        ) +
-                        (typeof(x.status) == "undefined"
-                        ? ""
-                        : ("<tr>" +
-                               "<td class='hidden-xs'> Status </td>" +
-//                               "<td><span class='badge badge-warning'> 4</span></td>" +
-                               "<td><code>" + x.status + "</code></td>" +
-                           "</tr>")
-                        ) +
-                        (typeof(x.process_status) == "undefined"
-                        ? ""
-                        : ("<tr>" +
-                               "<td class='hidden-xs'> Process Status </td>" +
-//                               "<td><span class='badge badge-danger'> 6</span></td>" +
-                               "<td><code>" + x.process_status + "</code></td>" +
-                           "</tr>")
-                        ) +
-                        (typeof(x.order_type) == "undefined"
-                        ? ""
-                        : ("<tr>" +
-                               "<td class='hidden-xs'> Order Type </td>" +
-//                               "<td><span class='badge badge-info'> 8</span></td>" +
-                               "<td><code>" + x.order_type + "</code></td>" +
-                           "</tr>")
-                        ) +
-                        (typeof(x.refund_no) == "undefined"
-                        ? ""
-                        : ("<tr>" +
-                               "<td class='hidden-xs'> Refund No </td>" +
-//                               "<td><span class='badge badge-info'> 8</span></td>" +
-                               "<td><code>" + x.refund_no + "</code></td>" +
-                           "</tr>")
-                        ) +
-                        (typeof(x.pd_no) == "undefined"
-                        ? ""
-                        : ("<tr>" +
-                               "<td class='hidden-xs'> PD No </td>" +
-//                               "<td><span class='badge badge-inverse'> 10</span></td>" +
-                               "<td><code>" + x.pd_no + "</code></td>" +
-                           "</tr>")
-                        )+
-                        (typeof(x.transfer_no) == "undefined"
-                        ? ""
-                        : ("<tr>" +
-                               "<td class='hidden-xs'> Transfer No </td>" +
-//                               "<td><span class='badge badge-inverse'> 10</span></td>" +
-                               "<td><code>" + x.transfer_no + "</code></td>" +
-                           "</tr>")
-                        ) +
-                        (typeof(x.src_refund_no) == "undefined"
-                        ? ""
-                        : ("<tr>" +
-                               "<td class='hidden-xs'> Source Refund No </td>" +
-//                               "<td><span class='badge badge-inverse'> 10</span></td>" +
-                               "<td><code>" + x.src_refund_no + "</code></td>" +
-                           "</tr>")
-                        ) +
-                        (typeof(x.src_order_no) == "undefined"
-                        ? ""
-                        : ("<tr>" +
-                               "<td class='hidden-xs'> Source Order No </td>" +
-//                               "<td><span class='badge badge-inverse'> 10</span></td>" +
-                               "<td><code>" + x.src_order_no + "</code></td>" +
-                           "</tr>")
-                        ) +
-                        (typeof(x.warehouse_no) == "undefined"
-                        ? ""
-                        : ("<tr>" +
-                               "<td class='hidden-xs'> Warehouse No </td>" +
-//                               "<td><span class='badge badge-inverse'> 10</span></td>" +
-                               "<td><code>" + x.warehouse_no + "</code></td>" +
-                           "</tr>")
-                        ) +
-                        (typeof(x.from_warehouse_no) == "undefined"
-                        ? ""
-                        : ("<tr>" +
-                               "<td class='hidden-xs'> From Warehouse No </td>" +
-//                               "<td><span class='badge badge-inverse'> 10</span></td>" +
-                               "<td><code>" + x.from_warehouse_no + "</code></td>" +
-                           "</tr>")
-                        ) +
-                        (typeof(x.to_warehouse_no) == "undefined"
-                        ? ""
-                        : ("<tr>" +
-                               "<td class='hidden-xs'> To Warehouse No </td>" +
-//                               "<td><span class='badge badge-inverse'> 10</span></td>" +
-                               "<td><code>" + x.to_warehouse_no + "</code></td>" +
-                           "</tr>")
-                        ) +
+                    s +
                     "</tbody>" +
                 "</table>";
+//        var html_str =
+//                "<table class='table table-striped'>" +
+//                    "<thead>" +
+//                        "<tr>" +
+//                            "<th class='hidden-xs'>Field Name</th>" +
+//                            "<th>Example</th>" +
+//                            "<th>Value</th>" +
+//                         "</tr>" +
+//                    "</thead>" +
+//                    "<tbody>" +
+//                        (typeof(x.page_no) == "undefined"
+//                        ? ""
+//                        : ("<tr>" +
+//                               "<td class='hidden-xs'> Page No </td>" +
+//                               "<td><span class='badge'> 1</span></td>" +
+//                               "<td><code>" + x.page_no + "</code></td>" +
+//                           "</tr>")
+//                        ) +
+//                        (typeof(x.page_size) == "undefined"
+//                        ? ""
+//                        : ("<tr>" +
+//                               "<td class='hidden-xs'> Page Size </td>" +
+//                               "<td><span class='badge badge-success'> 2</span></td>" +
+//                               "<td><code>" + x.page_size + "</code></td>" +
+//                           "</tr>")
+//                        ) +
+//                        (typeof(x.img_url) == "undefined"
+//                        ? ""
+//                        : ("<tr>" +
+//                               "<td class='hidden-xs'> Image URL </td>" +
+//                               "<td><span class='badge badge-success'> 2</span></td>" +
+//                               "<td><code>" + x.img_url + "</code></td>" +
+//                           "</tr>")
+//                        ) +
+//                        (typeof(x.status) == "undefined"
+//                        ? ""
+//                        : ("<tr>" +
+//                               "<td class='hidden-xs'> Status </td>" +
+//                               "<td><span class='badge badge-warning'> 4</span></td>" +
+//                               "<td><code>" + x.status + "</code></td>" +
+//                           "</tr>")
+//                        ) +
+//                        (typeof(x.process_status) == "undefined"
+//                        ? ""
+//                        : ("<tr>" +
+//                               "<td class='hidden-xs'> Process Status </td>" +
+//                               "<td><span class='badge badge-danger'> 6</span></td>" +
+//                               "<td><code>" + x.process_status + "</code></td>" +
+//                           "</tr>")
+//                        ) +
+//                        (typeof(x.order_type) == "undefined"
+//                        ? ""
+//                        : ("<tr>" +
+//                               "<td class='hidden-xs'> Order Type </td>" +
+//                               "<td><span class='badge badge-info'> 8</span></td>" +
+//                               "<td><code>" + x.order_type + "</code></td>" +
+//                           "</tr>")
+//                        ) +
+//                        (typeof(x.refund_no) == "undefined"
+//                        ? ""
+//                        : ("<tr>" +
+//                               "<td class='hidden-xs'> Refund No </td>" +
+//                               "<td><span class='badge badge-info'> 8</span></td>" +
+//                               "<td><code>" + x.refund_no + "</code></td>" +
+//                           "</tr>")
+//                        ) +
+//                        (typeof(x.pd_no) == "undefined"
+//                        ? ""
+//                        : ("<tr>" +
+//                               "<td class='hidden-xs'> PD No </td>" +
+//                               "<td><span class='badge badge-inverse'> 10</span></td>" +
+//                               "<td><code>" + x.pd_no + "</code></td>" +
+//                           "</tr>")
+//                        )+
+//                        (typeof(x.transfer_no) == "undefined"
+//                        ? ""
+//                        : ("<tr>" +
+//                               "<td class='hidden-xs'> Transfer No </td>" +
+//                               "<td><span class='badge badge-inverse'> 10</span></td>" +
+//                               "<td><code>" + x.transfer_no + "</code></td>" +
+//                           "</tr>")
+//                        ) +
+//                        (typeof(x.src_refund_no) == "undefined"
+//                        ? ""
+//                        : ("<tr>" +
+//                               "<td class='hidden-xs'> Source Refund No </td>" +
+//                               "<td><span class='badge badge-inverse'> 10</span></td>" +
+//                               "<td><code>" + x.src_refund_no + "</code></td>" +
+//                           "</tr>")
+//                        ) +
+//                        (typeof(x.src_order_no) == "undefined"
+//                        ? ""
+//                        : ("<tr>" +
+//                               "<td class='hidden-xs'> Source Order No </td>" +
+//                               "<td><span class='badge badge-inverse'> 10</span></td>" +
+//                               "<td><code>" + x.src_order_no + "</code></td>" +
+//                           "</tr>")
+//                        ) +
+//                        (typeof(x.warehouse_no) == "undefined"
+//                        ? ""
+//                        : ("<tr>" +
+//                               "<td class='hidden-xs'> Warehouse No </td>" +
+//                               "<td><span class='badge badge-inverse'> 10</span></td>" +
+//                               "<td><code>" + x.warehouse_no + "</code></td>" +
+//                           "</tr>")
+//                        ) +
+//                        (typeof(x.from_warehouse_no) == "undefined"
+//                        ? ""
+//                        : ("<tr>" +
+//                               "<td class='hidden-xs'> From Warehouse No </td>" +
+//                               "<td><span class='badge badge-inverse'> 10</span></td>" +
+//                               "<td><code>" + x.from_warehouse_no + "</code></td>" +
+//                           "</tr>")
+//                        ) +
+//                        (typeof(x.to_warehouse_no) == "undefined"
+//                        ? ""
+//                        : ("<tr>" +
+//                               "<td class='hidden-xs'> To Warehouse No </td>" +
+//                               "<td><span class='badge badge-inverse'> 10</span></td>" +
+//                               "<td><code>" + x.to_warehouse_no + "</code></td>" +
+//                           "</tr>")
+//                        ) +
+//                    "</tbody>" +
+//                "</table>";
 //            $('#myModalContent').append(html_str);
         $('#myModalContent').html(html_str);
     }

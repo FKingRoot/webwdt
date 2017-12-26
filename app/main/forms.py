@@ -70,3 +70,36 @@ class ExecPlanQueryForm(FlaskForm):
     #
     # def validate_qcd_exectime_end(self, field):
     #     self._validate_exectime_interval()
+
+
+class VoucherQueryForm(FlaskForm):
+    qcc_logtime = BooleanField(id="qcc-logtime", default=True)
+    qcd_logtime_start = StringField(id="qcd-logtime-start",
+                                     validators=[DataRequired()],
+                                     default=datetime.utcnow().strftime("%m/%d/%Y"))
+    qcd_logtime_end = StringField(id="qcd-logtime-end",
+                                   validators=[DataRequired()],
+                                   default=datetime.utcnow().strftime("%m/%d/%Y"))
+    qcd_handled = InlineRadioField(id="qcd-handled")
+
+    def __init__(self, *args, **kwargs):
+        super(VoucherQueryForm, self).__init__(*args, **kwargs)
+
+        # 查询时间必选。
+        self.qcc_logtime.data = True
+        self.qcd_handled.choices = [("1", "all"),
+                                    ("2", "handled"),
+                                    ("3", "unhandled")]
+
+    # def _validate_logtime_interval(self):
+    #     if self.qcd_logtime_start.data and self.qcd_logtime_end.data:
+    #         s = datetime.strptime(self.qcd_logtime_start.data, "%m/%d/%Y")
+    #         e = datetime.strptime(self.qcd_logtime_end.data, "%m/%d/%Y")
+    #         if (e-s).days > 10:
+    #             raise ValidationError("The date interval should not exceed 10 days")
+    #
+    # def validate_qcd_logtime_start(self, field):
+    #     self._validate_logtime_interval()
+    #
+    # def validate_qcd_logtime_end(self, field):
+    #     self._validate_logtime_interval()

@@ -1,0 +1,286 @@
+{% extends "skeleton.html" %}
+
+{% import "_macros.html" as macros %}
+
+{% block page_only_styles %}
+<link href="{{ url_for('static', filename='vendor/select2/select2.min.css') }}" rel="stylesheet" media="screen">
+<link href="{{ url_for('static', filename='vendor/DataTables/css/DT_bootstrap.css') }}" rel="stylesheet" media="screen">
+<link href="{{ url_for('static', filename='vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet" media="screen">
+<link href="{{ url_for('static', filename='vendor/select2/select2.min.css') }}" rel="stylesheet" media="screen">
+<link href="{{ url_for('static', filename='vendor/bootstrap-datepicker/bootstrap-datepicker3.standalone.min.css') }}" rel="stylesheet" media="screen">
+<link href="{{ url_for('static', filename='vendor/bootstrap-timepicker/bootstrap-timepicker.min.css') }}" rel="stylesheet" media="screen">
+<style type="text/css">
+    td.details-control {
+        /*background: url('../resources/details_open.png') no-repeat center center;*/
+        cursor: pointer;
+    }
+    tr.shown td.details-control {
+        /*background: url('../resources/details_close.png') no-repeat center center;*/
+    }
+</style>
+{% endblock %}
+
+{% block page_main_title %}Execution Plan{% endblock %}
+
+{% block page_main_desc %}The sales data fetched from the WDT interface.{% endblock page_main_desc %}
+
+{% block page_content %}
+<div class="container-fluid container-fullw bg-white">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- start: QUERY CONDITION -->
+            <form id="qry-form" method="POST" action="{{ url_for('main.trade') }}">
+                {{ form.hidden_tag() }}
+                <div class="panel panel-white" id="panel1">
+                    <div class="panel-heading">
+                        <h4 class="panel-title text-primary">Query Condition</h4>
+                        <ul class="panel-heading-tabs border-light">
+                            <li>
+                                <div class="pull-right">
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-azure">Query</button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="panel-tools">
+                                <a data-original-title="Collapse" data-toggle="tooltip" data-placement="top" class="btn btn-transparent btn-sm panel-collapse" href="#"><i class="ti-minus collapse-off"></i><i class="ti-plus collapse-on"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                {{ macros.errors_widget(form.qcd_logtime_start) }}
+                                <div class="form-group">
+                                    <div class="checkbox clip-check check-primary">
+                                        {{ form.qcc_logtime(disabled="disabled") }}
+                                        <label for="{{ form.qcc_logtime.id }}">
+                                            Log Time
+                                        </label>
+                                    </div>
+                                    <div class="input-group input-daterange datepicker">
+                                        {{ form.qcd_logtime_start(class_="form-control") }}
+                                        <span class="input-group-addon bg-primary">to</span>
+                                        {{ form.qcd_logtime_end(class_="form-control") }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form.qcd_handled() }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- end: QUERY CONDITION -->
+            <!-- start: EXPORT -->
+            <div class="btn-group pull-right">
+                <a class="btn btn-azure" href="javascript:;">
+                    <!--data-placement="top" data-toggle="tooltip" data-original-title="print the data.">-->
+                    <i class="fa fa-print"></i>
+                </a>
+                <button type="button" class="btn btn-azure">
+                    <!--data-placement="top" data-toggle="tooltip" data-original-title="export data in a specified format.">-->
+                    Export
+                </button>
+                <button type="button" class="btn btn-azure dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                    <li>
+                        <a href="javascript:;">
+                            <i class="fa fa-file-code-o"> .json</i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('main.exec_plan_export_xls')}}">
+                            <i class="fa fa-file-excel-o"> .xls</i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="fa fa-file-text-o"> .csv</i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="fa fa-file-pdf-o"> .pdf</i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- end: EXPORT -->
+            <!-- start: DATA TABLE -->
+            <table class="table table-striped table-bordered table-hover table-full-width" id="sample_1">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>#</th>
+                        <th>Status Code</th>
+                        <th>Log Time</th>
+                        <th>Handled</th>
+                        <th class="hidden-xs">Page Size</th>
+                        <th class="hidden-xs">Page No</th>
+                        <th>Entries Count</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th class="hidden-xs">Message</th>
+                        <th class="hidden-xs">Code</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <!-- end: DATA TABLE -->
+        </div>
+    </div>
+</div>
+{% endblock page_content %}
+
+{% block page_only_scripts %}
+<script src="{{ url_for('static', filename='vendor/maskedinput/jquery.maskedinput.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/autosize/autosize.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/selectFx/classie.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/selectFx/selectFx.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/select2/select2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap-timepicker/bootstrap-timepicker.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/DataTables/jquery.dataTables.min.js') }}"></script>
+{% endblock %}
+
+{% block page_event_handle_scripts %}
+<script src="{{ url_for('static', filename='assets/js/form-elements.js') }}"></script>
+<!--<script src="{{ url_for('static', filename='assets/js/table-data.js') }}"></script>-->
+<script>
+    function format ( d ) {
+        // `d` is the original data object for the row
+        var tr_html = "";
+        for (var i=0; i<d.trades.length; i++) {
+            tr_html +=
+            '<tr>'+
+                '<td>'+(i+1)+'</td>'+
+                '<td>'+d.trades[i].trade_id+'</td>'+
+                '<td>'+d.trades[i].receiver_name+'</td>'+
+                '<td>'+d.trades[i].goods_amount+'</td>'+
+            '</tr>'
+        }
+        //return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+        //return '<table class="table table-striped table-bordered table-hover" id="nested_table_1">'+
+        return '<table class="table table-condensed table-hover" id="nested_table_1">'+
+//                '<tbody>'+
+                        tr_html+
+//                '</tbody>'+
+        '</table>';
+    }
+
+    jQuery(document).ready(function() {
+        Main.init();
+        FormElements.init();
+        //TableData.init();
+
+        var table = $("#sample_1").DataTable({
+                "orderClasses": true,   // 高亮显示表格中排序的列。
+                "pageLength": "{{ AppConfig['WEBWDT_DATA_PER_PAGE'] }}",
+                "processing": true,     // 是否显示处理状态(排序的时候，数据很多耗费时间长的话，也会显示这个)。
+                "serverSide": true,     // 是否开启服务器模式
+                "searching": false,     // 关闭全局搜索
+                "columns":[
+                    {
+                        "class":          "details-control",
+                        "orderable":      false,
+                        "data":           null,
+                        "defaultContent": ""
+                    },
+                    { "data": null },
+                    { "data": "status" },
+                    { "data": "log_time" },
+                    { "data": "handle_flag" },
+                    { "data": "page_size" },
+                    { "data": "page_no" },
+                    { "data": "total_count" },
+                    { "data": "start_time" },
+                    { "data": "end_time" },
+                    { "data": "message" },
+                    { "data": "code" }
+                ],
+                // 由于第 1 列是行号，排序和搜索没有意义，所以禁用第 1 列的搜索和排序。
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 1
+                }],
+                // 因为 DT 默认会设置第 1 列升序排列。由于前面已经禁用，因此改为设置默认的排序列为第 2 列。
+                "order": [[2, 'asc']],
+                "ajax": {
+                    url: "{{ url_for('main.trade_data') }}",
+                    type: "POST",
+                    data: {
+                        //"col_cnt": 7,   // 列数，可以考虑把排序列信息传过去：[(0, "asc"), (1, "desc")]
+                        "ajax_start_time": "{{ form.qcd_logtime_start.data }}",
+                        "ajax_end_time": "{{ form.qcd_logtime_end.data }}",
+                        "ajax_handled": "{{ form.qcd_handled.data }}"
+                    }
+                },
+                "language": {
+                    "aria": {
+                        "sortAscending":  ": click/return to sort ascending",
+                        "sortDescending": ": click/return to sort descending"
+                    },
+                    "processing": "处理中...",
+                    "lengthMenu": "每页 _MENU_ 条记录",
+                    "zeroRecords": "没有查询到记录",
+                    "info": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
+                    "infoEmpty": "无记录",
+                    "search": "搜索：",
+                    "infoFiltered": "(从 _MAX_ 条记录过滤)",
+                    "loadingRecords": "正在加载数据--请等待...",
+                    "emptyTable": "未有相关数据",
+                    "paginate": {
+                        "first": "首页",
+                        "previous": "上一页",
+                        "next": "下一页",
+                        "last": "尾页 "
+                    }
+                },
+                "fnDrawCallback": function(){
+                    var api = this.api();
+                    var startIndex= api.context[0]._iDisplayStart;  // 获取到本页开始的条数
+                    api.column(1).nodes().each(function(cell, i) {
+                        cell.innerHTML = startIndex + i + 1;
+                    });
+
+                    $("#sample_1_paginate").append("  到第 <input style='height:28px;line-height:28px;width:40px;' class='margin text-center' id='changePage' type='text'> 页  <a class='btn btn-default shiny' style='margin-bottom:5px' href='javascript:void(0);' id='dataTable-btn'>确认</a>");
+                    var oTable = $("#sample_1").dataTable();
+                    $('#dataTable-btn').click(function(e) {
+                        if($("#changePage").val() && $("#changePage").val() > 0) {
+                            var redirectpage = $("#changePage").val() - 1;
+                        } else {
+                            var redirectpage = 0;
+                        }
+                        oTable.fnPageChange(redirectpage);
+                    });
+                }
+        });
+
+        // Add event listener for opening and closing details
+        $('#sample_1 tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row( tr );
+
+            if ( row.child.isShown() ) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child( format(row.data()) ).show();
+                tr.addClass('shown');
+            }
+        } );
+    });
+</script>
+{% endblock %}

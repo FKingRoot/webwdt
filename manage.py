@@ -6,6 +6,7 @@ from flask_migrate import Migrate, MigrateCommand
 
 from app import create_app, db
 from app.models.user import Role, User
+from app.models.mongo_model import ExecutionPlan, Trade
 
 COV = None
 if os.environ.get("FLASK_COVERAGE"):
@@ -27,7 +28,8 @@ manager.add_command("db", MigrateCommand)
 @manager.shell
 def make_shell_context():
     return dict(app=app, db=db,
-                User=User, Role=Role)
+                User=User, Role=Role,
+                ExecutionPlan=ExecutionPlan, Trade=Trade)
 
 
 @manager.command

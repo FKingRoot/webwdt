@@ -24,7 +24,7 @@ class Config:
     WEBWDT_MAIL_SENDER = "Web WDT Admin <web_wdt@example.com>"
     WEBWDT_ADMIN = os.environ.get("WEBWDT_ADMIN") or "Marco.Zhang"
 
-    WEBWDT_DATA_PER_PAGE = 20
+    WEBWDT_DATA_PER_PAGE = 25
     WEBWDT_FOLLOWERS_PER_PAGE = 50
     WEBWDT_COMMENTS_PER_PAGE = 30
     # 缓慢查询的阈值设为 0.5 秒。
@@ -47,8 +47,8 @@ class DevelopmentConfig(Config):
     # }
     MONGODB_SETTINGS = {
         "db": "wdt",
-        # "host": "192.168.7.150",
-        "host": "localhost",
+        "host": "192.168.7.150",
+        # "host": "localhost",
         "port": 27017,
         # 'username': "devuser",
         # 'password': "123"
