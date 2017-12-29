@@ -1,0 +1,208 @@
+{% extends "skeleton.html" %}
+
+{% import "_macros.html" as macros %}
+
+{% block page_only_styles %}
+<!-- <style type="text/css">
+</style> -->
+{% endblock %}
+
+{% block page_main_title %}Trade Invoice{% endblock %}
+
+{% block page_main_desc %}The sales invoice data fetched from the WDT interface.{% endblock page_main_desc %}
+
+{% block page_content %}
+<div class="container-fluid container-fullw bg-white">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- start: INVOICE -->
+            <div class="container-fluid container-fullw bg-white">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="invoice">
+                            <div class="row invoice-logo">
+                                <div class="col-sm-6">
+                                    <img alt="" src="{{ url_for('static', filename='assets/images/your-logo-here.png') }}">
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="text-dark">
+                                        #{{ inv.trade_no}} / {{ inv.created }} <small class="text-light"> Lorem ipsum dolor sit amet </small>
+                                    </p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <h4>Client:</h4>
+                                    <div class="well">
+                                        <address>
+                                            <strong class="text-dark">{{ inv.receiver_name }}</strong>
+                                            <br>
+                                            {{ inv.receiver_address }}
+                                            <br>
+                                            {{ inv.receiver_dtb }}, {{ inv.receiver_area }} {{ inv.receiver_district }}
+                                            <br>
+                                            <abbr title="Phone">P:</abbr> {{ inv.receiver_telno }}
+                                            <br>
+                                            <abbr title="Mobile">M:</abbr> {{ inv.receiver_mobile }}
+                                        </address>
+                                        <address>
+                                            <strong class="text-dark">E-mail:</strong>
+                                            <a href="mailto:#">
+                                                {{ inv.pay_account }}
+                                            </a>
+                                        </address>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <h4>We appreciate your business.</h4>
+                                    <div class="padding-bottom-30 padding-top-10 text-dark">
+                                        Thanks for being a customer.
+                                        A detailed summary of your invoice is below.
+                                        <br>
+                                        If you have questions, we're happy to help.
+                                        <br>
+                                        Email support@cliptheme.com or contact us through other support channels.
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 pull-right">
+                                    <h4>Payment Details:</h4>
+                                    <ul class="list-unstyled invoice-details padding-bottom-30 padding-top-10 text-dark">
+                                        <li>
+                                            <strong>V.A.T Reg #:</strong> 发票号码
+                                        </li>
+                                        <li>
+                                            <strong>Account Name:</strong> {{ inv.receiver_name }}
+                                        </li>
+                                        <li>
+                                            <!--{#<strong>SWIFT code:</strong> {{ inv.logistics_no }}#}-->
+                                            <strong>Logistic code:</strong> {{ inv.logistics_no }}
+                                        </li>
+                                        <li>
+                                            <strong>DATE:</strong> {{ inv.trade_time }}
+                                        </li>
+                                        <li>
+                                            <strong>DUE:</strong> {{ inv.pay_time }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- start: INVOICE DETAIL -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th> # </th>
+                                                <th> Item </th>
+                                                <th class="hidden-480"> Description </th>
+                                                <th class="hidden-480"> Quantity </th>
+                                                <th class="hidden-480"> Unit Cost </th>
+                                                <th> Total </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td> 1 </td>
+                                                <td> Lorem </td>
+                                                <td class="hidden-480"> Drem psum dolor </td>
+                                                <td class="hidden-480"> 12 </td>
+                                                <td class="hidden-480"> $35 </td>
+                                                <td> $1152 </td>
+                                            </tr>
+                                            <tr>
+                                                <td> 2 </td>
+                                                <td> Ipsum </td>
+                                                <td class="hidden-480"> Consectetuer adipiscing elit </td>
+                                                <td class="hidden-480"> 21 </td>
+                                                <td class="hidden-480"> $469 </td>
+                                                <td> $6159 </td>
+                                            </tr>
+                                            <tr>
+                                                <td> 3 </td>
+                                                <td> Dolor </td>
+                                                <td class="hidden-480"> Olor sit amet adipiscing eli </td>
+                                                <td class="hidden-480"> 24 </td>
+                                                <td class="hidden-480"> $144 </td>
+                                                <td> $8270 </td>
+                                            </tr>
+                                            <tr>
+                                                <td> 4 </td>
+                                                <td> Sit </td>
+                                                <td class="hidden-480"> Laoreet dolore magna </td>
+                                                <td class="hidden-480"> 194 </td>
+                                                <td class="hidden-480"> $317 </td>
+                                                <td> $966 </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- end: INVOICE DETAIL -->
+                            <!-- start: INVOICE SUMMARY -->
+                            <div class="row">
+                                <div class="col-sm-12 invoice-block">
+                                    <ul class="list-unstyled amounts text-small">
+                                        <li>
+                                            <strong>Sub-Total:</strong> $12,876
+                                        </li>
+                                        <li>
+                                            <strong>Discount:</strong> 9.9%
+                                        </li>
+                                        <li>
+                                            <strong>VAT:</strong> 22%
+                                        </li>
+                                        <li class="text-extra-large text-dark margin-top-15">
+                                            <strong >Total:</strong> $11,400
+                                        </li>
+                                    </ul>
+                                    <br>
+                                    <a onclick="javascript:window.print();" class="btn btn-lg btn-primary hidden-print">
+                                        Print <i class="fa fa-print"></i>
+                                    </a>
+                                    <a class="btn btn-lg btn-primary btn-o hidden-print">
+                                        Submit Your Invoice <i class="fa fa-check"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- end: INVOICE SUMMARY -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end: INVOICE -->
+        </div>
+    </div>
+</div>
+{% endblock page_content %}
+
+{% block page_only_scripts %}
+<!-- {#<script src="{{ url_for('static', filename='vendor/maskedinput/jquery.maskedinput.min.js') }}"></script>#} -->
+<!-- {#<script src="{{ url_for('static', filename='vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>#} -->
+<!-- {#<script src="{{ url_for('static', filename='vendor/autosize/autosize.min.js') }}"></script>#} -->
+<!-- {#<script src="{{ url_for('static', filename='vendor/selectFx/classie.js') }}"></script>#} -->
+<!-- {#<script src="{{ url_for('static', filename='vendor/selectFx/selectFx.js') }}"></script>#} -->
+<!-- {#<script src="{{ url_for('static', filename='vendor/select2/select2.min.js') }}"></script>#} -->
+<!-- {#<script src="{{ url_for('static', filename='vendor/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>#} -->
+<!-- {#<script src="{{ url_for('static', filename='vendor/bootstrap-timepicker/bootstrap-timepicker.min.js') }}"></script>#} -->
+<!-- {#<script src="{{ url_for('static', filename='vendor/DataTables/jquery.dataTables.min.js') }}"></script>#} -->
+{% endblock %}
+
+{% block page_event_handle_scripts %}
+<!-- {#<script src="{{ url_for('static', filename='assets/js/form-elements.js') }}"></script>#} -->
+<!-- {#<script src="{{ url_for('static', filename='assets/js/custom/trade-data-table.js') }}"></script>#} -->
+<script>
+    jQuery(document).ready(function() {
+        Main.init();
+        // FormElements.init();
+        // // 由于 js 文件独立，因此 jinja2 模板的变量不能直接使用，需要作为参数传递进来。
+        // TableData.init(
+        //         {#"{{ url_for('main.trade_data') }}",#}
+        //         {#"{{ AppConfig['WEBWDT_DATA_PER_PAGE'] }}",#}
+        //         {#"{{ form.qcd_logtime_start.data }}",#}
+        //         {#"{{ form.qcd_logtime_end.data }}",#}
+        //         {#"{{ form.qcd_handled.data }}"#}
+        // );
+    });
+</script>
+{% endblock %}

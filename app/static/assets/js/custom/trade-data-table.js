@@ -154,10 +154,11 @@ var TableData = function() {
 			// `d` is the original data object for the row
 			var tr_html = "";
 			for (var i=0; i<d.trades.length; i++) {
+                var x = Flask.url_for("main.trade_invoice", {"id": d.trades[i].trade_id});
 				tr_html +=
 				"<tr>"+
 					"<th class='center'>"+(i+1)+"</th>"+
-					"<td>"+d.trades[i].trade_id+"</td>"+
+					"<td><a href='" + x + "'>"+d.trades[i].trade_id+"</a></td>"+
 					"<td>"+d.trades[i].receiver_name+"</td>"+
 					"<td class='text-right'>"+d.trades[i].goods_amount+"</td>"+
 					"<td>"+d.trades[i].created+"</td>"+

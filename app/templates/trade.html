@@ -167,6 +167,7 @@
     jQuery(document).ready(function() {
         Main.init();
         FormElements.init();
+        var x = {{ form.qcd_logtime_start|tojson }};
         // 由于 js 文件独立，因此 jinja2 模板的变量不能直接使用，需要作为参数传递进来。
         TableData.init(
                 "{{ url_for('main.trade_data') }}",

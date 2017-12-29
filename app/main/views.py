@@ -168,3 +168,32 @@ def trade():
                            handled=handled,
                            form=form,
                            breadcrumb=["home", "trade"])
+
+
+# @main.route("/trade/invoice/<int:id>", methods=["GET", "POST"])
+@main.route("/trade/invoice/<id>", methods=["GET", "POST"])
+def trade_invoice(id):
+    # db.getCollection('trade').find({"result.trades.trade_id": "28320"},{"result.trades.$":1})
+    # queryset = Trade.objects(result__trades__trade_id="28320").fields(slice__result__trades=1)
+    # MongoEngine 的 fields() 不支持 MongoDB 的 Projection Operators。
+    # queryset = Trade.objects(result__trades__trade_id="28320").fields(**{"result__trades__$":1})  # error!
+    # MongoEngine 的 exec_js 可以执行 javascript 脚本，可以考虑在 js 脚本中组成 json 数据结构返回。
+    # queryset = Trade.objects.exec_js("db.getCollection('trade').find({'result.trades.trade_id': '28320'},{'result.trades.$':1})")
+    # 查看 MongoEngine 的执行计划。
+    # w = queryset.explain(True)
+    # 目前在不支持 Projection Operators 的情况下，只能通过程序完成过滤。
+    # queryset = Trade.objects(result__trades__trade_id="28320").fields(result__trades=1)
+    query = {"result.trades.trade_id": id}
+    queryset = Trade.objects(__raw__=query).fields(result__trades=1)
+    inv = None
+    for x in queryset:
+        for inv in x.result.trades:
+            if inv.trade_id == id:
+                # inv = y
+                break   # trade_id 是唯一标志，只要找到满足条件的一条数据即可。
+    if inv:
+        return render_template("trade_invoice.html",
+                               inv=inv,
+                               breadcrumb=["home", "trade", "invoice"])
+    else:
+        return render_template("404.html"), 404
