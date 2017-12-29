@@ -158,9 +158,10 @@ var TableData = function() {
 				tr_html +=
 				"<tr>"+
 					"<th class='center'>"+(i+1)+"</th>"+
-					"<td><a href='" + x + "'>"+d.trades[i].trade_id+"</a></td>"+
+					"<td><a href='" + x + "' target='_blank'>"+d.trades[i].trade_id+"</a></td>"+
 					"<td>"+d.trades[i].receiver_name+"</td>"+
-					"<td class='text-right'>"+d.trades[i].goods_amount+"</td>"+
+                    //"<td class='text-right'>"+d.trades[i].goods_amount+"</td>"+
+                    "<td class='text-right'>"+d.trades[i].goods_count+"</td>"+
 					"<td>"+d.trades[i].created+"</td>"+
 					"<td>"+d.trades[i].modified+"</td>"+
 				"</tr>"

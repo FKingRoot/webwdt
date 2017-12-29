@@ -90,7 +90,7 @@
                             <!-- start: INVOICE DETAIL -->
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table class="table table-striped">
+                                    <table id="table-invoice" class="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th> # </th>
@@ -102,38 +102,16 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td> 1 </td>
-                                                <td> Lorem </td>
-                                                <td class="hidden-480"> Drem psum dolor </td>
-                                                <td class="hidden-480"> 12 </td>
-                                                <td class="hidden-480"> $35 </td>
-                                                <td> $1152 </td>
-                                            </tr>
-                                            <tr>
-                                                <td> 2 </td>
-                                                <td> Ipsum </td>
-                                                <td class="hidden-480"> Consectetuer adipiscing elit </td>
-                                                <td class="hidden-480"> 21 </td>
-                                                <td class="hidden-480"> $469 </td>
-                                                <td> $6159 </td>
-                                            </tr>
-                                            <tr>
-                                                <td> 3 </td>
-                                                <td> Dolor </td>
-                                                <td class="hidden-480"> Olor sit amet adipiscing eli </td>
-                                                <td class="hidden-480"> 24 </td>
-                                                <td class="hidden-480"> $144 </td>
-                                                <td> $8270 </td>
-                                            </tr>
-                                            <tr>
-                                                <td> 4 </td>
-                                                <td> Sit </td>
-                                                <td class="hidden-480"> Laoreet dolore magna </td>
-                                                <td class="hidden-480"> 194 </td>
-                                                <td class="hidden-480"> $317 </td>
-                                                <td> $966 </td>
-                                            </tr>
+                                        <!--{#{% for g in inv.goods_list %}#}-->
+                                            <!--<tr>"-->
+                                                <!--<td>  </td>-->
+                                                <!--{#<td> {{ g.spec_code }} </td>#}-->
+                                                <!--{#<td> {{ g.goods_name }} </td>#}-->
+                                                <!--{#<td> {{ g.num }} </td>#}-->
+                                                <!--{#<td align='right'> {{ '%.2f'|format(g.order_price|float) }} </td>#}-->
+                                                <!--{#<td align='right'> {{ '%.2f'|format(g.paid|float) }} </td>#}-->
+                                            <!--</tr>-->
+                                        <!--{#{% endfor %}#}-->
                                         </tbody>
                                     </table>
                                 </div>
@@ -185,24 +163,35 @@
 <!-- {#<script src="{{ url_for('static', filename='vendor/select2/select2.min.js') }}"></script>#} -->
 <!-- {#<script src="{{ url_for('static', filename='vendor/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>#} -->
 <!-- {#<script src="{{ url_for('static', filename='vendor/bootstrap-timepicker/bootstrap-timepicker.min.js') }}"></script>#} -->
-<!-- {#<script src="{{ url_for('static', filename='vendor/DataTables/jquery.dataTables.min.js') }}"></script>#} -->
+<script src="{{ url_for('static', filename='vendor/DataTables/jquery.dataTables.min.js') }}"></script>
 {% endblock %}
 
 {% block page_event_handle_scripts %}
 <!-- {#<script src="{{ url_for('static', filename='assets/js/form-elements.js') }}"></script>#} -->
-<!-- {#<script src="{{ url_for('static', filename='assets/js/custom/trade-data-table.js') }}"></script>#} -->
-<script>
+<script type="text/javascript" src="{{ url_for('static', filename='assets/js/custom/trade-invoice.js') }}"></script>
+<script type="text/javascript">
     jQuery(document).ready(function() {
+        var str =
+        $("#table-invoice").children("tbody").append(
+            "{% for g in inv.goods_list %}"
+                +"<tr>"
+                    + "<td>  </td>"
+                    + "<td> {{ g.spec_code }} </td>"
+                    + "<td> {{ g.goods_name }} </td>"
+                    + "<td> {{ g.num }} </td>"
+                    + "<td align='right'> {{ '%.2f'|format(g.order_price|float) }} </td>"
+                    + "<td align='right'> {{ '%.2f'|format(g.paid|float) }} </td>"
+                + "</tr>"
+            + "{% endfor %}"
+        );
+
+
         Main.init();
         // FormElements.init();
         // // 由于 js 文件独立，因此 jinja2 模板的变量不能直接使用，需要作为参数传递进来。
-        // TableData.init(
-        //         {#"{{ url_for('main.trade_data') }}",#}
-        //         {#"{{ AppConfig['WEBWDT_DATA_PER_PAGE'] }}",#}
-        //         {#"{{ form.qcd_logtime_start.data }}",#}
-        //         {#"{{ form.qcd_logtime_end.data }}",#}
-        //         {#"{{ form.qcd_handled.data }}"#}
-        // );
+        TableData(
+            "{{ AppConfig['WEBWDT_DATA_PER_PAGE'] }}",[]
+        ).init();
     });
 </script>
 {% endblock %}

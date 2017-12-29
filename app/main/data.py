@@ -113,6 +113,7 @@ def trade_data():
                                 "receiver_name": t.receiver_name,
                                 "created": t.created,
                                 "modified": t.modified,
+                                "goods_count": len(t.goods_list)
                            } for t in r.result.trades]
             })
     back_dt["data"] = back_dt_data
