@@ -109,7 +109,7 @@ def trade_data():
                 "code": r.result.code,
                 "trades": [{
                                 "trade_id": t.trade_id,
-                                "goods_amount": t.goods_amount,
+                                "paid": t.paid,
                                 "receiver_name": t.receiver_name,
                                 "created": t.created,
                                 "modified": t.modified,

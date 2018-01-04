@@ -139,10 +139,21 @@ def exec_plan_export_xls():
 
 @main.route("/trade", methods=["GET", "POST"])
 def trade():
-    qcc_logtime = (request.args.get("qcc_logtime", "True") == "True")
-    start_time = request.args.get("start_time", datetime.utcnow().strftime("%m/%d/%Y"))
-    end_time = request.args.get("end_time", datetime.utcnow().strftime("%m/%d/%Y"))
-    handled = request.args.get("handled", "1")
+    # 考虑到每个处理逻辑中的（行）数据量的大小不一致，因此对每个处理逻辑都单独设置客户端处理数据行数，默认取全局量。
+    client_data_count = 100 or current_app.config["WEBWDT_QUERY_CLIENT_DATA_COUNT"]
+    # qcc_logtime = (request.args.get("qcc_logtime", "True") == "True")
+    # start_time = request.args.get("start_time", datetime.utcnow().strftime("%m/%d/%Y"))
+    # end_time = request.args.get("end_time", datetime.utcnow().strftime("%m/%d/%Y"))
+    # handled = request.args.get("handled", "1")
+
+    # if request.method == 'GET':
+    #     pass
+    # elif request.method == 'POST':
+    #     pass
+    # qcc_logtime = request.form.get("qcc_logtime", "True")
+    # start_time = request.form.get('qcd_logtime_start', datetime.utcnow().strftime("%m/%d/%Y"))
+    # end_time = request.form.get('qcd_logtime_end', datetime.utcnow().strftime("%m/%d/%Y"))
+    # handled = request.form.get('qcd_handled', "1")
 
     form = VoucherQueryForm()
     if form.validate_on_submit():
@@ -150,28 +161,92 @@ def trade():
         start_time = form.qcd_logtime_start.data
         end_time = form.qcd_logtime_end.data
         handled = form.qcd_handled.data
-        return redirect(url_for("main.trade",
-                                qcc_logtime=qcc_logtime,
-                                start_time=start_time,
-                                end_time=end_time,
-                                handled=handled,
-                                page=1))
+        # form.qcc_logtime.data = qcc_logtime
+        # form.qcd_logtime_start.data = start_time
+        # form.qcd_logtime_end.data = end_time
+        # form.qcd_handled.data = handled
+        # return redirect(url_for("main.trade",
+        #                         qcc_logtime=qcc_logtime,
+        #                         start_time=start_time,
+        #                         end_time=end_time,
+        #                         handled=handled))
+        # return redirect(url_for("main.trade"))
 
-    form.qcc_logtime.data = qcc_logtime
-    form.qcd_logtime_start.data = start_time
-    form.qcd_logtime_end.data = end_time
-    form.qcd_handled.data = handled
+        # 查看数据量，决定采用client处理还是server处理
+        # Build query parameters.
+        params = {
+            "log_time__gte": datetime.strptime(start_time, "%m/%d/%Y").strftime("%Y-%m-%d 00:00:00"),
+            "log_time__lte": datetime.strptime(end_time, "%m/%d/%Y").strftime("%Y-%m-%d 23:59:59"),
+        }
+
+        if handled == "2":
+            params["handle_flag"] = 1
+        elif handled == "3":
+            params["handle_flag"] = 0
+        elif params.get("handle_flag"):
+            del params["handle_flag"]
+
+        data = []
+        queryset = Trade.objects(**params).filter(result__trades__1__exists=True)
+        if queryset.count() <= client_data_count:
+            for r in queryset.order_by("-log_time"):
+                data.append({
+                    "status": r.content_abbr.status,
+                    "log_time": r.log_time,
+                    "handle_flag": r.handle_flag,
+                    "page_size": r.content_abbr.page_size,
+                    "page_no": r.content_abbr.page_no,
+                    # "total_count": r.result.total_count,
+                    "total_count": len(r.result.trades),
+                    "start_time": r.content_abbr.start_time,
+                    "end_time": r.content_abbr.end_time,
+                    "message": r.result.message,
+                    "code": r.result.code,
+                    "trades": [{
+                                   "trade_id": t.trade_id,
+                                   "paid": t.paid,
+                                   "receiver_name": t.receiver_name,
+                                   "created": t.created,
+                                   "modified": t.modified,
+                                   "goods_count": len(t.goods_list)
+                               } for t in r.result.trades]
+                })
+            return render_template("trade.html",
+                                   data=data,
+                                   form=form,
+                                   exec_mode=1,     # 控制是否执行查询。0 -- 不执行；1 -- Client；2 -- Server
+                                   breadcrumb=["home", "trade"])
+        else:
+            return render_template("trade.html",
+                                   data=data,
+                                   qcc_logtime=qcc_logtime,
+                                   start_time=start_time,
+                                   end_time=end_time,
+                                   handled=handled,
+                                   form=form,
+                                   exec_mode=2,     # 控制是否执行查询。0 -- 不执行；1 -- Client；2 -- Server
+                                   breadcrumb=["home", "trade"])
+
+    # form.qcc_logtime.data = qcc_logtime
+    # form.qcd_logtime_start.data = start_time
+    # form.qcd_logtime_end.data = end_time
+    # form.qcd_handled.data = handled
+    # return render_template("trade.html",
+    #                        qcc_logtime=qcc_logtime,
+    #                        start_time=start_time,
+    #                        end_time=end_time,
+    #                        handled=handled,
+    #                        form=form,
+    #                        breadcrumb=["home", "trade"])
     return render_template("trade.html",
-                           qcc_logtime=qcc_logtime,
-                           start_time=start_time,
-                           end_time=end_time,
-                           handled=handled,
+                           data=[],
                            form=form,
+                           exec_mode=0,  # 控制是否执行查询。0 -- 不执行；1 -- Client；2 -- Server
                            breadcrumb=["home", "trade"])
 
 
-# @main.route("/trade/invoice/<int:id>", methods=["GET", "POST"])
-@main.route("/trade/invoice/<id>", methods=["GET", "POST"])
+# @main.route("/trade/invoice/<int:id>", methods=["GET"])
+@main.route("/trade/invoice/<id>", methods=["GET"])
 def trade_invoice(id):
     # db.getCollection('trade').find({"result.trades.trade_id": "28320"},{"result.trades.$":1})
     # queryset = Trade.objects(result__trades__trade_id="28320").fields(slice__result__trades=1)
