@@ -8,11 +8,20 @@ var TableData = function() {
 	var runDataTable_trade_server = function(ajax_url, data_per_page, logtime_start, logtime_end, handled) {
         var table = $("#sample_1")
             .on("preXhr.dt", function ( e, settings, data ) {
-                alert("before AJAX");
+                // http://blog.csdn.net/dearcode/article/details/52220064
+                $("#loading_modal").modal("show");
+                // $("#loading_modal").attr("data-toggle", "modal");
+                // $("#loading_modal").attr("data-target", "#")
+                // $("#loading_modal").css("display", "block");
             })
             .on("xhr.dt", function ( e, settings, json, xhr ) {
-                alert("after AJAX");
+                // $("#loading_modal").css("display", "none");
+                $("#loading_modal").modal("hide");
             })
+            .on("error.dt", function ( e, settings, techNote, message ) {
+                // 页面出错，要退出 loading 状态。
+                $("#loading_modal").modal("hide");
+            } )
             .DataTable({
                 "orderClasses": true,   // 高亮显示表格中排序的列。
                 //"pageLength": "{{ AppConfig['WEBWDT_DATA_PER_PAGE'] }}",

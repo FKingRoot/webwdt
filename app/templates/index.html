@@ -106,6 +106,7 @@ The main modules and functions of this system.
 {% endblock page_content %}
 
 {% block page_event_handle_scripts %}
+{{ super() }}
 <script src="{{ url_for('static', filename='assets/js/table-data.js') }}"></script>
 <script>
     jQuery(document).ready(function() {

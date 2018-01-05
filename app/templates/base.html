@@ -51,7 +51,6 @@
     </head>
     <!-- end: HEAD -->
     <body {% block body_attribs %}{% endblock body_attribs %}>
-        <!--<div id="LoadingBar">正在载入，请稍候……</div>-->
         {% include "include/_loading.html" %}
         <div {% block body_div_attribs %}{% endblock body_div_attribs %}>
             {% block body_content -%}{%- endblock body_content %}
@@ -74,7 +73,16 @@
         <!-- start: CLIP-TWO JAVASCRIPTS -->
         <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
         <!-- start: JavaScript Event Handlers for this page -->
-        {% block page_event_handle_scripts %}{%- endblock page_event_handle_scripts %}
+        {% block page_event_handle_scripts %}
+        <script type="text/javascript">
+            // windows onload 方法是在网页中所有的元素（包括元素的所有关联文件）完全加载到浏览器后才执行。
+            //window.onload = function () {}''
+            $(window).load(function(){
+                $("#loading_modal").css("display", "none");
+                //$("#loading_modal").modal("hide");
+            });
+        </script>
+        {%- endblock page_event_handle_scripts %}
         <!-- end: JavaScript Event Handlers for this page -->
         {%- endblock clip2_scripts %}
         <!-- end: CLIP-TWO JAVASCRIPTS -->

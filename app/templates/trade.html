@@ -179,6 +179,7 @@
 {% endblock %}
 
 {% block page_event_handle_scripts %}
+{{ super() }}
 <script src="{{ url_for('static', filename='assets/js/form-elements.js') }}"></script>
 <script src="{{ url_for('static', filename='assets/js/custom/trade-data-table.js') }}"></script>
 <script>
@@ -200,10 +201,10 @@
         );
     });
 
-    // windows onload 方法是在网页中所有的元素（包括元素的所有关联文件）完全加载到浏览器后才执行。
-    //window.onload = function () {}''
-    $(window).load(function(){
-        $("#loading_modal").css("display", "none");
-    });
+    // // windows onload 方法是在网页中所有的元素（包括元素的所有关联文件）完全加载到浏览器后才执行。
+    // //window.onload = function () {}''
+    // $(window).load(function(){
+    //     $("#loading_modal").css("display", "none");
+    // });
 </script>
 {% endblock %}

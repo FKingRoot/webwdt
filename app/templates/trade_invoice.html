@@ -182,6 +182,7 @@
 {% endblock %}
 
 {% block page_event_handle_scripts %}
+{{ super() }}
 <!-- {#<script src="{{ url_for('static', filename='assets/js/form-elements.js') }}"></script>#} -->
 <script type="text/javascript" src="{{ url_for('static', filename='assets/js/custom/trade-invoice.js') }}"></script>
 <script type="text/javascript">
