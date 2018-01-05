@@ -40,13 +40,19 @@
         <!-- start: CSS REQUIRED FOR THIS PAGE ONLY -->
         {%- block page_only_styles %}{%- endblock page_only_styles %}
         <!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
+        <!-- start: CSS ADDED BY MARCO -->
+        {% block marco_styles %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/marco/style.css') }}">
+        {% endblock marco_styles %}
+        <!-- end: CSS ADDED BY MARCO -->
         {%- endblock head %}
         <!--为了在 javascript 中使用 url_for() -->
         {{ JSGlue.include() }}
     </head>
     <!-- end: HEAD -->
     <body {% block body_attribs %}{% endblock body_attribs %}>
-        <div id="LoadingBar">正在载入，请稍候……</div>
+        <!--<div id="LoadingBar">正在载入，请稍候……</div>-->
+        {% include "include/_loading.html" %}
         <div {% block body_div_attribs %}{% endblock body_div_attribs %}>
             {% block body_content -%}{%- endblock body_content %}
         </div>

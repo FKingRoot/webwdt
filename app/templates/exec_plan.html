@@ -53,7 +53,7 @@
                                 <div class="pull-right">
                                     <div class="form-actions">
                                         <!--<button type="submit" title="" data-placement="top" data-toggle="tooltip" class="btn btn-azure" data-original-title="Tooltip on left">-->
-                                        <button type="submit" class="btn btn-azure">Query</button>
+                                        <button type="submit" class="btn btn-azure" data-toggle="modal" data-target="#loading_modal">Query</button>
                                         <!--{# {{ form.submit(class="btn btn-azure",onclick="ajaxForm()") }} #}--><!--这里如果用这个会造成表单提交两次，而且第二次是get会刷新页面-->
                                         <!--<button type="button" class="btn btn-azure" onclick="ajaxForm()">Query</button>-->
                                     </div>
@@ -491,6 +491,12 @@
     jQuery(document).ready(function() {
         Main.init();
         FormElements.init();
+    });
+
+    // windows onload 方法是在网页中所有的元素（包括元素的所有关联文件）完全加载到浏览器后才执行。
+    //window.onload = function () {}''
+    $(window).load(function(){
+        $("#loading_modal").css("display", "none");
     });
 </script>
 {% endblock %}

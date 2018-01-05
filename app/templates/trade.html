@@ -47,7 +47,7 @@
                             <li>
                                 <div class="pull-right">
                                     <div class="form-actions">
-                                        <button type="submit" class="btn btn-azure">Query</button>
+                                        <button type="submit" class="btn btn-azure" data-toggle="modal" data-target="#loading_modal">Query</button>
                                     </div>
                                 </div>
                             </li>
@@ -203,10 +203,7 @@
     // windows onload 方法是在网页中所有的元素（包括元素的所有关联文件）完全加载到浏览器后才执行。
     //window.onload = function () {}''
     $(window).load(function(){
-        var objLoading = document.getElementById("LoadingBar");
-        if (objLoading != null) {
-            objLoading.style.display = "none";
-        }
+        $("#loading_modal").css("display", "none");
     });
 </script>
 {% endblock %}

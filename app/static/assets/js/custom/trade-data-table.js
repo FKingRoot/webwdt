@@ -6,7 +6,14 @@ var TableData = function() {
 	//For more information, please visit https://datatables.net/
     // 由于 js 文件独立，因此 jinja2 模板的变量不能直接使用，需要作为参数传递进来。
 	var runDataTable_trade_server = function(ajax_url, data_per_page, logtime_start, logtime_end, handled) {
-        var table = $("#sample_1").DataTable({
+        var table = $("#sample_1")
+            .on("preXhr.dt", function ( e, settings, data ) {
+                alert("before AJAX");
+            })
+            .on("xhr.dt", function ( e, settings, json, xhr ) {
+                alert("after AJAX");
+            })
+            .DataTable({
                 "orderClasses": true,   // 高亮显示表格中排序的列。
                 //"pageLength": "{{ AppConfig['WEBWDT_DATA_PER_PAGE'] }}",
                 "pageLength": data_per_page,
