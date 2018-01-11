@@ -2,6 +2,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_mongoengine import MongoEngine
+from pymongo import MongoClient
 
 
 from config import config
@@ -12,6 +13,9 @@ from extensions import (
 db = SQLAlchemy()
 mongo_db = MongoEngine()
 
+# 暴露全局 pymongo 对象
+mongo_client = None
+mongo_collection = None
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -27,6 +31,19 @@ def create_app(config_name):
     debug_toolbar.init_app(app)
     cache.init_app(app)
     jsglue.init_app(app)
+
+    # 初始化 pymongo
+    mongo_config = config[config_name].MONGODB_SETTINGS
+    if mongo_config.get("username", "") and mongo_config.get("password", ""):
+        str = "mongodb://{c[username]}:{c[password]}@{c[host]}:{c[port]}/".format(c=mongo_config)
+    else:
+        str = "mongodb://{c[host]}:{c[port]}/".format(c=mongo_config)
+
+    global mongo_client
+    global mongo_collection
+    mongo_client = MongoClient(str)
+    mongo_collection = mongo_client[mongo_config["db"]]
+
 
     # 注册蓝图
     from app.main import main as blueprint_main

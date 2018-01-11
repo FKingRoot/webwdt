@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from datetime import datetime
+from pymongo import ASCENDING, DESCENDING
 from flask import (current_app, url_for, request, session, render_template, redirect, make_response, abort, g, jsonify)
 from flask_login import login_required, current_user
 from flask_sqlalchemy import get_debug_queries
@@ -7,7 +8,7 @@ import flask_excel as excel
 
 from . import main
 from .forms import ExecPlanQueryForm, VoucherQueryForm
-from app import db
+from app import db, mongo_collection
 from app.models.user import Role, User
 from app.models.mongo_model import ExecutionPlan, Trade
 
@@ -172,7 +173,6 @@ def trade():
         #                         handled=handled))
         # return redirect(url_for("main.trade"))
 
-        # 查看数据量，决定采用client处理还是server处理
         # Build query parameters.
         params = {
             "log_time__gte": datetime.strptime(start_time, "%m/%d/%Y").strftime("%Y-%m-%d 00:00:00"),
@@ -188,6 +188,8 @@ def trade():
 
         data = []
         queryset = Trade.objects(**params).filter(result__trades__1__exists=True)
+
+        # 查看数据量，决定采用client处理还是server处理
         if queryset.count() <= client_data_count:
             for r in queryset.order_by("-log_time"):
                 data.append({
@@ -266,6 +268,136 @@ def trade_invoice(id):
             if inv.trade_id == id:
                 # inv = y
                 break   # trade_id 是唯一标志，只要找到满足条件的一条数据即可。
+    if inv:
+        return render_template("trade_invoice.html",
+                               inv=inv,
+                               breadcrumb=["home", "trade", "invoice"])
+    else:
+        return render_template("404.html"), 404
+
+
+@main.route("/stock_in", methods=["GET", "POST"])
+def stock_in():
+    # db.getCollection('stockin_order')
+    #   .find({"result.stockin_list": {$exists : true}, "result.stockin_list.0": {$exists:1}})
+    pass
+
+
+@main.route("/stock_out", methods=["GET", "POST"])
+def stock_out():
+    # db.getCollection('stockout_order')
+    #   .find({"result.stockout_list": {$exists : true}, "result.stockout_list.0": {$exists:1}})
+    pass
+
+
+@main.route("/refund", methods=["GET", "POST"])
+def refund():
+    # db.getCollection('refund')
+    #   .find({"result.refunds": {$exists : true}, $where: "this.result.refunds.length>0"})
+    # db.getCollection('refund')
+    #   .find({"result.refunds": {$exists : true}, "result.refunds.0": {$exists:1}})
+    # 不使用 MongoEngine，直接用 pymongo
+    client_data_count = 100 or current_app.config["WEBWDT_QUERY_CLIENT_DATA_COUNT"]
+
+    form = VoucherQueryForm()
+    if form.validate_on_submit():
+        qcc_logtime = form.qcc_logtime.data
+        start_time = form.qcd_logtime_start.data
+        end_time = form.qcd_logtime_end.data
+        handled = form.qcd_handled.data
+
+        # Build query parameters.
+        # x = mongo_db.find({
+        #       "$and": [
+        #           {"log_time": {"$gte": "2017-09-01 00:00:00"}},
+        #           {"log_time": {"$lte": "2017-09-03 23:59:59"}}
+        #       ],
+        #       "handle_flag": 1,
+        #       "result.refunds.0": {"$exists": 1}
+        # }).limit(10)
+        query_params = {
+            "$and": [
+                {"log_time": {"$gte": datetime.strptime(start_time, "%m/%d/%Y").strftime("%Y-%m-%d 00:00:00")}},
+                {"log_time": {"$lte": datetime.strptime(end_time, "%m/%d/%Y").strftime("%Y-%m-%d 23:59:59")}}
+            ],
+            "result.refunds.0": {"$exists": 1}
+        }
+
+        if handled == "2":
+            query_params["handle_flag"] = 1
+        elif handled == "3":
+            query_params["handle_flag"] = 0
+        elif query_params.get("handle_flag"):
+            del query_params["handle_flag"]
+
+        data = []
+        queryset = mongo_collection.refund.find(query_params)
+
+        # 查看数据量，决定采用client处理还是server处理
+        x = queryset.count()
+        if queryset.count() <= client_data_count:
+            # 注意，游标遍历之后会关闭。
+            # 可以使用 itertools 的 tee,
+            # 把一个迭代器分为n个迭代器, 返回一个元组.默认是两个。
+            # 不要在调用 tee() 之后使用原始迭代器 iterable，否则缓存机制可能无法正确工作。
+            # from itertools import tee
+            #
+            # x1, x2 = tee(db.x.find())
+            #
+            # list(x1)
+            # list(x2)
+            for r in queryset.sort([
+                        ("log_time", DESCENDING),
+                        # ("result.total_count", DESCENDING)
+                    ]):
+                data.append({
+                    "process_status": r["content_abbr"]["process_status"],
+                    "log_time": r["log_time"],
+                    "handle_flag": r["handle_flag"],
+                    "page_size": r["content_abbr"]["page_size"],
+                    "page_no": r["content_abbr"]["page_no"],
+                    "total_count": len(r["result"]["refunds"]),
+                    "start_time": r["content_abbr"]["start_time"],
+                    "end_time": r["content_abbr"]["end_time"],
+                    "message": r["result"]["message"],
+                    "code": r["result"]["code"],
+                    "refunds": [{
+                                   "refund_id": t["refund_id"],
+                                   "paid": t["paid"],
+                                   "receiver_name": t["receiver_name"],
+                                   "refund_time": t["refund_time"],
+                                   "modified": t["modified"],
+                                   "refund_order_count": len(t["refund_order_list"])
+                               } for t in r["result"]["refunds"]]
+                })
+            return render_template("refund.html",
+                                   data=data,
+                                   form=form,
+                                   exec_mode=1,  # 控制是否执行查询。0 -- 不执行；1 -- Client；2 -- Server
+                                   breadcrumb=["home", "trade"])
+        else:
+            return render_template("refund.html",
+                                   data=data,
+                                   qcc_logtime=qcc_logtime,
+                                   start_time=start_time,
+                                   end_time=end_time,
+                                   handled=handled,
+                                   form=form,
+                                   exec_mode=2,  # 控制是否执行查询。0 -- 不执行；1 -- Client；2 -- Server
+                                   breadcrumb=["home", "trade"])
+    return render_template("refund.html",
+                           data=[],
+                           form=form,
+                           exec_mode=0,  # 控制是否执行查询。0 -- 不执行；1 -- Client；2 -- Server
+                           breadcrumb=["home", "trade"])
+
+
+@main.route("/refund/invoice/<id>", methods=["GET"])
+def refund_invoice(id):
+    # db.getCollection('refund').find({"result.refunds.refund_id": "1150"},{"result.refunds.$":1})
+    # find_one 查找得到的是一个字典；
+    # find 查找得到的是一个游标。
+    inv = mongo_collection.refund.find_one({"result.refunds.refund_id": id}, {"result.refunds.$": 1})
     if inv:
         return render_template("trade_invoice.html",
                                inv=inv,

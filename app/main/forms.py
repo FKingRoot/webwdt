@@ -105,8 +105,8 @@ class VoucherQueryForm(FlaskForm):
                                       + str(current_app.config["WEBWDT_QUERY_MAX_DATE_INTERVAL"])
                                       + " days")
 
-    def validate_qcd_logtime_start(self, field):
-        self._validate_logtime_interval()
+    # def validate_qcd_logtime_start(self, field):
+    #     self._validate_logtime_interval()
     #
     # def validate_qcd_logtime_end(self, field):
     #     self._validate_logtime_interval()
