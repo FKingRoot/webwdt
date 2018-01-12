@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from datetime import datetime
 from pymongo import ASCENDING, DESCENDING
 from flask import (current_app, url_for, request, session, render_template, redirect, make_response, abort, g, jsonify)
@@ -297,9 +298,9 @@ def refund():
     # db.getCollection('refund')
     #   .find({"result.refunds": {$exists : true}, "result.refunds.0": {$exists:1}})
     # 不使用 MongoEngine，直接用 pymongo
-    client_data_count = 100 or current_app.config["WEBWDT_QUERY_CLIENT_DATA_COUNT"]
+    client_data_count = 1000 or current_app.config["WEBWDT_QUERY_CLIENT_DATA_COUNT"]
 
-    form = VoucherQueryForm()
+    form = VoucherQueryForm(max_day_interval=180)
     if form.validate_on_submit():
         qcc_logtime = form.qcc_logtime.data
         start_time = form.qcd_logtime_start.data
@@ -334,7 +335,6 @@ def refund():
         queryset = mongo_collection.refund.find(query_params)
 
         # 查看数据量，决定采用client处理还是server处理
-        x = queryset.count()
         if queryset.count() <= client_data_count:
             # 注意，游标遍历之后会关闭。
             # 可以使用 itertools 的 tee,

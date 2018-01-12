@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from datetime import datetime
 from flask import current_app
 from flask_wtf import FlaskForm
@@ -24,7 +25,7 @@ class ExecPlanQueryForm(FlaskForm):
                                        )
     qcd_handled = InlineRadioField(id="qcd-handled")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, max_day_interval=None, *args, **kwargs):
         super(ExecPlanQueryForm, self).__init__(*args, **kwargs)
 
         # 查询时间必选。
@@ -58,13 +59,15 @@ class ExecPlanQueryForm(FlaskForm):
                                     ("2", "handled"),
                                     ("3", "unhandled")]
 
+        self.max_day_interval = max_day_interval or current_app.config["WEBWDT_QUERY_MAX_DATE_INTERVAL"]
+
     def _validate_exectime_interval(self):
         if self.qcd_exectime_start.data and self.qcd_exectime_end.data:
             s = datetime.strptime(self.qcd_exectime_start.data, "%m/%d/%Y")
             e = datetime.strptime(self.qcd_exectime_end.data, "%m/%d/%Y")
-            if (e-s).days > current_app.config["WEBWDT_QUERY_MAX_DATE_INTERVAL"]:
+            if (e-s).days > self.max_day_interval:
                 raise ValidationError("The date interval should not exceed "
-                                      + str(current_app.config["WEBWDT_QUERY_MAX_DATE_INTERVAL"])
+                                      + str(self.max_day_interval)
                                       + " days")
 
     def validate_qcd_exectime_start(self, field):
@@ -85,7 +88,7 @@ class VoucherQueryForm(FlaskForm):
     qcd_handled = InlineRadioField(id="qcd-handled",
                                    default="2")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, max_day_interval=None, *args, **kwargs):
         super(VoucherQueryForm, self).__init__(*args, **kwargs)
 
         # 查询时间必选。
@@ -95,18 +98,19 @@ class VoucherQueryForm(FlaskForm):
         self.qcd_handled.choices = [("1", "all"),
                                     ("2", "handled"),
                                     ("3", "unhandled")]
+        self.max_day_interval = max_day_interval or current_app.config["WEBWDT_QUERY_MAX_DATE_INTERVAL"]
 
     def _validate_logtime_interval(self):
         if self.qcd_logtime_start.data and self.qcd_logtime_end.data:
             s = datetime.strptime(self.qcd_logtime_start.data, "%m/%d/%Y")
             e = datetime.strptime(self.qcd_logtime_end.data, "%m/%d/%Y")
-            if (e-s).days > current_app.config["WEBWDT_QUERY_MAX_DATE_INTERVAL"]:
+            if (e-s).days > self.max_day_interval:
                 raise ValidationError("The date interval should not exceed "
-                                      + str(current_app.config["WEBWDT_QUERY_MAX_DATE_INTERVAL"])
+                                      + str(self.max_day_interval)
                                       + " days")
 
-    # def validate_qcd_logtime_start(self, field):
-    #     self._validate_logtime_interval()
+    def validate_qcd_logtime_start(self, field):
+        self._validate_logtime_interval()
     #
     # def validate_qcd_logtime_end(self, field):
     #     self._validate_logtime_interval()

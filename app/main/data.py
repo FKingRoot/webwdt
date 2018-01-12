@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
 from datetime import datetime
 from pymongo import ASCENDING, DESCENDING
 from flask import request, jsonify
@@ -186,7 +186,7 @@ def refund_data():
         ord_idx = request.form.get("order["+str(x)+"][column]")
         ord_dir = request.form.get("order["+str(x)+"][dir]")
         if ord_idx and ord_dir:
-            order_params.append((CONST_COLS[int(ord_idx)], "DESCENDING" if ord_dir.lower() == "desc" else "ASCENDING"))
+            order_params.append((CONST_COLS[int(ord_idx)], DESCENDING if ord_dir.lower() == "desc" else ASCENDING))
 
     #sort([
     #     ("log_time", DESCENDING),
@@ -210,27 +210,26 @@ def refund_data():
     # 区别在于：纯数组前台无需用 columns 绑定数据，会自动按照顺序去显示；对象数组则需要用 columns 绑定数据才能正常显示。
     back_dt_data = []
     res = queryset.skip(int(front_dt_start)).limit(int(front_dt_length))
-    print(res.explain())
     for r in res:
         back_dt_data.append({
-                "process_status": r.content_abbr.status,
-                "log_time": r.log_time,
-                "handle_flag": r.handle_flag,
-                "page_size": r.content_abbr.page_size,
-                "page_no": r.content_abbr.page_no,
-                "total_count": len(r.result.refunds),
-                "start_time": r.content_abbr.start_time,
-                "end_time": r.content_abbr.end_time,
-                "message": r.result.message,
-                "code": r.result.code,
-                "refunds": [{
-                                "refund_id": t.trade_id,
-                                "paid": t.paid,
-                                "receiver_name": t.receiver_name,
-                                "refund_time": t.refund_time,
-                                "modified": t.modified,
-                                "refund_order_count": len(t.refund_order_list)
-                           } for t in r.result.trades]
+            "process_status": r["content_abbr"]["process_status"],
+            "log_time": r["log_time"],
+            "handle_flag": r["handle_flag"],
+            "page_size": r["content_abbr"]["page_size"],
+            "page_no": r["content_abbr"]["page_no"],
+            "total_count": len(r["result"]["refunds"]),
+            "start_time": r["content_abbr"]["start_time"],
+            "end_time": r["content_abbr"]["end_time"],
+            "message": r["result"]["message"],
+            "code": r["result"]["code"],
+            "refunds": [{
+                            "refund_id": t["refund_id"],
+                            "paid": t["paid"],
+                            "receiver_name": t["receiver_name"],
+                            "refund_time": t["refund_time"],
+                            "modified": t["modified"],
+                            "refund_order_count": len(t["refund_order_list"])
+                        } for t in r["result"]["refunds"]]
             })
     back_dt["data"] = back_dt_data
     # 可选。你可以定义一个错误来描述服务器出了问题后的友好提示。

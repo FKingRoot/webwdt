@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # 禁止由于 flask_cache 的 jinja2ext.py 中使用了 flask.ext.cache 而不是 flask_cache，
 # 而造成的 ExtDeprecationWarning。
 import warnings
@@ -13,6 +14,7 @@ from flask_mail import Mail
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_cache import Cache
 from flask_jsglue import JSGlue
+
 
 lm = LoginManager()
 bcrypt = Bcrypt()

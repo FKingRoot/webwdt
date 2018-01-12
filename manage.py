@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 from flask_script import Manager, Server
 from flask_script.commands import ShowUrls, Clean
@@ -7,6 +8,7 @@ from flask_migrate import Migrate, MigrateCommand
 from app import create_app, db
 from app.models.user import Role, User
 from app.models.mongo_model import ExecutionPlan, Trade
+
 
 COV = None
 if os.environ.get("FLASK_COVERAGE"):

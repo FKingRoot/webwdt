@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from flask import (current_app, url_for, request, render_template, redirect, flash, make_response, abort)
 from flask_login import current_user, login_user, logout_user, login_required
 

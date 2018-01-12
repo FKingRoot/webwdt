@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # http://richard.to/programming/project-wonderchicken-part-2.html
 from html import escape
 from wtforms import widgets

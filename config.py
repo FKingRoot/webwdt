@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 
 base_dir = os.path.abspath(os.path.dirname(__file__))
@@ -51,15 +52,15 @@ class DevelopmentConfig(Config):
     # }
     MONGODB_SETTINGS = {
         "db": "wdt",
-        "host": "192.168.7.150",
-        # "host": "192.168.5.122",
+        # "host": "192.168.7.150",
+        "host": "192.168.5.122",
         # "host": "localhost",
-        "port": 27017,
-        # "port": 28106,
+        # "port": 27017,
+        "port": 28106,
         "username": "devuser",
         # "username": "deployer",
         # 'password': "123"
-        # "password": "c#d6",
+        "password": "c#d6",
     }
     # CACHE_TYPE = "simple"
     CACHE_TYPE = "null"
