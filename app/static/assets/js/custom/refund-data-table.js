@@ -249,7 +249,7 @@ var TableData = function() {
                 "<td><a href='" + x + "' target='_blank'>"+d.refunds[i].refund_id+"</a></td>"+
                 "<td>"+d.refunds[i].receiver_name+"</td>"+
                 "<td class='text-right'>"+d.refunds[i].refund_order_count+"</td>"+
-                "<td class='text-right'>"+d.refunds[i].paid+"</td>"+
+                "<td class='text-right'>"+d.refunds[i].refund_amount+"</td>"+
                 "<td>"+d.refunds[i].refund_time+"</td>"+
                 "<td>"+d.refunds[i].modified+"</td>"+
             "</tr>"

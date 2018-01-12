@@ -224,7 +224,7 @@ def refund_data():
             "code": r["result"]["code"],
             "refunds": [{
                             "refund_id": t["refund_id"],
-                            "paid": t["paid"],
+                            "refund_amount": t["refund_amount"],
                             "receiver_name": t["receiver_name"],
                             "refund_time": t["refund_time"],
                             "modified": t["modified"],

@@ -192,7 +192,8 @@ def trade():
 
         # 查看数据量，决定采用client处理还是server处理
         if queryset.count() <= client_data_count:
-            for r in queryset.order_by("-log_time"):
+            # for r in queryset.order_by("-log_time"):
+            for r in queryset.order_by("log_time"):
                 data.append({
                     "status": r.content_abbr.status,
                     "log_time": r.log_time,
@@ -347,7 +348,7 @@ def refund():
             # list(x1)
             # list(x2)
             for r in queryset.sort([
-                        ("log_time", DESCENDING),
+                        ("log_time", ASCENDING),
                         # ("result.total_count", DESCENDING)
                     ]):
                 data.append({
@@ -363,7 +364,7 @@ def refund():
                     "code": r["result"]["code"],
                     "refunds": [{
                                    "refund_id": t["refund_id"],
-                                   "paid": t["paid"],
+                                   "refund_amount": t["refund_amount"],
                                    "receiver_name": t["receiver_name"],
                                    "refund_time": t["refund_time"],
                                    "modified": t["modified"],
@@ -399,7 +400,7 @@ def refund_invoice(id):
     # find 查找得到的是一个游标。
     inv = mongo_collection.refund.find_one({"result.refunds.refund_id": id}, {"result.refunds.$": 1})
     if inv:
-        return render_template("trade_invoice.html",
+        return render_template("refund_invoice.html",
                                inv=inv,
                                breadcrumb=["home", "trade", "invoice"])
     else:
