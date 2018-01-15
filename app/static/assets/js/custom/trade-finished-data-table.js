@@ -1,10 +1,5 @@
 var TableData = function() {
-	"use strict";
-	//function to initiate DataTable
-	//DataTable is a highly flexible tool, based upon the foundations of progressive enhancement,
-	//which will add advanced interaction controls to any HTML table
-	//For more information, please visit https://datatables.net/
-
+    "use strict";
     var opts = {
         "orderClasses": true,   // 高亮显示表格中排序的列。
         "processing": true,     // 是否显示处理状态(排序的时候，数据很多耗费时间长的话，也会显示这个)。
@@ -139,20 +134,157 @@ var TableData = function() {
         }
     };
     var table;
-    // 由于 js 文件独立，因此 jinja2 模板的变量不能直接使用，需要作为参数传递进来。
-	var runDataTable_refund_server = function(ajax_url, data_per_page, logtime_start, logtime_end, handled) {
+
+    // https://datatables.net/examples/server_side/pipeline.html
+    // 由于每次绘制请求都需要向服务器发起一个 Ajax 调用，服务器端的处理会承受很大的压力。
+    // 在一个拥有大量页面浏览量的站点，你的服务器甚至有可能被自己应用产生的DDos攻击拖垮。
+    // 可以通过缓存比每次绘制所需要的更多的数据来减少对服务器的 Ajax 调用次数。
+    // 这是通过拦截 Ajax 调用，并通过数据缓存控制进行路由来实现的; 
+    // 如果缓存的数据可用，则使用来自缓存的数据；否则发出 Ajax 请求。
+    // 对 Ajax 请求的拦截是通过设定一个函数作为 ajax option 选项来完成的。该函数随后将执行一个判断逻辑，决定是需要另一个 Ajax 调用的逻辑，还是使用来自缓存的数据。
+    // 请记住，此缓存仅用于分页; 若需要进行例如排序和搜索等其他交互，则必须清除流水线，因为使用服务器端处理的完整数据集仅在服务器上可用。
+
+    //
+    // Pipelining function for DataTables. To be used to the `ajax` option of DataTables
+    // 用于 DataTables 的流水线函数。
+    //
+    $.fn.dataTable.pipeline = function ( opts ) {
+        // Configuration options
+        var conf = $.extend( {
+            pages: 5,       // number of pages to cache
+            url: "",        // script url
+            data: null,     // function or object with parameters to send to the server
+                            // matching how `ajax.data` works in DataTables
+            method: "POST"   // Ajax HTTP method
+        }, opts );
+    
+        // Private variables for storing the cache
+        var cacheLower = -1;
+        var cacheUpper = null;
+        var cacheLastRequest = null;
+        var cacheLastJson = null;
+    
+        return function ( request, drawCallback, settings ) {
+            var ajax          = false;
+            var requestStart  = request.start;
+            var drawStart     = request.start;
+            var requestLength = request.length;
+            var requestEnd    = requestStart + requestLength;
+            
+            if ( settings.clearCache ) {
+                // API requested that the cache be cleared
+                ajax = true;
+                settings.clearCache = false;
+            }
+            else if ( cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper ) {
+                // outside cached data - need to make a request
+                ajax = true;
+            }
+            else if ( JSON.stringify( request.order ) !== JSON.stringify( cacheLastRequest.order ) ||
+                    JSON.stringify( request.columns ) !== JSON.stringify( cacheLastRequest.columns ) ||
+                    JSON.stringify( request.search )  !== JSON.stringify( cacheLastRequest.search )
+            ) {
+                // properties changed (ordering, columns, searching)
+                ajax = true;
+            }
+            
+            // Store the request for checking next time around
+            cacheLastRequest = $.extend( true, {}, request );
+    
+            if ( ajax ) {
+                // Need data from the server
+                if ( requestStart < cacheLower ) {
+                    requestStart = requestStart - (requestLength*(conf.pages-1));
+    
+                    if ( requestStart < 0 ) {
+                        requestStart = 0;
+                    }
+                }
+                
+                cacheLower = requestStart;
+                cacheUpper = requestStart + (requestLength * conf.pages);
+    
+                request.start = requestStart;
+                request.length = requestLength*conf.pages;
+    
+                // Provide the same `data` options as DataTables.
+                if ( $.isFunction ( conf.data ) ) {
+                    // As a function it is executed with the data object as an arg
+                    // for manipulation. If an object is returned, it is used as the
+                    // data object to submit
+                    var d = conf.data( request );
+                    if ( d ) {
+                        $.extend( request, d );
+                    }
+                }
+                else if ( $.isPlainObject( conf.data ) ) {
+                    // As an object, the data given extends the default
+                    $.extend( request, conf.data );
+                }
+    
+                settings.jqXHR = $.ajax( {
+                    "type":     conf.method,
+                    "url":      conf.url,
+                    "data":     request,
+                    "dataType": "json",
+                    "cache":    false,
+                    "success":  function ( json ) {
+                        cacheLastJson = $.extend(true, {}, json);
+    
+                        if ( cacheLower != drawStart ) {
+                            json.data.splice( 0, drawStart-cacheLower );
+                        }
+                        if ( requestLength >= -1 ) {
+                            json.data.splice( requestLength, json.data.length );
+                        }
+                        
+                        drawCallback( json );
+                    }
+                } );
+            }
+            else {
+                json = $.extend( true, {}, cacheLastJson );
+                json.draw = request.draw;   // Update the echo for each response
+                json.data.splice( 0, requestStart-cacheLower );
+                json.data.splice( requestLength, json.data.length );
+    
+                drawCallback(json);
+            }
+        }
+    };
+    
+    // Register an API method that will empty the pipelined data, forcing an Ajax
+    // fetch on the next draw (i.e. `table.clearPipeline().draw()`)
+    $.fn.dataTable.Api.register( "clearPipeline()", function () {
+        return this.iterator( "table", function ( settings ) {
+            settings.clearCache = true;
+        } );
+    } );
+
+	var runDataTable_trade_finished_server = function(ajax_url, data_per_page, logtime_start, logtime_end, handled) {
         opts["pageLength"] = data_per_page;
         opts["serverSide"] = true;  // 开启服务器模式
         opts["searching"] = false;  // 关闭全局搜索
-        opts["ajax"] = {
+
+        opts["ajax"] = $.fn.dataTable.pipeline( {
             url: ajax_url,
             type: "POST",
             data: {
                 "ajax_start_time": logtime_start,
                 "ajax_end_time": logtime_end,
                 "ajax_handled": handled
-            }
-        };
+            },
+            pages: 5 // number of pages to cache
+        } )
+        // opts["ajax"] = {
+        //     url: ajax_url,
+        //     type: "POST",
+        //     data: {
+        //         "ajax_start_time": logtime_start,
+        //         "ajax_end_time": logtime_end,
+        //         "ajax_handled": handled
+        //     }
+        // };
         opts["drawCallback"] =
             function(settings){
                 // 注意，后端分页和前端分页处理方式不同。
@@ -174,7 +306,7 @@ var TableData = function() {
                 });
             };
 
-        table = $("#sample_1")
+        var table = $("#sample_1")
             .on("preXhr.dt", function ( e, settings, data ) {
                 $("#loading_modal").modal("show");
             })
@@ -184,11 +316,11 @@ var TableData = function() {
             .on("error.dt", function ( e, settings, techNote, message ) {
                 // 页面出错，要退出 loading 状态。
                 $("#loading_modal").modal("hide");
-            } )
+            })
             .DataTable(opts);
 	};
 
-	var runDataTable_refund_client = function(data, data_per_page) {
+	var runDataTable_trade_finished_client = function(data, data_per_page) {
         opts["pageLength"] = data_per_page;
         opts["serverSide"] = false; // 关闭服务器模式
         opts["searching"] = true;   // 开启全局搜索
@@ -214,22 +346,22 @@ var TableData = function() {
             };
 
         table = $("#sample_1").DataTable(opts);
-    };
+    }
 
     function format ( d ) {
         // `d` is the original data object for the row
         var tr_html = "";
-        for (var i=0; i<d.refunds.length; i++) {
-            var x = Flask.url_for("main.refund_invoice", {"id": d.refunds[i].refund_id});
+        for (var i=0; i<d.trades.length; i++) {
+            var x = Flask.url_for("main.trade_finished_invoice", {"id": d.trades[i].trade_id});
             tr_html +=
             "<tr>"+
                 "<th class='center'>"+(i+1)+"</th>"+
-                "<td><a href='" + x + "' target='_blank'>"+d.refunds[i].refund_id+"</a></td>"+
-                "<td>"+d.refunds[i].receiver_name+"</td>"+
-                "<td class='text-right'>"+d.refunds[i].refund_order_count+"</td>"+
-                "<td class='text-right'>"+d.refunds[i].refund_amount+"</td>"+
-                "<td>"+d.refunds[i].refund_time+"</td>"+
-                "<td>"+d.refunds[i].modified+"</td>"+
+                "<td><a href='" + x + "' target='_blank'>"+d.trades[i].trade_id+"</a></td>"+
+                "<td>"+d.trades[i].receiver_name+"</td>"+
+                "<td class='text-right'>"+d.trades[i].goods_count+"</td>"+
+                "<td class='text-right'>"+d.trades[i].paid+"</td>"+
+                "<td>"+d.trades[i].created+"</td>"+
+                "<td>"+d.trades[i].modified+"</td>"+
             "</tr>"
         }
 
@@ -237,7 +369,7 @@ var TableData = function() {
                 "<thead>" +
                     "<tr>" +
                         "<th class='center'>#</th>" +
-                        "<th>refund Id</th>" +
+                        "<th>Trade Id</th>" +
                         "<th>Receiver Name</th>" +
                         "<th class='hidden-xs'>Goods Count</th>" +
                         "<th>Goods Amount</th>" +
@@ -266,18 +398,18 @@ var TableData = function() {
             row.child( format(row.data()) ).show();
             tr.addClass("shown");
         }
-    } );
+    });
 
 	return {
 		//main function to initiate template pages
 		// init : function(exec_mode, data, ajax_url, data_per_page, logtime_start, logtime_end, handled) {
         init : function(exec_mode, data, ajax_url, data_per_page, logtime_start, logtime_end, handled) {
 		    if ( exec_mode == "1" ) {
-		        runDataTable_refund_client(data, data_per_page);
+		        runDataTable_trade_finished_client(data, data_per_page);
             }
             else
 		    if ( exec_mode == "2" ) {
-			    runDataTable_refund_server(ajax_url, data_per_page, logtime_start, logtime_end, handled);
+			    runDataTable_trade_finished_server(ajax_url, data_per_page, logtime_start, logtime_end, handled);
             }
 		}
 	};

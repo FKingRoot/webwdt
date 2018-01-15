@@ -33,7 +33,7 @@ class Config:
     # 时间段查询的最大跨度
     WEBWDT_QUERY_MAX_DATE_INTERVAL = 30
     # Client 处理的数据量，超过此值转由 Server 处理。
-    WEBWDT_QUERY_CLIENT_DATA_COUNT = 500
+    WEBWDT_QUERY_CLIENT_DATA_COUNT = 1000
 
     @classmethod
     def init_app(cls, app):
@@ -52,9 +52,9 @@ class DevelopmentConfig(Config):
     # }
     MONGODB_SETTINGS = {
         "db": "wdt",
-        # "host": "192.168.7.150",
+        "host": "192.168.7.150",
         # "host": "192.168.5.122",
-        "host": "localhost",
+        # "host": "localhost",
         "port": 27017,
         # "port": 28106,
         # "username": "devuser",

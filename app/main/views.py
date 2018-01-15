@@ -299,7 +299,7 @@ def refund():
     # db.getCollection('refund')
     #   .find({"result.refunds": {$exists : true}, "result.refunds.0": {$exists:1}})
     # 不使用 MongoEngine，直接用 pymongo
-    client_data_count = 1000 or current_app.config["WEBWDT_QUERY_CLIENT_DATA_COUNT"]
+    client_data_count = 5000 or current_app.config["WEBWDT_QUERY_CLIENT_DATA_COUNT"]
 
     form = VoucherQueryForm(max_day_interval=180)
     if form.validate_on_submit():
@@ -375,7 +375,7 @@ def refund():
                                    data=data,
                                    form=form,
                                    exec_mode=1,  # 控制是否执行查询。0 -- 不执行；1 -- Client；2 -- Server
-                                   breadcrumb=["home", "trade"])
+                                   breadcrumb=["home", "refund"])
         else:
             return render_template("refund.html",
                                    data=data,
@@ -385,12 +385,12 @@ def refund():
                                    handled=handled,
                                    form=form,
                                    exec_mode=2,  # 控制是否执行查询。0 -- 不执行；1 -- Client；2 -- Server
-                                   breadcrumb=["home", "trade"])
+                                   breadcrumb=["home", "refund"])
     return render_template("refund.html",
                            data=[],
                            form=form,
                            exec_mode=0,  # 控制是否执行查询。0 -- 不执行；1 -- Client；2 -- Server
-                           breadcrumb=["home", "trade"])
+                           breadcrumb=["home", "refund"])
 
 
 @main.route("/refund/invoice/<id>", methods=["GET"])
@@ -402,6 +402,93 @@ def refund_invoice(id):
     if inv:
         return render_template("refund_invoice.html",
                                inv=inv,
-                               breadcrumb=["home", "trade", "invoice"])
+                               breadcrumb=["home", "refund", "invoice"])
+    else:
+        return render_template("404.html"), 404
+
+
+@main.route("/trade_finished", methods=["GET", "POST"])
+def trade_finished():
+    client_data_count = 5000 or current_app.config["WEBWDT_QUERY_CLIENT_DATA_COUNT"]
+
+    form = VoucherQueryForm(max_day_interval=720)
+    if form.validate_on_submit():
+        qcc_logtime = form.qcc_logtime.data
+        start_time = form.qcd_logtime_start.data
+        end_time = form.qcd_logtime_end.data
+        handled = form.qcd_handled.data
+
+        # Build query parameters.
+        query_params = {
+            "$and": [
+                {"log_time": {"$gte": datetime.strptime(start_time, "%m/%d/%Y").strftime("%Y-%m-%d 00:00:00")}},
+                {"log_time": {"$lte": datetime.strptime(end_time, "%m/%d/%Y").strftime("%Y-%m-%d 23:59:59")}}
+            ],
+            "result.trades.0": {"$exists": 1}
+        }
+
+        if handled == "2":
+            query_params["handle_flag"] = 1
+        elif handled == "3":
+            query_params["handle_flag"] = 0
+        elif query_params.get("handle_flag"):
+            del query_params["handle_flag"]
+
+        data = []
+        # 不使用 MongoEngine，直接用 pymongo
+        queryset = mongo_collection.trade_finished.find(query_params)
+
+        # 查看数据量，决定采用client处理还是server处理
+        if queryset.count() <= client_data_count:
+            for r in queryset.sort([("log_time", ASCENDING)]):
+                data.append({
+                    "status": r["content_abbr"]["status"],
+                    "log_time": r["log_time"],
+                    "handle_flag": r["handle_flag"],
+                    "page_size": r["content_abbr"]["page_size"],
+                    "page_no": r["content_abbr"]["page_no"],
+                    "total_count": len(r["result"]["trades"]),
+                    "start_time": r["content_abbr"]["start_time"],
+                    "end_time": r["content_abbr"]["end_time"],
+                    "message": r["result"]["message"],
+                    "code": r["result"]["code"],
+                    "trades": [{
+                                   "trade_id": t["trade_id"],
+                                   "paid": t["paid"],
+                                   "receiver_name": t["receiver_name"],
+                                   "created": t["created"],
+                                   "modified": t["modified"],
+                                   "goods_count": len(t["goods_list"])
+                               } for t in r["result"]["trades"]]
+                })
+            return render_template("trade_finished.html",
+                                   data=data,
+                                   form=form,
+                                   exec_mode=1,  # 控制是否执行查询。0 -- 不执行；1 -- Client；2 -- Server
+                                   breadcrumb=["home", "trade_finished"])
+        else:
+            return render_template("trade_finished.html",
+                                   data=data,
+                                   qcc_logtime=qcc_logtime,
+                                   start_time=start_time,
+                                   end_time=end_time,
+                                   handled=handled,
+                                   form=form,
+                                   exec_mode=2,  # 控制是否执行查询。0 -- 不执行；1 -- Client；2 -- Server
+                                   breadcrumb=["home", "trade_finished"])
+    return render_template("trade_finished.html",
+                           data=[],
+                           form=form,
+                           exec_mode=0,  # 控制是否执行查询。0 -- 不执行；1 -- Client；2 -- Server
+                           breadcrumb=["home", "trade_finished"])
+
+
+@main.route("/trade_finished/invoice/<id>", methods=["GET"])
+def trade_finished_invoice(id):
+    inv = mongo_collection.trade_finished.find_one({"result.trades.trade_id": id}, {"result.trades.$": 1})
+    if inv:
+        return render_template("trade_finished_invoice.html",
+                               inv=inv,
+                               breadcrumb=["home", "trade_finished", "invoice"])
     else:
         return render_template("404.html"), 404

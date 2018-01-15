@@ -79,12 +79,12 @@ The main modules and functions of this system.
                 </div>
                 <div class="panel-body">
                     <nav id="cl-effect-10" class="links cl-effect-10">
-                        <a data-hover="Refund" href><span>Refund</span></a>
+                        <a data-hover="Refund" href="{{ url_for('main.refund') }}"><span>Refund</span></a>
                         <a data-hover="Inventory" href><span>Inventory</span></a>
                         <a data-hover="Shifting" href><span>Shifting</span></a>
                         <a data-hover="Stock In" href><span>Stock In</span></a>
                         <a data-hover="Stock Out" href><span>Stock Out</span></a>
-                        <a data-hover="Trade" href><span>Trade</span></a>
+                        <a data-hover="Trade" href="{{ url_for('main.trade') }}"><span>Trade</span></a>
                     </nav>
                 </div>
             </div>
@@ -95,7 +95,7 @@ The main modules and functions of this system.
                 <div class="panel-body">
                     <nav id="cl-effect-10" class="links cl-effect-10">
                         <a data-hover="Refund" href><span>Refund</span></a>
-                        <a data-hover="Trade" href><span>Trade</span></a>
+                        <a data-hover="Trade" href="{{ url_for('main.trade_finished') }}"><span>Trade</span></a>
                     </nav>
                 </div>
             </div>

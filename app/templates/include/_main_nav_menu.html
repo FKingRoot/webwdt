@@ -78,7 +78,7 @@
                         </a>
                     </li>
                     <li{% if item_activate == "Refund" %} class="active"{% endif %}>
-                        <a href="#">
+                        <a href="{{ url_for('main.refund') }}">
                             Refund
                         </a>
                     </li>
@@ -120,7 +120,7 @@
                         </a>
                     </li>
                     <li{% if item_activate == "Trade" %} class="active"{% endif %}>
-                        <a href="#">
+                        <a href="{{ url_for('main.trade_finished') }}">
                             Trade
                         </a>
                     </li>

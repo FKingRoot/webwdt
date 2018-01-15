@@ -3,9 +3,21 @@
  */
 var TableData = function() {
     "use strict";
-    var runDataTable_invoice = function(data_per_page){
+    var runDataTable_invoice = function(data_per_page, arr_summary_info){
         var addd = 0;
-        var table = $("#table-invoice").DataTable({
+        var table = $("#table-invoice")
+            .on("preXhr.dt", function ( e, settings, data ) {
+                $("#loading_modal").modal("show");
+            })
+            .on("xhr.dt", function ( e, settings, json, xhr ) {
+                // $("#loading_modal").css("display", "none");
+                $("#loading_modal").modal("hide");
+            })
+            .on("error.dt", function ( e, settings, techNote, message ) {
+                // 页面出错，要退出 loading 状态。
+                $("#loading_modal").modal("hide");
+            })
+            .DataTable({
                 "orderClasses": true,   // 高亮显示表格中排序的列。
                 "pageLength": data_per_page,
                 "processing": true,     // 是否显示处理状态(排序的时候，数据很多耗费时间长的话，也会显示这个)。
@@ -105,42 +117,60 @@ var TableData = function() {
                     // 这里不是DataTable初始化，通过api()，达到一样的效果。
                     var api = this.api();
                     // $( api.column(3).footer() ).html(subtotal);
-                    $( api.column(3).footer() ).html(
-                        "<b>" +
-                        // 遍历第 3 列的数据。reduce() 方法遍历结果集，通过回调函数返回从左到右的数据
-                        api.column(3).data().reduce( function ( a, b ) {
-                            return parseFloat(a) + parseFloat(b);
-                        } ).toFixed(4)
-                        + "</b>"
-                    );
-                    $( api.column(5).footer() ).html(
-                        "<b>" +
-                        api.column(5).data().reduce( function ( a, b ) {
-                            return parseFloat(a) + parseFloat(b);
-                        } ).toFixed(2)
-                        + "</b>"
-                    );
-                    $( api.column(6).footer() ).html(
-                        "<b>" +
-                        api.column(6).data().reduce( function ( a, b ) {
-                            return parseFloat(a) + parseFloat(b);
-                        } ).toFixed(2)
-                        + "</b>"
-                    );
-                    $( api.column(7).footer() ).html(
-                        "<b>" +
-                        api.column(7).data().reduce( function ( a, b ) {
-                            return parseFloat(a) + parseFloat(b);
-                        } ).toFixed(2)
-                        + "</b>"
-                    );
+                    for (var index=0; index<arr_summary_info.length; index++) {
+                        // reduce 处理一条记录有问题。因此需要对一条记录的情况单独处理。
+                        if (data.length > 1) {
+                            $( api.column(arr_summary_info[index].idx).footer() ).html(
+                                "<b>" +
+                                // 遍历第 x 列的数据。reduce() 方法遍历结果集，通过回调函数返回从左到右的数据
+                                api.column(arr_summary_info[index].idx).data().reduce( function ( a, b ) {
+                                    return parseFloat(a) + parseFloat(b);
+                                } ).toFixed(arr_summary_info[index].fixed)
+                                + "</b>"
+                            );
+                        }
+                        else {
+                            $( api.column(arr_summary_info[index].idx).footer() ).html(
+                                "<b>" + data[0][arr_summary_info[index].idx] + "</b>"
+                            );
+                        }
+                    }
+                    // $( api.column(3).footer() ).html(
+                    //     "<b>" +
+                    //     // 遍历第 3 列的数据。reduce() 方法遍历结果集，通过回调函数返回从左到右的数据
+                    //     api.column(3).data().reduce( function ( a, b ) {
+                    //         return parseFloat(a) + parseFloat(b);
+                    //     } ).toFixed(4)
+                    //     + "</b>"
+                    // );
+                    // $( api.column(5).footer() ).html(
+                    //     "<b>" +
+                    //     api.column(5).data().reduce( function ( a, b ) {
+                    //         return parseFloat(a) + parseFloat(b);
+                    //     } ).toFixed(2)
+                    //     + "</b>"
+                    // );
+                    // $( api.column(6).footer() ).html(
+                    //     "<b>" +
+                    //     api.column(6).data().reduce( function ( a, b ) {
+                    //         return parseFloat(a) + parseFloat(b);
+                    //     } ).toFixed(2)
+                    //     + "</b>"
+                    // );
+                    // $( api.column(7).footer() ).html(
+                    //     "<b>" +
+                    //     api.column(7).data().reduce( function ( a, b ) {
+                    //         return parseFloat(a) + parseFloat(b);
+                    //     } ).toFixed(2)
+                    //     + "</b>"
+                    // );
                 }
         });
     };
     return {
         // main function to initiate template pages
-        init : function(data_per_page) {
-            runDataTable_invoice(data_per_page);
+        init : function(data_per_page, arr_summary_info) {
+            runDataTable_invoice(data_per_page, arr_summary_info);
         }
     }
 }();

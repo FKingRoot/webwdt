@@ -1,12 +1,14 @@
 {% extends "skeleton.html" %}
 
+{% import "_macros.html" as macros %}
+
 {% block page_only_styles %}
 <link href="{{ url_for('static', filename='vendor/DataTables/css/DT_bootstrap.css') }}" rel="stylesheet" media="screen">
 <!-- <style type="text/css">
 </style> -->
 {% endblock %}
 
-{% block page_main_title %}Refund Invoice{% endblock %}
+{% block page_main_title %}Trade Invoice{% endblock %}
 
 {% block page_main_desc %}The sales invoice data fetched from the WDT interface.{% endblock page_main_desc %}
 
@@ -25,7 +27,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <p class="text-dark">
-                                        #{{ inv.result.refunds[0].refund_no}} / {{ inv.result.refunds[0].refund_time }} <small class="text-light"> {{ inv.result.refunds[0].shop_name }} </small>
+                                        #{{ inv.result.trades[0].trade_no}} / {{ inv.result.trades[0].created }} <small class="text-light"> {{ inv.result.trades[0].shop_name }} </small>
                                     </p>
                                 </div>
                             </div>
@@ -35,26 +37,26 @@
                                     <h4>Client:</h4>
                                     <div class="well">
                                         <address>
-                                            <strong class="text-extra-large text-dark">{{ inv.result.refunds[0].receiver_name }}</strong>
+                                            <strong class="text-extra-large text-dark">{{ inv.result.trades[0].receiver_name }}</strong>
                                             <br>
-                                            {{ inv.result.refunds[0].receiver_address }}
+                                            {{ inv.result.trades[0].receiver_address }}
                                             <br>
-                                            {{ inv.result.refunds[0].receiver_dtb }}, {{ inv.result.refunds[0].receiver_area }} {{ inv.result.refunds[0].receiver_district }}
+                                            {{ inv.result.trades[0].receiver_dtb }}, {{ inv.result.trades[0].receiver_area }} {{ inv.result.trades[0].receiver_district }}
                                             <br>
-                                            <abbr title="Phone">P:</abbr> {{ inv.result.refunds[0].receiver_telno }}
+                                            <abbr title="Phone">P:</abbr> {{ inv.result.trades[0].receiver_telno }}
                                             <br>
-                                            <abbr title="Mobile">M:</abbr> {{ inv.result.refunds[0].return_mobile }}
+                                            <abbr title="Mobile">M:</abbr> {{ inv.result.trades[0].receiver_mobile }}
                                         </address>
                                         <address>
                                             <strong class="text-dark">E-mail:</strong>
                                             <a href="mailto:#">
-                                                {{ inv.result.refunds[0].pay_account }}
+                                                {{ inv.result.trades[0].pay_account }}
                                             </a>
                                         </address>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <h4>Refund.</h4>
+                                    <h4>Trade Finished.</h4>
                                     <!--<div class="padding-bottom-30 padding-top-10 text-dark">-->
                                         <!--Thanks for being a customer.-->
                                         <!--A detailed summary of your invoice is below.-->
@@ -68,20 +70,19 @@
                                     <h4>Payment Details:</h4>
                                     <ul class="list-unstyled invoice-details padding-bottom-30 padding-top-10 text-dark">
                                         <li>
-                                            <strong>V.A.T Reg #:</strong> {{ inv.result.refunds[0].tid }}
+                                            <strong>V.A.T Reg #:</strong> {{ inv.result.trades[0].src_tids }}
                                         </li>
                                         <li>
-                                            <strong>Account Name:</strong> {{ inv.result.refunds[0].receiver_name }}
+                                            <strong>Account Name:</strong> {{ inv.result.trades[0].receiver_name }}
                                         </li>
                                         <li>
-                                            <!--{#<strong>SWIFT code:</strong> {{ inv.result.refunds[0].logistics_no }}#}-->
-                                            <strong>Logistic code:</strong> {{ inv.result.refunds[0].logistics_no }}
+                                            <strong>Logistic code:</strong> {{ inv.result.trades[0].logistics_no }}
                                         </li>
                                         <li>
-                                            <strong>DATE:</strong> {{ inv.result.refunds[0].refund_time }}
+                                            <strong>DATE:</strong> {{ inv.result.trades[0].trade_time }}
                                         </li>
                                         <li>
-                                            <strong>DUE:</strong> {{ inv.result.refunds[0].pay_time }}
+                                            <strong>DUE:</strong> {{ inv.result.trades[0].pay_time }}
                                         </li>
                                     </ul>
                                 </div>
@@ -102,16 +103,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for g in inv.result.refunds[0].refund_order_list %}
+                                    {% for g in inv.result.trades[0].goods_list %}
                                         <tr>
                                             <td>  </td>
                                             <td> {{ g.spec_code }} </td>
                                             <td class="hidden-480"> {{ g.goods_name }} </td>
-                                            <td class="hidden-480"> {{ g.refund_num }} </td>
-                                            <td class="hidden-480" align="right"> {{ '%.2f'|format(g.price|float) }} </td>
-                                            <td class="hidden-480" align="right"> {{ '%.2f'|format(g.total_amount|float) }} </td>
-                                            <td class="hidden-480" align="right">  </td>
-                                            <td align="right"> {{ '%.2f'|format(g.total_amount|float) }} </td>
+                                            <td class="hidden-480"> {{ g.num }} </td>
+                                            <td class="hidden-480" align="right"> {{ '%.2f'|format(g.share_price|float) }} </td>
+                                            <td class="hidden-480" align="right"> {{ '%.2f'|format(g.share_amount|float) }} </td>
+                                            <td class="hidden-480" align="right"> {{ '%.2f'|format(g.share_post|float) }} </td>
+                                            <td align="right"> {{ '%.2f'|format(g.paid|float) }} </td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -157,6 +158,7 @@
                                 <!--</div>-->
                             <!--</div>-->
                             <!-- end: INVOICE SUMMARY -->
+
                         </div>
                     </div>
                 </div>
@@ -168,33 +170,22 @@
 {% endblock page_content %}
 
 {% block page_only_scripts %}
-<!-- {#<script src="{{ url_for('static', filename='vendor/maskedinput/jquery.maskedinput.min.js') }}"></script>#} -->
-<!-- {#<script src="{{ url_for('static', filename='vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>#} -->
-<!-- {#<script src="{{ url_for('static', filename='vendor/autosize/autosize.min.js') }}"></script>#} -->
-<!-- {#<script src="{{ url_for('static', filename='vendor/selectFx/classie.js') }}"></script>#} -->
-<!-- {#<script src="{{ url_for('static', filename='vendor/selectFx/selectFx.js') }}"></script>#} -->
-<!-- {#<script src="{{ url_for('static', filename='vendor/select2/select2.min.js') }}"></script>#} -->
-<!-- {#<script src="{{ url_for('static', filename='vendor/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>#} -->
-<!-- {#<script src="{{ url_for('static', filename='vendor/bootstrap-timepicker/bootstrap-timepicker.min.js') }}"></script>#} -->
 <script src="{{ url_for('static', filename='vendor/DataTables/jquery.dataTables.min.js') }}"></script>
 {% endblock %}
 
 {% block page_event_handle_scripts %}
 {{ super() }}
-<!-- {#<script src="{{ url_for('static', filename='assets/js/form-elements.js') }}"></script>#} -->
-<script type="text/javascript" src="{{ url_for('static', filename='assets/js/custom/refund-invoice.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='assets/js/custom/trade-finished-invoice.js') }}"></script>
 <script type="text/javascript">
     jQuery(document).ready(function() {
         Main.init();
-        // FormElements.init();
-        // // 由于 js 文件独立，因此 jinja2 模板的变量不能直接使用，需要作为参数传递进来。
         TableData.init(
             {{ AppConfig['WEBWDT_DATA_PER_PAGE'] }},
             // 需要汇总的列序号，保留小数位数。
             [
                 {idx:3, fixed:4},
-                {idx:4, fixed:2},
                 {idx:5, fixed:2},
+                {idx:6, fixed:2},
                 {idx:7, fixed:2}
             ]
         );

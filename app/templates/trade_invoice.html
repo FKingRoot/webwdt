@@ -56,7 +56,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <!--<h4>We appreciate your business.</h4>-->
+                                    <h4>Trade.</h4>
                                     <!--<div class="padding-bottom-30 padding-top-10 text-dark">-->
                                         <!--Thanks for being a customer.-->
                                         <!--A detailed summary of your invoice is below.-->
@@ -204,7 +204,16 @@
         Main.init();
         // FormElements.init();
         // // 由于 js 文件独立，因此 jinja2 模板的变量不能直接使用，需要作为参数传递进来。
-        TableData.init({{ AppConfig['WEBWDT_DATA_PER_PAGE'] }});
+        TableData.init(
+            {{ AppConfig['WEBWDT_DATA_PER_PAGE'] }},
+            // 需要汇总的列序号，保留小数位数。
+            [
+                {idx:3, fixed:4},
+                {idx:5, fixed:2},
+                {idx:6, fixed:2},
+                {idx:7, fixed:2}
+            ]
+        );
     });
 </script>
 {% endblock %}
