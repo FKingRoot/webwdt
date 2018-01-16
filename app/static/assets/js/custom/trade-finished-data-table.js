@@ -155,7 +155,7 @@ var TableData = function() {
             url: "",        // script url
             data: null,     // function or object with parameters to send to the server
                             // matching how `ajax.data` works in DataTables
-            method: "POST"   // Ajax HTTP method
+            method: "POST"  // Ajax HTTP method
         }, opts );
     
         // Private variables for storing the cache
@@ -164,6 +164,13 @@ var TableData = function() {
         var cacheLastRequest = null;
         var cacheLastJson = null;
     
+        // http://datatables.club/reference/option/ajax.html
+        // 当 ajax option 接受的参数类型为函数时，其形式如下：
+        // function ajax( data, callback, settings )
+        //      data	    发送给服务器的数据。
+        //      callback    必须被执行，DataTables才能获取到数据；
+        //                  且将返回的数据作为callback()的唯一参数。(参数中可以配置Datatable的页面信息)
+        //      settings    Datatables的设置对象
         return function ( request, drawCallback, settings ) {
             var ajax          = false;
             var requestStart  = request.start;
@@ -229,6 +236,7 @@ var TableData = function() {
                     "dataType": "json",
                     "cache":    false,
                     "success":  function ( json ) {
+                        alert("AJAX");
                         cacheLastJson = $.extend(true, {}, json);
     
                         if ( cacheLower != drawStart ) {
@@ -239,6 +247,8 @@ var TableData = function() {
                         }
                         
                         drawCallback( json );
+                        // 退出 loading 状态。
+                        $("#loading_modal").modal("hide");
                     }
                 } );
             }
@@ -275,7 +285,7 @@ var TableData = function() {
                 "ajax_handled": handled
             },
             pages: 5 // number of pages to cache
-        } )
+        } );
         // opts["ajax"] = {
         //     url: ajax_url,
         //     type: "POST",
