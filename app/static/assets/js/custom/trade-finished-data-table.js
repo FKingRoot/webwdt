@@ -235,30 +235,45 @@ var TableData = function() {
                     "data":     request,
                     "dataType": "json",
                     "cache":    false,
-                    "success":  function ( json ) {
-                        alert("AJAX");
-                        cacheLastJson = $.extend(true, {}, json);
+                    "success":  function ( data, textStatus, jqXHR ) {
+                        cacheLastJson = $.extend(true, {}, data);
     
                         if ( cacheLower != drawStart ) {
-                            json.data.splice( 0, drawStart-cacheLower );
+                            data.data.splice( 0, drawStart-cacheLower );
                         }
                         if ( requestLength >= -1 ) {
-                            json.data.splice( requestLength, json.data.length );
+                            data.data.splice( requestLength, data.data.length );
                         }
                         
-                        drawCallback( json );
+                        drawCallback( data );
+                    },
+                    "complete": function( jqXHR, textStatus ) {
                         // 退出 loading 状态。
                         $("#loading_modal").modal("hide");
                     }
                 } );
             }
             else {
-                json = $.extend( true, {}, cacheLastJson );
+                var json = $.extend( true, {}, cacheLastJson );
                 json.draw = request.draw;   // Update the echo for each response
                 json.data.splice( 0, requestStart-cacheLower );
                 json.data.splice( requestLength, json.data.length );
     
                 drawCallback(json);
+
+                // // 将代码都包在一个立即执行函数里面。
+                // // 避免严格模式的脚本代码报错：ReferenceError: assignment to undeclared variable json.
+                // (function(){
+                //     json = $.extend( true, {}, cacheLastJson );
+                //     json.draw = request.draw;   // Update the echo for each response
+                //     json.data.splice( 0, requestStart-cacheLower );
+                //     json.data.splice( requestLength, json.data.length );
+        
+                //     drawCallback(json);
+                // })();
+
+                // 退出 loading 状态。
+                $("#loading_modal").modal("hide");
             }
         }
     };
@@ -286,15 +301,6 @@ var TableData = function() {
             },
             pages: 5 // number of pages to cache
         } );
-        // opts["ajax"] = {
-        //     url: ajax_url,
-        //     type: "POST",
-        //     data: {
-        //         "ajax_start_time": logtime_start,
-        //         "ajax_end_time": logtime_end,
-        //         "ajax_handled": handled
-        //     }
-        // };
         opts["drawCallback"] =
             function(settings){
                 // 注意，后端分页和前端分页处理方式不同。
@@ -316,7 +322,7 @@ var TableData = function() {
                 });
             };
 
-        var table = $("#sample_1")
+        table = $("#sample_1")
             .on("preXhr.dt", function ( e, settings, data ) {
                 $("#loading_modal").modal("show");
             })

@@ -134,7 +134,8 @@
                 "{{ exec_mode }}",
                 {{ data|tojson }},
                 "{{ url_for('main.trade_finished_data') }}",
-                "{{ AppConfig['WEBWDT_DATA_PER_PAGE'] }}",
+                // 注意需要传入数值类型参数，如果作为字符串传入，在后续的计算中会出现问题。
+                {{ AppConfig['WEBWDT_DATA_PER_PAGE'] }},
                 "{{ form.qcd_logtime_start.data }}",
                 "{{ form.qcd_logtime_end.data }}",
                 "{{ form.qcd_handled.data }}"

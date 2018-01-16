@@ -139,6 +139,7 @@ var TableData = function() {
         }
     };
     var table;
+
     // 由于 js 文件独立，因此 jinja2 模板的变量不能直接使用，需要作为参数传递进来。
 	var runDataTable_refund_server = function(ajax_url, data_per_page, logtime_start, logtime_end, handled) {
         opts["pageLength"] = data_per_page;

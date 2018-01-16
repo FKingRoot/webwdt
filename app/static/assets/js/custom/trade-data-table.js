@@ -24,7 +24,6 @@ var TableData = function() {
             } )
             .DataTable({
                 "orderClasses": true,   // 高亮显示表格中排序的列。
-                //"pageLength": "{{ AppConfig['WEBWDT_DATA_PER_PAGE'] }}",
                 "pageLength": data_per_page,
                 "processing": true,     // 是否显示处理状态(排序的时候，数据很多耗费时间长的话，也会显示这个)。
                 "serverSide": true,     // 是否开启服务器模式
@@ -289,7 +288,6 @@ var TableData = function() {
 	var runDataTable_trade_client = function(data, data_per_page) {
         var table = $("#sample_1").DataTable({
                 "orderClasses": true,   // 高亮显示表格中排序的列。
-                //"pageLength": "{{ AppConfig['WEBWDT_DATA_PER_PAGE'] }}",
                 "pageLength": data_per_page,
                 "processing": true,     // 是否显示处理状态(排序的时候，数据很多耗费时间长的话，也会显示这个)。
                 "serverSide": false,     // 是否开启服务器模式
