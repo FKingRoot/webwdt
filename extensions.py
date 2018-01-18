@@ -14,6 +14,7 @@ from flask_mail import Mail
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_cache import Cache
 from flask_jsglue import JSGlue
+from flask_babel import Babel
 
 
 lm = LoginManager()
@@ -23,10 +24,11 @@ mail = Mail()
 debug_toolbar = DebugToolbarExtension()
 cache = Cache()
 jsglue = JSGlue()
+babel = Babel()
 
-# # 如果需要为匿名用户实现一些特定的功能，可创建一个继承自 AnonymousUserMixin 的自定义类，并指派给默认的匿名用户。
-# lm.anonymous_user = your_custom_anonymous_user
-lm.login_view = "auth.login"
-lm.login_message = "Please login to access this page."
-lm.login_message_category = "info"
-lm.session_protection = "strong"
+# # # 如果需要为匿名用户实现一些特定的功能，可创建一个继承自 AnonymousUserMixin 的自定义类，并指派给默认的匿名用户。
+# # lm.anonymous_user = your_custom_anonymous_user
+# lm.login_view = "auth.login"
+# lm.login_message = "Please login to access this page."
+# lm.login_message_category = "info"
+# lm.session_protection = "strong"

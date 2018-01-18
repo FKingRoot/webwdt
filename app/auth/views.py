@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from flask import (current_app, url_for, request, render_template, redirect, flash, make_response, abort)
 from flask_login import current_user, login_user, logout_user, login_required
+from flask_babel import gettext as _
 
 from . import auth
 from .forms import LoginForm
@@ -22,10 +23,10 @@ def login():
         # if user and user.verify_password(form.password.data):
         #     login_user(user, remember=form.remember.data)
         #     return redirect(request.args.get("next") or url_for("main.index"))
-        flash("Invalid username or password.", category="danger")
-        flash("Succeed login.", category="success")
-        flash("database not found.", category="warning")
-        flash("check this information.", category="info")
+        flash(_("Invalid username or password."), category="danger")
+        flash(_("Succeed login."), category="success")
+        flash(_("database not found."), category="warning")
+        flash(_("check this information."), category="info")
     return render_template("auth/login.html", form=form)
 
 
@@ -37,5 +38,5 @@ def login_forget():
 @auth.route("/logout", methods=["GET", "POST"])
 def logout():
     logout_user()
-    flash("You have been logged out.", category="info")
+    flash(_("You have been logged out."), category="info")
     return redirect(url_for("main.index"))

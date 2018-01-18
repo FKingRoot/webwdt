@@ -1,0 +1,73 @@
+# Chinese (Simplified, China) translations for PROJECT.
+# Copyright (C) 2018 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2018-01-18 11:55+0800\n"
+"PO-Revision-Date: 2018-01-18 11:55+0800\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_Hans_CN\n"
+"Language-Team: zh_Hans_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.5.3\n"
+
+#: widgets.py:65
+msgid "Invalid choice(s): one or more data inputs could not be coerced"
+msgstr "非法的选项：一个或多个输入无法被转换"
+
+#: widgets.py:77
+#, python-format
+msgid "'%(value)s' is not a valid choice for this field"
+msgstr "'%(value)s' 不是一个合法的选项"
+
+#: app/__init__.py:34
+msgid "Please login to access this page."
+msgstr "请登录后再访问该页面"
+
+#: app/exceptions.py:16
+msgid "Access denied"
+msgstr "拒绝访问"
+
+#: app/auth/forms.py:12
+msgid "Username"
+msgstr "用户名"
+
+#: app/auth/forms.py:15
+msgid "Password"
+msgstr "密码"
+
+#: app/auth/forms.py:18
+msgid "Keep me signed in"
+msgstr "保持登录状态"
+
+#: app/auth/views.py:26
+msgid "Invalid username or password."
+msgstr "无效的用户名或密码"
+
+#: app/auth/views.py:27
+msgid "Succeed login."
+msgstr "登录成功"
+
+#: app/auth/views.py:28
+msgid "database not found."
+msgstr "未发现数据库"
+
+#: app/auth/views.py:29
+msgid "check this information."
+msgstr "检查该信息"
+
+#: app/auth/views.py:41
+msgid "You have been logged out."
+msgstr "您已登出"
+
+#: app/models/user.py:67
+msgid "password is not a readable attribute"
+msgstr "password是一个不可读属性"
+

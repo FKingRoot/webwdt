@@ -4,11 +4,12 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_mongoengine import MongoEngine
+from flask_babel import lazy_gettext, gettext as _
 from pymongo import MongoClient
 
 from config import config
 from extensions import (
-    lm, bcrypt, moment, mail, debug_toolbar, cache, jsglue
+    lm, bcrypt, moment, mail, debug_toolbar, cache, jsglue, babel
 )
 from app.exceptions import AccessDenied
 
@@ -26,6 +27,14 @@ mongo_db = MongoEngine()
 mongo_client = None
 mongo_collection = None
 
+
+# 如果需要为匿名用户实现一些特定的功能，可创建一个继承自 AnonymousUserMixin 的自定义类，并指派给默认的匿名用户。
+# lm.anonymous_user = your_custom_anonymous_user
+lm.login_view = "auth.login"
+lm.login_message = lazy_gettext("Please login to access this page.")
+lm.login_message_category = "info"
+lm.session_protection = "strong"
+
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
@@ -40,6 +49,7 @@ def create_app(config_name):
     debug_toolbar.init_app(app)
     cache.init_app(app)
     jsglue.init_app(app)
+    babel.init_app(app)
 
     # 初始化 pymongo
     mongo_config = config[config_name].MONGODB_SETTINGS

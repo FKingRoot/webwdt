@@ -14,6 +14,8 @@ class Config:
     # 启用记录查询统计数字的功能。
     SQLALCHEMY_RECORD_QUERIES = True
 
+    BABEL_DEFAULT_LOCALE = "zh_Hans_CN"
+
     MAIL_SERVER = "smtp.googlemail.com"
     MAIL_PORT = 587
     # 启用传输层安全（Transport Layer Security，TLS）协议
@@ -35,6 +37,10 @@ class Config:
     # Client 处理的数据量，超过此值转由 Server 处理。
     WEBWDT_QUERY_CLIENT_DATA_COUNT = 1000
 
+    """用户信息"""
+    USER_ENTERPRISE_FULLNAME = "ELAN Network Engineering Co., Ltd."
+
+
     @classmethod
     def init_app(cls, app):
         pass
@@ -52,15 +58,15 @@ class DevelopmentConfig(Config):
     # }
     MONGODB_SETTINGS = {
         "db": "wdt",
-        # "host": "192.168.7.150",
-        "host": "192.168.5.122",
+        "host": "192.168.7.150",
+        # "host": "192.168.5.122",
         # "host": "localhost",
-        # "port": 27017,
-        "port": 28106,
-        "username": "devuser",
+        "port": 27017,
+        # "port": 28106,
+        # "username": "devuser",
         # "username": "deployer",
         # 'password': "123"
-        "password": "c#d6",
+        # "password": "c#d6",
     }
     # CACHE_TYPE = "simple"
     CACHE_TYPE = "null"

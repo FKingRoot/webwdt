@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from flask_login import UserMixin, AnonymousUserMixin
+from flask_babel import gettext as _
 
 from app import db
 from extensions import bcrypt, lm
@@ -63,7 +64,7 @@ class User(db.Model, UserMixin):
 
     @property
     def password(self):
-        raise AttributeError("password is not a readable attribute")
+        raise AttributeError(_("password is not a readable attribute"))
 
     @password.setter
     def password(self, password):

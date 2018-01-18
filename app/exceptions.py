@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from flask_babel import gettext as _
 # # import the logging library
 # import logging
 #
@@ -12,5 +13,5 @@ class AccessDenied(Exception):
     """ Login/password error. No message, no traceback.
     Example: When you try to log with a wrong password."""
     def __init__(self):
-        super(AccessDenied, self).__init__("Access denied")
+        super(AccessDenied, self).__init__(_("Access denied"))
         self.traceback = ("", "", "")
