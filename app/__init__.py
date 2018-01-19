@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # import logging
-from flask import Flask
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_mongoengine import MongoEngine
 from flask_babel import lazy_gettext, gettext as _
@@ -34,6 +34,13 @@ lm.login_view = "auth.login"
 lm.login_message = lazy_gettext("Please login to access this page.")
 lm.login_message_category = "info"
 lm.session_protection = "strong"
+
+
+@babel.localeselector
+def get_locale():
+    # return request.accept_languages.best_match(config.LANGUAGES.keys())
+    return "zh_Hans_CN"
+
 
 def create_app(config_name):
     app = Flask(__name__)

@@ -14,6 +14,12 @@ class Config:
     # 启用记录查询统计数字的功能。
     SQLALCHEMY_RECORD_QUERIES = True
 
+    # available languages
+    LANGUAGES = {
+        "en": "English",
+        "zh_Hans_CN": "Chinese Simplified"
+    }
+
     BABEL_DEFAULT_LOCALE = "zh_Hans_CN"
 
     MAIL_SERVER = "smtp.googlemail.com"
@@ -58,15 +64,15 @@ class DevelopmentConfig(Config):
     # }
     MONGODB_SETTINGS = {
         "db": "wdt",
-        "host": "192.168.7.150",
-        # "host": "192.168.5.122",
+        # "host": "192.168.7.150",
+        "host": "192.168.5.122",
         # "host": "localhost",
-        "port": 27017,
-        # "port": 28106,
-        # "username": "devuser",
+        # "port": 27017,
+        "port": 28106,
+        "username": "devuser",
         # "username": "deployer",
         # 'password': "123"
-        # "password": "c#d6",
+        "password": "c#d6",
     }
     # CACHE_TYPE = "simple"
     CACHE_TYPE = "null"
